@@ -28,11 +28,11 @@ df = pd.DataFrame(columns)
 
 # Split subtype and % components of the string
 # Create a new columns "Comment"
-# str.rstrip - splits string around given separator, starting from the right
+# str.rstrip - splits a string by a separator, starting from the right
 df[["Subtype", "Comment"]] = df["Subtype%"].str.rsplit(" ", n=1, expand=True)
 
 
-# Remove original subtype column <A (5.08%)>
+# Remove original subtype column as formatted: A (5.08%)
 df = df.drop(columns=["Subtype%"])
 
 # Check output
@@ -40,5 +40,5 @@ print(df.head())
 print(df.tail())
 
 
-# Convert a plsandas dataframe to .csv file
+# Convert a pandas dataframe to .csv file
 df.to_csv("stanford_PRRT.csv",index=False, sep=",", encoding='utf-8')
