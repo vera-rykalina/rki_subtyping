@@ -1,5 +1,8 @@
 #!/usr/bin/env nextflow
 
+project_dir = "/Users/vera/Learning/CQ/Internship/rki_subtyping_resistance/Subtyping/"
+stanford_dir = "/Users/vera/Learning/CQ/Internship/rki_subtyping_resistance/Subtyping/stanford/"
+
 nextflow.enable.dsl = 2
 
 process stanford {
@@ -18,9 +21,32 @@ process stanford {
     """
 }
 
+process json_to_scv {
+  publishDir "${params.outdir}", mode: "copy", overwrite: true
+  input:
+    path json
+    path python
+
+  output:
+    path "MS95_PRRT_20.csv"
+
+  script:
+  """
+   python json_to_csv_good.py
+
+  """
+
+}
+
 workflow {
     inputfasta = channel.fromPath(params.file)
     inputfasta.view()
     stanfordChannel = stanford(inputfasta)
     stanfordChannel.view()
+    inputjson = channel.fromPath("${stanford_dir}/*.json")
+    inputjson.view()
+    inputpython = channel.fromPath("$project_dir/json_to_csv_good.py")
+    inputpython.view()
+    jsonChannel=json_to_scv(inputjson, inputpython)
+    jsonChannel.view()
 }
