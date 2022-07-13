@@ -21,7 +21,7 @@ process stanford {
     """
 }
 
-process json_to_scv {
+process json_to_csv {
   publishDir "${params.outdir}", mode: "copy", overwrite: true
   input:
     path json
@@ -47,6 +47,6 @@ workflow {
     inputjson.view()
     inputpython = channel.fromPath("$project_dir/json_to_csv_good.py")
     inputpython.view()
-    jsonChannel=json_to_scv(inputjson, inputpython)
+    jsonChannel=json_to_csv(inputjson, inputpython)
     jsonChannel.view()
 }
