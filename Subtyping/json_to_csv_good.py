@@ -22,7 +22,7 @@ for sequence in data:
     col_subtype.append(sequence["subtypeText"])
     
 # Add info to the dictionary
-columns["SCount"] = col_header
+columns["SequenceName"] = col_header
 columns["Subtype%"] = col_subtype
 
 # Create a dataframe
@@ -42,5 +42,5 @@ print(df.head())
 print(df.tail())
 
 
-# Convert a pandas dataframe to .csv file
-df.to_csv("MS95_PRRT_20.csv",index=False, sep=",", encoding='utf-8')
+# Convert a pandas dataframe to a .csv file
+df.to_csv("MS95_PRRT_20.csv", index=False, sep=",", encoding='utf-8')
