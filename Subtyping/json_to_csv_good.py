@@ -4,8 +4,10 @@
 import json
 import pandas as pd
 
+path = "/Users/vera/Learning/CQ/Internship/rki_subtyping_resistance/Subtyping/stanford/MS95_PRRT_20.json"
+
 # Open JSON file
-with open("baker.json") as f:
+with open(path) as f:
     data = json.load(f)
 
 
@@ -20,7 +22,7 @@ for sequence in data:
     col_subtype.append(sequence["subtypeText"])
     
 # Add info to the dictionary
-columns["SequenceName"] = col_header
+columns["SCount"] = col_header
 columns["Subtype%"] = col_subtype
 
 # Create a dataframe
@@ -41,4 +43,4 @@ print(df.tail())
 
 
 # Convert a pandas dataframe to .csv file
-df.to_csv("stanford_PRRT.csv",index=False, sep=",", encoding='utf-8')
+df.to_csv("MS95_PRRT_20.csv",index=False, sep=",", encoding='utf-8')
