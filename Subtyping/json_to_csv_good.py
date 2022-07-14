@@ -43,4 +43,4 @@ print(df.tail())
 
 
 # Convert a pandas dataframe to a .csv file
-df.to_csv("MS95_PRRT_20.csv", index=False, sep=",", encoding='utf-8')
+df.to_csv("stanford_prrt.csv", index=False, sep=",", encoding='utf-8')

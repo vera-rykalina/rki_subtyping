@@ -28,7 +28,7 @@ process json_to_csv {
     path python
 
   output:
-    path "MS95_PRRT_20.csv"
+    path "stanford_prrt.csv"
 
   script:
   """
