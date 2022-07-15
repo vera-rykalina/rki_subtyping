@@ -1,8 +1,27 @@
-Release Notes
+# TOOLS
+## COMET Subtyping Tool
+https://comet.lih.lu/
+
+## REGA Subtyping Tool:
+https://www.genomedetective.com/app/typingtool/hiv
+
+## Standford Resistance HIV-DB, inluding Subtyping
+https://hivdb.stanford.edu/hivdb/by-sequences/
+
+# Release Notes
 https://hivdb.stanford.edu/page/release-notes/#appendix.1.consensus.b.sequences
 
-SIERRA WEB SERVICE 2
+# SIERRA WEB SERVICE 2
 https://hivdb.stanford.edu/page/webservice/#sierra.web.service.2.2016.present
 
-SIERRA CLIENT
+# SIERRA CLIENT
 https://github.com/hivdb/sierra-client/tree/master/python
+
+# HIV-TRACE (research article)
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5995201/
+
+## HIVClustering
+https://github.com/veg/hivclustering
+
+
+
