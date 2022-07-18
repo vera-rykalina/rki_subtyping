@@ -32,7 +32,7 @@ process json_to_csv {
 
   script:
   """
-   python json_to_csv_good.py
+   python stanford_parser.py
 
   """
 
@@ -45,7 +45,7 @@ workflow {
     stanfordChannel.view()
     inputjson = channel.fromPath("${stanford_dir}/*.json")
     inputjson.view()
-    inputpython = channel.fromPath("$project_dir/json_to_csv_good.py")
+    inputpython = channel.fromPath("$project_dir/stanford_parser.py")
     inputpython.view()
     jsonChannel=json_to_csv(inputjson, inputpython)
     jsonChannel.view()
