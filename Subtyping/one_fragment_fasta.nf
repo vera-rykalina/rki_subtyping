@@ -1,9 +1,9 @@
 #!/usr/bin/env nextflow
+nextflow.enable.dsl = 2
+
 
 project_dir = "/Users/vera/Learning/CQ/Internship/rki_subtyping_resistance/Subtyping/"
-stanford_dir = "/Users/vera/Learning/CQ/Internship/rki_subtyping_resistance/Subtyping/stanford/"
 
-nextflow.enable.dsl = 2
 
 process stanford {
   publishDir "${params.outdir}", mode: "copy", overwrite: true
@@ -12,41 +12,60 @@ process stanford {
     path fasta
 
   output:
-    path "MS95_PRRT_20.json"
+    path "prrt.json"
   
   script:
     """
-    sierrapy fasta ${fasta} -o MS95_PRRT_20.json
-
+    sierrapy fasta ${fasta} -o prrt.json
     """
 }
 
 process json_to_csv {
-  publishDir "${params.outdir}", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/stanford", mode: "copy", overwrite: true
   input:
     path json
     path python
 
   output:
     path "stanford_prrt.csv"
-
+  
   script:
-  """
-   python stanford_parser.py
+   """
+    python stanford_parser.py
 
-  """
+   """
 
 }
 
+process comet{
+   publishDir "${params.outdir}/comet", mode: "copy", overwrite: true
+  input:
+    path fasta
+    path python
+
+  output:
+    path "comet_prrt_raw.csv"
+    path "comet_prrt.csv"
+
+  script:
+  """
+   python comet_rest.py
+  
+  """
+}
+
 workflow {
-    inputfasta = channel.fromPath(params.file)
+    inputfasta = channel.fromPath("${project_dir}/*_PRRT_*.fasta")
     inputfasta.view()
     stanfordChannel = stanford(inputfasta)
     stanfordChannel.view()
-    inputjson = channel.fromPath("${stanford_dir}/*.json")
+    inputjson = channel.fromPath("${project_dir}/prrt.json")
     inputjson.view()
-    inputpython = channel.fromPath("$project_dir/stanford_parser.py")
-    inputpython.view()
-    jsonChannel=json_to_csv(inputjson, inputpython)
-    jsonChannel.view()
+    inputpython_stanford = channel.fromPath("$project_dir/stanford_parser.py")
+    inputpython_stanford.view()
+    inputpython_comet = channel.fromPath("$project_dir/comet_rest.py")
+    inputpython_comet.view()
+    json_csvChannel=json_to_csv(inputjson, inputpython_stanford)
+    json_csvChannel.view()
+    cometChannel = comet(inputfasta, inputpython_comet)
 }
