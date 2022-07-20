@@ -1,16 +1,21 @@
 #!/bin/python3
 
 # Import libraries
-import json
-import numpy as np
+import json, os, glob2
 import pandas as pd
-
-path = "/Users/vera/Learning/CQ/Internship/rki_subtyping_resistance/Subtyping/stanford/MS95_PRRT_20.json"
 
 
 # Open JSON file
-with open(path) as f:
-    data = json.load(f)
+for file in glob2.glob("/Users/vera/Learning/CQ/Internship/rki_subtyping_resistance/Subtyping/*/*.json"):
+    with open(file) as f:
+        data = json.load(f)
+
+
+
+# Open JSON file
+#file = "/Users/vera/Learning/CQ/Internship/rki_subtyping_resistance/Subtyping/results/prrt.json"
+#with open(file) as f:
+#    data = json.load(f)
 
 
 # Initiate lists and dictionary
@@ -48,7 +53,7 @@ df["Comment"] = df["Comment"].fillna("NA")
 
 
 # Check that type of "Comments" is a string now
-print(type(df.loc[0,"Comment"]))
+#print(type(df.loc[0,"Comment"]))
 
 
 # Remove original subtype column as formatted: A (5.08%), it works in place
@@ -61,4 +66,5 @@ print(df.head())
 
 
 # Convert a pandas dataframe to a .csv file
-df.to_csv("stanford_prrt.csv", index=False, sep=",", encoding='utf-8')
+df.to_csv("stanford_prrt.csv", index=False, sep=",", encoding="utf-8")
+
