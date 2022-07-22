@@ -41,15 +41,15 @@ df = pd.DataFrame(columns)
 
 for i, row in df.iterrows():
     if row["Subtype%"] == "NA":
-        df.at[i, ["Subtype", "Comment"]] = "NA"
+        df.at[i, ["Stanford_PRRT_Subtype", "Stanford_PRRT_Comment"]] = "NA"
     
     else:
         # split subtype and % components in the string
         # str.rstrip - splits a string by a separator, starting from the right
-        df[["Subtype", "Comment"]] = df["Subtype%"].str.rsplit(" ", n=1, expand=True)
+        df[["Stanford_PRRT_Subtype", "Stanford_PRRT_Comment"]] = df["Subtype%"].str.rsplit(" ", n=1, expand=True)
 
 
-df["Comment"] = df["Comment"].fillna("NA")
+df["Stanford_PRRT_Comment"] = df["Stanford_PRRT_Comment"].fillna("NA")
 
 
 # Check that type of "Comments" is a string now
