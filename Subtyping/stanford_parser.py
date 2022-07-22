@@ -6,7 +6,7 @@ import pandas as pd
 
 
 # Open JSON file
-for file in glob2.glob("/Users/vera/Learning/CQ/Internship/rki_subtyping_resistance/Subtyping/*/*.json"):
+for file in glob2.glob("/Users/vera/Learning/CQ/Internship/rki_subtyping_resistance/Subtyping/results/*.json"):
     with open(file) as f:
         data = json.load(f)
 
