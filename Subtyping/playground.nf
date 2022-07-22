@@ -2,7 +2,16 @@
 nextflow.enable.dsl = 2
 
 params.indir = "/Users/vera/Learning/CQ/Internship/rki_subtyping_resistance/Subtyping/*.fasta"
-params.outdir = "../myresults"
+params.outdir = "../results"
+
+log.info """
+VERA RYKALINA - SUBTYPING PIPELINE
+ ===================================
+ outdir         : ${params.outdir}
+ indir          : ${params.indir}
+
+ Jul Aug Sep 2022
+"""
 
 process stanford {
   publishDir "${params.outdir}", mode: "copy", overwrite: true
