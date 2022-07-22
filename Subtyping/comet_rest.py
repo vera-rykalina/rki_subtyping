@@ -66,10 +66,10 @@ with open("comet_prrt_raw.csv", "w") as f:
 df = pd.read_csv("comet_prrt_raw.csv", sep="\t")
 
 # Rename some columns (as done for stanford df)
-df. rename(columns = {"name":"SequenceName", "subtype": "Subtype"}, inplace = True)
+df. rename(columns = {"name":"SequenceName", "subtype": "Comet_PRRT_Subtype"}, inplace = True)
 
 # Add to the "Comnent" column unnecessary info
-df["Comment"] = df["virus"].astype(str) + " " + df["bootstrap support"].astype(str)
+df["Comet_PRRT_Comment"] = df["virus"].astype(str) + " " + df["bootstrap support"].astype(str)
 #df["Comment"] = df["Comment"].str.replace(" ", ",")
 
 # Delete undesired columns
