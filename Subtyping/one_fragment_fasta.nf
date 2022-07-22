@@ -2,7 +2,7 @@
 nextflow.enable.dsl = 2
 
 
-project_dir = "/Users/vera/Learning/CQ/Internship/rki_subtyping_resistance/Subtyping/"
+projectDir = "/Users/vera/Learning/CQ/Internship/rki_subtyping_resistance/Subtyping/"
 
 
 process stanford {
@@ -17,6 +17,7 @@ process stanford {
   script:
     """
     sierrapy fasta ${fastafile} -o prrt.json
+  
     """
 }
 
@@ -32,7 +33,6 @@ process json_to_csv {
   script:
    """
     python stanford_parser.py
-
    """
 
 }
@@ -44,8 +44,8 @@ process comet{
     path python
 
   output:
-    path "comet_prrt_raw.csv"
-    path "comet_prrt.csv"
+    path "comet_prrt_raw.csv", emit: raw
+    path "comet_prrt.csv", emit: clean
 
   script:
 
@@ -55,18 +55,21 @@ process comet{
   """
 }
 
+
 workflow {
     inputfasta = channel.fromPath(params.fastafile)
-    //inputfasta.view()
+    inputfasta.view()
     stanfordChannel = stanford(inputfasta)
-    //stanfordChannel.view()
-    inputjson = channel.fromPath("${project_dir}/results/prrt.json")
-    //inputjson.view()
-    inputpython_stanford = channel.fromPath("$project_dir/stanford_parser.py")
-    //inputpython_stanford.view()
-    inputpython_comet = channel.fromPath("$project_dir/comet_rest.py")
-    //inputpython_comet.view()
-    json_csvChannel=json_to_csv(inputjson, inputpython_stanford)
-    //json_csvChannel.view()
+    stanfordChannel.view()
+    inputjson = channel.fromPath("${projectDir}/results/prrt.json")
+    inputjson.view()
+    inputpython_stanford = channel.fromPath("$projectDir/stanford_parser.py")
+    inputpython_stanford.view()
+    inputpython_comet = channel.fromPath("$projectDir/comet_rest.py")
+    inputpython_comet.view()
+    json_csvChannel = json_to_csv(inputjson, inputpython_stanford)
+    json_csvChannel.view()
     cometChannel = comet(inputfasta, inputpython_comet)
+    cometChannel.raw.view()
+    cometChannel.clean.view()
 }
