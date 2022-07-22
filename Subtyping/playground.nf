@@ -6,9 +6,9 @@ params.outdir = "../results"
 
 log.info """
 VERA RYKALINA - SUBTYPING PIPELINE
- ===================================
- outdir         : ${params.outdir}
- indir          : ${params.indir}
+===================================
+outdir           : ${params.outdir}
+indir            : ${params.indir}
 
  Jul Aug Sep 2022
 """
