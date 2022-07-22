@@ -9,14 +9,14 @@ process stanford {
   publishDir "${params.outdir}", mode: "copy", overwrite: true
   
   input:
-    path fasta
+    path fastafile
 
   output:
     path "prrt.json"
   
   script:
     """
-    sierrapy fasta ${fasta} -o prrt.json
+    sierrapy fasta ${fastafile} -o prrt.json
     """
 }
 
@@ -48,6 +48,7 @@ process comet{
     path "comet_prrt.csv"
 
   script:
+
   """
    python comet_rest.py
   
@@ -55,17 +56,17 @@ process comet{
 }
 
 workflow {
-    inputfasta = channel.fromPath("${project_dir}/*_PRRT_*.fasta")
-    inputfasta.view()
+    inputfasta = channel.fromPath(params.fastafile)
+    //inputfasta.view()
     stanfordChannel = stanford(inputfasta)
-    stanfordChannel.view()
-    inputjson = channel.fromPath("${project_dir}/prrt.json")
-    inputjson.view()
+    //stanfordChannel.view()
+    inputjson = channel.fromPath("${project_dir}/results/prrt.json")
+    //inputjson.view()
     inputpython_stanford = channel.fromPath("$project_dir/stanford_parser.py")
-    inputpython_stanford.view()
+    //inputpython_stanford.view()
     inputpython_comet = channel.fromPath("$project_dir/comet_rest.py")
-    inputpython_comet.view()
+    //inputpython_comet.view()
     json_csvChannel=json_to_csv(inputjson, inputpython_stanford)
-    json_csvChannel.view()
+    //json_csvChannel.view()
     cometChannel = comet(inputfasta, inputpython_comet)
 }
