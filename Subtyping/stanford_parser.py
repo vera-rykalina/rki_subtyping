@@ -9,8 +9,11 @@ import pandas as pd
 for file in glob2.glob("/Users/vera/Learning/CQ/Internship/rki_subtyping_resistance/Subtyping/results/*.json"):
     with open(file) as f:
         data = json.load(f)
-
-
+    print(file.rsplit("/")[-1])
+    name = file.rsplit("/")[-1]
+    name = name.split(".")[-2]
+    print(name)
+ 
 
 # Open JSON file
 #file = "/Users/vera/Learning/CQ/Internship/rki_subtyping_resistance/Subtyping/results/prrt.json"
@@ -66,5 +69,5 @@ print(df.head())
 
 
 # Convert a pandas dataframe to a .csv file
-df.to_csv("stanford_prrt.csv", index=False, sep=",", encoding="utf-8")
+df.to_csv("stanford_" + name + ".csv", index=False, sep=",", encoding="utf-8")
 
