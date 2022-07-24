@@ -10,9 +10,9 @@ import os
 for file in glob2.glob("/Users/vera/Learning/CQ/Internship/rki_subtyping_resistance/Subtyping/results/*.json"):
     with open(file) as f:
         data = json.load(f)
-    name = file.rsplit("/")[-1]
-    name = name.split("_")[1]
-    
+    name1 = file.rsplit("/")[-1]
+    name2 = name1.split("_")[1]
+    name3 = name1.rsplit(".")[-2] # gives a file name (cuts .json)
  
 
 # Open JSON file
@@ -44,18 +44,18 @@ df = pd.DataFrame(columns)
 
 for i, row in df.iterrows():
     if row["Subtype%"] == "NA":
-        df.at[i, ["Stanford_" + name + "_Subtype", "Stanford_" + name + "_Comment"]] = "NA"
+        df.at[i, ["Stanford_" + name2 + "_Subtype", "Stanford_" + name2 + "_Comment"]] = "NA"
     
     else:
         # split subtype and % components in the string
         # str.rstrip - splits a string by a separator, starting from the right
-        df[["Stanford_" + name + "_Subtype", "Stanford_" + name + "_Comment"]] = df["Subtype%"].str.rsplit(" ", n=1, expand=True)
+        df[["Stanford_" + name2 + "_Subtype", "Stanford_" + name2 + "_Comment"]] = df["Subtype%"].str.rsplit(" ", n=1, expand=True)
 
 
-df["Stanford_" + name + "_Comment"] = df["Stanford_" + name + "_Comment"].fillna("NA")
+df["Stanford_" + name2 + "_Comment"] = df["Stanford_" + name2 + "_Comment"].fillna("NA")
 
 
-# Check that type of "Comments" is a string now
+# Check that type of "Comment" is a string now
 #print(type(df.loc[0,"Comment"]))
 
 
@@ -69,7 +69,7 @@ print(df.head())
 
 
 # Convert a pandas dataframe to a .csv file
-df.to_csv("stanford_" + name + ".csv", index=False, sep=",", encoding="utf-8")
+df.to_csv("stanford_" + name3 + ".csv", index=False, sep=",", encoding="utf-8")
 
 
 
