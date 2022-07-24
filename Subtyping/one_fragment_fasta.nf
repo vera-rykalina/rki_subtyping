@@ -9,14 +9,14 @@ process stanford {
   publishDir "${params.outdir}", mode: "copy", overwrite: true
   
   input:
-    path fasta
+    path fastafile
 
   output:
-    path "prrt.json"
+    path "${fastafile.getSimpleName()}.json"
   
   script:
     """
-    sierrapy fasta ${fasta} -o prrt.json
+    sierrapy fasta ${fastafile} -o ${fastafile.getSimpleName()}.json
   
     """
 }
@@ -57,7 +57,7 @@ process comet{
 
 
 workflow {
-    inputfasta = channel.fromPath(params.fasta)
+    inputfasta = channel.fromPath(params.fastafile)
     inputfasta.view()
     stanfordChannel = stanford(inputfasta)
     stanfordChannel.view()
