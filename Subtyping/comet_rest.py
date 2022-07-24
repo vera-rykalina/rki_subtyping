@@ -30,55 +30,59 @@ a fasta file.
 """
 # Then, post the request with postdata, file and cookies
 
-for file in glob2.glob("/Users/vera/Learning/CQ/Internship/rki_subtyping_resistance/Subtyping/*_PRRT_*.fasta"):
+for file in glob2.glob("/Users/vera/Learning/CQ/Internship/rki_subtyping_resistance/Subtyping/*.fasta"):
     with open(file, "r") as f:
         data = f.read()
+    name1 = file.rsplit("/")[-1] # gives a file name.fasta
+    name2 = name1.split("_")[1] # gives a middle part after splitting by "_"
+    name3 = name1.rsplit(".")[-2] # gives a file name (cuts .fasta)
+    
 
-print("Uploading FASTA file")
-r = requests.post("https://comet.lih.lu/index.php?cat=hiv1",
-                  data=postdata,
-                  files={"fastafile": data},
-                  cookies=cookies)
+    print("Uploading FASTA file")
+    r = requests.post("https://comet.lih.lu/index.php?cat=hiv1",
+                    data=postdata,
+                    files={"fastafile": data},
+                    cookies=cookies)
 
-# Finally, parse the job ID out of the response
-jobid = r.text.split("job=")[1].split("'")[0]
-print("Successfully uploaded FASTA file, job ID:" + jobid)
+    # Finally, parse the job ID out of the response
+    jobid = r.text.split("job=")[1].split("'")[0]
+    print("Successfully uploaded FASTA file, job ID:" + jobid)
 
-# If the server does not manage to calculate the results within ~5 minuets, give up
-waittime = 5
-for i in range(0, 10):
-    print("Trying to get results (attempt " + str(i+1) + "/10)")
-    r = requests.get("https://comet.lih.lu/index.php?job=" + jobid + "&cat=hiv1")
-    # Very important! Include a delay between every two requests, otherwise the server will be overloaded!
-    # Also, every time increase the delay to give the server more time.
-    if "csv.php?job=" in r.text:
-        break
-    waittime += 5*i
-    print("...no results yet, waiting for " + str(waittime) + " seconds before next attempt")
+    # If the server does not manage to calculate the results within ~5 minuets, give up
+    waittime = 5
+    for i in range(0, 10):
+        print("Trying to get results (attempt " + str(i+1) + "/10)")
+        r = requests.get("https://comet.lih.lu/index.php?job=" + jobid + "&cat=hiv1")
+        # Very important! Include a delay between every two requests, otherwise the server will be overloaded!
+        # Also, every time increase the delay to give the server more time.
+        if "csv.php?job=" in r.text:
+            break
+        waittime += 5*i
+        print("...no results yet, waiting for " + str(waittime) + " seconds before next attempt")
 
-r = requests.get("https://comet.lih.lu/csv.php?job=" + jobid, cookies=cookies)
-
-
-with open("comet_prrt_raw.csv", "w") as f:
-    f.write(r.text)
-
-# Read raw .csv (it is separated by tab)
-df = pd.read_csv("comet_prrt_raw.csv", sep="\t")
-
-# Rename some columns (as done for stanford df)
-df. rename(columns = {"name":"SequenceName", "subtype": "Comet_PRRT_Subtype"}, inplace = True)
-
-# Add to the "Comnent" column unnecessary info
-df["Comet_PRRT_Comment"] = df["virus"].astype(str) + " " + df["bootstrap support"].astype(str)
-#df["Comment"] = df["Comment"].str.replace(" ", ",")
-
-# Delete undesired columns
-df.drop(columns=["virus", "bootstrap support"], axis = 1,  inplace = True)
+    r = requests.get("https://comet.lih.lu/csv.php?job=" + jobid, cookies=cookies)
 
 
+    with open("comet_" + name3 + "_raw.csv", "w") as f:
+        f.write(r.text)
 
-# Prepare a clean .csv file
-df.to_csv("comet_prrt.csv", sep=",", index=False, encoding="utf-8")
+    # Read raw .csv (it is separated by tab)
+    df = pd.read_csv("comet_" + name3 + "_raw.csv", sep="\t")
+
+    # Rename some columns (as done for stanford df)
+    df. rename(columns = {"name":"SequenceName", "subtype": "Comet_" + name2 + "_Subtype"}, inplace = True)
+
+    # Add to the "Comment" column unnecessary info
+    df["Comet_" + name2 + "_Comment"] = df["virus"].astype(str) + " " + df["bootstrap support"].astype(str)
+    #df["Comment"] = df["Comment"].str.replace(" ", ",")
+
+    # Delete undesired columns
+    df.drop(columns=["virus", "bootstrap support"], axis = 1,  inplace = True)
+
+
+
+    # Prepare a clean .csv file
+    df.to_csv("comet_" + name3 + ".csv", sep=",", index=False, encoding="utf-8")
 
 
 
