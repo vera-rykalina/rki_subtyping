@@ -28,7 +28,7 @@ process json_to_csv {
     path python
 
   output:
-    path "stanford_prrt.csv"
+    path "stanford_${json.getSimpleName()}.csv"
   
   script:
    """
@@ -44,9 +44,10 @@ process comet{
     path python
 
   output:
-    path "comet_prrt_raw.csv", emit: raw
-    path "comet_prrt.csv", emit: clean
 
+    //path "comet_${fasta.getSimpleName()}_raw.csv", emit: raw
+    path "comet_${fasta.getSimpleName()}.csv", emit: clean
+  
   script:
 
   """
@@ -71,5 +72,5 @@ workflow {
     json_csvChannel.view()
     cometChannel = comet(inputfasta, inputpython_comet)
     //cometChannel.raw.view()
-    //cometChannel.clean.view()
+    cometChannel.clean.view()
 }
