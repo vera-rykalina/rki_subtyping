@@ -10,10 +10,9 @@ import os
 for file in glob2.glob("/Users/vera/Learning/CQ/Internship/rki_subtyping_resistance/Subtyping/results/*.json"):
     with open(file) as f:
         data = json.load(f)
-    print(file.rsplit("/")[-1])
     name = file.rsplit("/")[-1]
-    name = name.split(".")[-2]
-    print(name)
+    name = name.split("_")[1]
+    
  
 
 # Open JSON file
@@ -45,15 +44,15 @@ df = pd.DataFrame(columns)
 
 for i, row in df.iterrows():
     if row["Subtype%"] == "NA":
-        df.at[i, ["Stanford_PRRT_Subtype", "Stanford_PRRT_Comment"]] = "NA"
+        df.at[i, ["Stanford_" + name + "_Subtype", "Stanford_" + name + "_Comment"]] = "NA"
     
     else:
         # split subtype and % components in the string
         # str.rstrip - splits a string by a separator, starting from the right
-        df[["Stanford_PRRT_Subtype", "Stanford_PRRT_Comment"]] = df["Subtype%"].str.rsplit(" ", n=1, expand=True)
+        df[["Stanford_" + name + "_Subtype", "Stanford_" + name + "_Comment"]] = df["Subtype%"].str.rsplit(" ", n=1, expand=True)
 
 
-df["Stanford_PRRT_Comment"] = df["Stanford_PRRT_Comment"].fillna("NA")
+df["Stanford_" + name + "_Comment"] = df["Stanford_" + name + "_Comment"].fillna("NA")
 
 
 # Check that type of "Comments" is a string now
