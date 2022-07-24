@@ -3,6 +3,7 @@
 # Import libraries
 import json, os, glob2
 import pandas as pd
+import os
 
 
 # Open JSON file
@@ -71,3 +72,7 @@ print(df.head())
 # Convert a pandas dataframe to a .csv file
 df.to_csv("stanford_" + name + ".csv", index=False, sep=",", encoding="utf-8")
 
+
+
+for file in glob2.glob("/Users/vera/Learning/CQ/Internship/rki_subtyping_resistance/Subtyping/results/*.json"):
+    os.remove(file)
