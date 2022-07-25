@@ -2,21 +2,23 @@
 nextflow.enable.dsl = 2
 
 
-projectDir = "/Users/vera/Learning/CQ/Internship/rki_subtyping_resistance/Subtyping/"
+projectDir = "/Users/vera/Learning/CQ/Internship/rki_subtyping_resistance/Subtyping"
+params.comet_rest = "/Users/vera/Learning/CQ/Internship/rki_subtyping_resistance/Subtyping/comet_rest.py"
+params.stanford_parser = "/Users/vera/Learning/CQ/Internship/rki_subtyping_resistance/Subtyping/stanford_parser.py"
 
 
 process stanford {
   publishDir "${params.outdir}", mode: "copy", overwrite: true
   
   input:
-    path fastafile
+    path fasta
 
   output:
-    path "${fastafile.getSimpleName()}.json"
+    path "${fasta.getSimpleName()}.json"
   
   script:
     """
-    sierrapy fasta ${fastafile} -o ${fastafile.getSimpleName()}.json
+    sierrapy fasta ${fasta} -o ${fasta.getSimpleName()}.json
   
     """
 }
@@ -24,15 +26,15 @@ process stanford {
 process json_to_csv {
   publishDir "${params.outdir}/stanford", mode: "copy", overwrite: true
   input:
+ 
     path json
-    path python
-
+    
   output:
     path "stanford_${json.getSimpleName()}.csv"
   
   script:
    """
-    python stanford_parser.py
+    python ${params.stanford_parser} ${json} stanford_${json.getSimpleName()}.csv
    """
 
 }
@@ -40,37 +42,28 @@ process json_to_csv {
 process comet{
    publishDir "${params.outdir}/comet", mode: "copy", overwrite: true
   input:
+    
     path fasta
-    path python
 
   output:
-
     //path "comet_${fasta.getSimpleName()}_raw.csv", emit: raw
     path "comet_${fasta.getSimpleName()}.csv", emit: clean
   
   script:
-
-  """
-   python comet_rest.py
   
   """
+    python ${params.comet_rest} ${fasta} comet_${fasta.getSimpleName()}.csv
+  """
+  
 }
 
 
 workflow {
-    inputfasta = channel.fromPath(params.fastafile)
-    inputfasta.view()
+    inputfasta = channel.fromPath("${projectDir}/*.fasta")
     stanfordChannel = stanford(inputfasta)
-    stanfordChannel.view()
-    //inputjson = channel.fromPath("${projectDir}/params.outdir/*.json")
-    //inputjson.view()
-    inputpython_stanford = channel.fromPath("$projectDir/stanford_parser.py")
-    //inputpython_stanford.view()
-    inputpython_comet = channel.fromPath("$projectDir/comet_rest.py")
-    //inputpython_comet.view()
-    json_csvChannel = json_to_csv(stanfordChannel, inputpython_stanford)
-    json_csvChannel.view()
-    cometChannel = comet(inputfasta, inputpython_comet)
-    //cometChannel.raw.view()
-    cometChannel.clean.view()
+    //inputpython_stanford = channel.fromPath("$projectDir/stanford_parser.py")
+    //inputpython_comet = channel.fromPath("$projectDir/comet_rest.py")
+    json_csvChannel = json_to_csv(stanfordChannel.flatten())
+    cometChannel = comet(inputfasta.flatten())
+
 }
