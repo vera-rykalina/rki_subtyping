@@ -1,24 +1,29 @@
 #!/bin/python3
 
+"""
+To play with this parser outside of pipeline
+python3 stanford_parser.py results/MS95_PRRT_20.json MS95_PRRT_20.csv
+"""
+
+
 # Import libraries
 import json, os, glob2
 import pandas as pd
 import os
+import sys
 
 
-# Open JSON file
-for file in glob2.glob("/Users/vera/Learning/CQ/Internship/rki_subtyping_resistance/Subtyping/results/*.json"):
-    with open(file) as f:
-        data = json.load(f)
-    name1 = file.rsplit("/")[-1]
-    name2 = name1.split("_")[1]
-    name3 = name1.rsplit(".")[-2] # gives a file name (cuts .json)
- 
+# Open .json file
+infilename = sys.argv[1]
+outfilename = sys.argv[2]
 
-# Open JSON file
-#file = "/Users/vera/Learning/CQ/Internship/rki_subtyping_resistance/Subtyping/results/prrt.json"
-#with open(file) as f:
-#    data = json.load(f)
+f = open(infilename, "r")
+data=json.load(f)
+f.close()
+
+name1 = infilename.rsplit("/")[-1]
+name2 = name1.split("_")[1]
+name3 = name1.rsplit(".")[-2]
 
 
 # Initiate lists and dictionary
@@ -30,7 +35,7 @@ col_subtype = []
 for sequence in data:
     col_header.append(sequence["inputSequence"]["header"])
     col_subtype.append(sequence["subtypeText"])
-    
+
 # Add info to the dictionary
 columns["SequenceName"] = col_header
 columns["Subtype%"] = col_subtype
@@ -45,7 +50,7 @@ df = pd.DataFrame(columns)
 for i, row in df.iterrows():
     if row["Subtype%"] == "NA":
         df.at[i, ["Stanford_" + name2 + "_Subtype", "Stanford_" + name2 + "_Comment"]] = "NA"
-    
+
     else:
         # split subtype and % components in the string
         # str.rstrip - splits a string by a separator, starting from the right
@@ -55,9 +60,6 @@ for i, row in df.iterrows():
 df["Stanford_" + name2 + "_Comment"] = df["Stanford_" + name2 + "_Comment"].fillna("NA")
 
 
-# Check that type of "Comment" is a string now
-#print(type(df.loc[0,"Comment"]))
-
 
 # Remove original subtype column as formatted: A (5.08%), it works in place
 #df.drop(columns=["Subtype%"], inplace = True)
@@ -65,13 +67,12 @@ df.drop("Subtype%", axis=1, inplace = True)
 
 # Check output
 print(df.head())
-#print(df.tail())
+print(df.tail())
 
 
 # Convert a pandas dataframe to a .csv file
 df.to_csv("stanford_" + name3 + ".csv", index=False, sep=",", encoding="utf-8")
 
 
-
-for file in glob2.glob("/Users/vera/Learning/CQ/Internship/rki_subtyping_resistance/Subtyping/results/*.json"):
-    os.remove(file)
+# Remove .json file
+os.remove(infilename)
