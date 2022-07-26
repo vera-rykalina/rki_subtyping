@@ -3,8 +3,8 @@ nextflow.enable.dsl = 2
 
 
 projectDir = "/Users/vera/Learning/CQ/Internship/rki_subtyping_resistance/Subtyping"
-params.comet_rest = "/Users/vera/Learning/CQ/Internship/rki_subtyping_resistance/Subtyping/comet_rest.py"
-params.stanford_parser = "/Users/vera/Learning/CQ/Internship/rki_subtyping_resistance/Subtyping/stanford_parser.py"
+params.comet_rest = "${projectDir}/comet_rest.py"
+params.stanford_parser = "${projectDir}/stanford_parser.py"
 
 
 process stanford {
