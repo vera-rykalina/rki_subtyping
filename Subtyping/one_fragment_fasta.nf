@@ -34,7 +34,7 @@ process json_to_csv {
   
   script:
    """
-    python ${params.stanford_parser} ${json} stanford_${json.getSimpleName()}.csv
+    python3 ${params.stanford_parser} ${json} stanford_${json.getSimpleName()}.csv
    """
 
 }
@@ -52,7 +52,7 @@ process comet{
   script:
   
   """
-    python ${params.comet_rest} ${fasta} comet_${fasta.getSimpleName()}.csv
+    python3 ${params.comet_rest} ${fasta} comet_${fasta.getSimpleName()}.csv
   """
   
 }
