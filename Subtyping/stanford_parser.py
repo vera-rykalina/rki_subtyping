@@ -69,6 +69,8 @@ df.drop("Subtype%", axis=1, inplace = True)
 print(df.head())
 print(df.tail())
 
+# Sort df by SequenceName
+df = df.sort_values(by=["SequenceName"])
 
 # Convert a pandas dataframe to a .csv file
 df.to_csv("stanford_" + name3 + ".csv", index=False, sep=",", encoding="utf-8")

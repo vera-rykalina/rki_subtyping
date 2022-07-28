@@ -85,6 +85,8 @@ df["Comet_" + name2 + "_Comment"] = df["virus"].astype(str) + " " + df["bootstra
 # Delete undesired columns
 df.drop(columns=["virus", "bootstrap support"], axis = 1,  inplace = True)
 
+# Sort df by SequenceName
+df = df.sort_values(by=["SequenceName"])
 
 # Prepare a clean .csv file
 df.to_csv("comet_" + name3 + ".csv", sep=",", index=False, encoding="utf-8")
