@@ -8,7 +8,7 @@ params.stanford_parser = "${projectDir}/stanford_parser.py"
 
 
 process stanford {
-  publishDir "${params.outdir}", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/jsons", mode: "copy", overwrite: true
   
   input:
     path fasta
