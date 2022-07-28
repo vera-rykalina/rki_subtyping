@@ -57,7 +57,7 @@ process comet{
 }
 
 process prrt_joint {
-  publishDir "${params.outdir}", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/joint_fragmentwise", mode: "copy", overwrite: true
   input:
  
     path stanford
@@ -74,7 +74,7 @@ process prrt_joint {
 }
 
 process env_joint {
-  publishDir "${params.outdir}", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/joint_fragmentwise", mode: "copy", overwrite: true
   input:
  
     path stanford
@@ -91,7 +91,7 @@ process env_joint {
 }
 
 process int_joint {
-  publishDir "${params.outdir}", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/joint_fragmentwise", mode: "copy", overwrite: true
   input:
  
     path stanford
