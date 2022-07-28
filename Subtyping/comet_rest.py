@@ -69,11 +69,11 @@ for i in range(0, 10):
 r = requests.get("https://comet.lih.lu/csv.php?job=" + jobid, cookies=cookies)
 
 
-with open("comet_" + name3 + "_raw.csv", "w") as f:
+with open("comet_" + name3 + ".csv", "w") as f:
     f.write(r.text)
 
-# Read raw .csv (it is separated by tab)
-df = pd.read_csv("comet_" + name3 + "_raw.csv", sep="\t")
+# Read .csv (it is separated by tab)
+df = pd.read_csv("comet_" + name3 + ".csv", sep="\t")
 
 # Rename some columns (as done for stanford df)
 df. rename(columns = {"name":"SequenceName", "subtype": "Comet_" + name2 + "_Subtype"}, inplace = True)
