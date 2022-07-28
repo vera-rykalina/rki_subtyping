@@ -79,8 +79,8 @@ df = pd.read_csv("comet_" + name3 + ".csv", sep="\t")
 df. rename(columns = {"name":"SequenceName", "subtype": "Comet_" + name2 + "_Subtype"}, inplace = True)
 
  # Add to the "Comment" column unnecessary info
-df["Comet_" + name2 + "_Comment"] = df["virus"].astype(str) + " " + df["bootstrap support"].astype(str)
-
+#df["Comet_" + name2 + "_Comment"] = df["virus"].astype(str) + " " + df["bootstrap support"].astype(str)
+df["Comet_" + name2 + "_Comment"] = df["bootstrap support"].astype(str)
 
 # Delete undesired columns
 df.drop(columns=["virus", "bootstrap support"], axis = 1,  inplace = True)
