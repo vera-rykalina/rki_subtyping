@@ -46,8 +46,7 @@ process comet{
     path fasta
 
   output:
-    //path "comet_${fasta.getSimpleName()}_raw.csv", emit: raw
-    path "comet_${fasta.getSimpleName()}.csv", emit: clean
+    path "comet_${fasta.getSimpleName()}.csv"
   
   script:
   
