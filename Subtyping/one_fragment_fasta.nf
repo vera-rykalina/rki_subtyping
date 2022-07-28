@@ -57,13 +57,30 @@ process comet{
   
 }
 
+process prrt_joint {
+  publishDir "${params.outdir}", mode: "copy", overwrite: true
+  input:
+ 
+    path stanford
+    path comet
+    
+  output:
+    path "prrt_joint.csv"
+  
+  script:
+    """
+     mlr --csv join -u --ul --ur -j SequenceName -f ${stanford} ${comet} > prrt_joint.csv
+    """
+
+}
 
 workflow {
     inputfasta = channel.fromPath("${projectDir}/*.fasta")
     stanfordChannel = stanford(inputfasta)
     //inputpython_stanford = channel.fromPath("$projectDir/stanford_parser.py")
     //inputpython_comet = channel.fromPath("$projectDir/comet_rest.py")
-    json_csvChannel = json_to_csv(stanfordChannel.flatten())
-    cometChannel = comet(inputfasta.flatten())
-
+    json_csvChannel = json_to_csv(stanfordChannel)
+    cometChannel = comet(inputfasta)
+    prrt_jointChannel = prrt_joint(json_csvChannel.filter(~/.*_PRRT_20.csv$/), cometChannel.filter(~/.*_PRRT_20.csv$/))
+   
 }
