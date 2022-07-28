@@ -73,6 +73,42 @@ process prrt_joint {
 
 }
 
+process env_joint {
+  publishDir "${params.outdir}", mode: "copy", overwrite: true
+  input:
+ 
+    path stanford
+    path comet
+    
+  output:
+    path "env_joint.csv"
+  
+  script:
+    """
+     mlr --csv join -u --ul --ur -j SequenceName -f ${stanford} ${comet} > env_joint.csv
+    """
+
+}
+
+process int_joint {
+  publishDir "${params.outdir}", mode: "copy", overwrite: true
+  input:
+ 
+    path stanford
+    path comet
+    
+  output:
+    path "int_joint.csv"
+  
+  script:
+    """
+     mlr --csv join -u --ul --ur -j SequenceName -f ${stanford} ${comet} > int_joint.csv
+    """
+
+}
+
+
+
 workflow {
     inputfasta = channel.fromPath("${projectDir}/*.fasta")
     stanfordChannel = stanford(inputfasta)
@@ -81,5 +117,6 @@ workflow {
     json_csvChannel = json_to_csv(stanfordChannel)
     cometChannel = comet(inputfasta)
     prrt_jointChannel = prrt_joint(json_csvChannel.filter(~/.*_PRRT_20.csv$/), cometChannel.filter(~/.*_PRRT_20.csv$/))
-   
+    env_jointChannel = prrt_joint(json_csvChannel.filter(~/.*_ENV_20.csv$/), cometChannel.filter(~/.*_ENV_20.csv$/))
+    int_jointChannel = prrt_joint(json_csvChannel.filter(~/.*_INT_20.csv$/), cometChannel.filter(~/.*_INT_20.csv$/))
 }
