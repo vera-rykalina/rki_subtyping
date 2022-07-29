@@ -81,13 +81,14 @@ process prrt_joint {
  
     path stanford
     path comet
+    path rega
     
   output:
     path "prrt_joint.csv"
   
   script:
     """
-     mlr --csv join -u --ul --ur -j SequenceName -f ${stanford} ${comet} > prrt_joint.csv
+     mlr --csv join -u --ul --ur -j SequenceName -f ${stanford} ${comet} |  mlr --csv join -u --ul --ur -j SequenceName -f ${rega} > prrt_joint.csv
     """
 
 }
@@ -98,13 +99,14 @@ process env_joint {
  
     path stanford
     path comet
+    path rega
     
   output:
     path "env_joint.csv"
   
   script:
     """
-     mlr --csv join -u --ul --ur -j SequenceName -f ${stanford} ${comet} > env_joint.csv
+     mlr --csv join -u --ul --ur -j SequenceName -f ${stanford} ${comet} |  mlr --csv join -u --ul --ur -j SequenceName -f ${rega} > env_joint.csv
     """
 
 }
@@ -115,64 +117,14 @@ process int_joint {
  
     path stanford
     path comet
+    path rega
     
   output:
     path "int_joint.csv"
   
   script:
     """
-     mlr --csv join -u --ul --ur -j SequenceName -f ${stanford} ${comet} > int_joint.csv
-    """
-
-}
-
-process prrt_joint_rega {
-  publishDir "${params.outdir}/joint_stf_com_reg", mode: "copy", overwrite: true
-  input:
- 
-    path joint
-    path rega
-    
-  output:
-    path "prrt_full_join.csv"
-  
-  script:
-    """
-     mlr --csv join -u --ul --ur -j SequenceName -f ${joint} ${rega} > prrt_full_join.csv
-    """
-
-}
-
-process int_joint_rega {
-  publishDir "${params.outdir}/joint_stf_com_reg", mode: "copy", overwrite: true
-  input:
- 
-    path joint
-    path rega
-    
-  output:
-    path "int_full_join.csv"
-  
-  script:
-    """
-     mlr --csv join -u --ul --ur -j SequenceName -f ${joint} ${rega} > int_full_join.csv
-    """
-
-}
-
-process env_joint_rega {
-  publishDir "${params.outdir}/joint_stf_com_reg", mode: "copy", overwrite: true
-  input:
- 
-    path joint
-    path rega
-    
-  output:
-    path "env_full_join.csv"
-  
-  script:
-    """
-     mlr --csv join -u --ul --ur -j SequenceName -f ${joint} ${rega} > env_full_join.csv
+     mlr --csv join -u --ul --ur -j SequenceName -f ${stanford} ${comet} | mlr --csv join -u --ul --ur -j SequenceName -f ${rega} > int_joint.csv
     """
 
 }
@@ -181,17 +133,12 @@ process env_joint_rega {
 workflow {
     inputfasta = channel.fromPath("${projectDir}/*.fasta")
     stanfordChannel = stanford(inputfasta)
-    //inputpython_stanford = channel.fromPath("$projectDir/stanford_parser.py")
-    //inputpython_comet = channel.fromPath("$projectDir/comet_rest.py")
     json_csvChannel = json_to_csv(stanfordChannel)
     inputregacsv = channel.fromPath("${projectDir}/*.csv")
     rega_csvChannel = rega_to_csv(inputregacsv)
     cometChannel = comet(inputfasta)
-    prrt_jointChannel = prrt_joint(json_csvChannel.filter(~/.*_PRRT_20.csv$/), cometChannel.filter(~/.*_PRRT_20.csv$/))
-    env_jointChannel = env_joint(json_csvChannel.filter(~/.*_ENV_20.csv$/), cometChannel.filter(~/.*_ENV_20.csv$/))
-    int_jointChannel = int_joint(json_csvChannel.filter(~/.*_INT_20.csv$/), cometChannel.filter(~/.*_INT_20.csv$/))
+    prrt_jointChannel = prrt_joint(json_csvChannel.filter(~/.*_PRRT_20.csv$/), cometChannel.filter(~/.*_PRRT_20.csv$/), rega_csvChannel.filter(~/.*_PRRT_20.csv$/))
+    env_jointChannel = env_joint(json_csvChannel.filter(~/.*_ENV_20.csv$/), cometChannel.filter(~/.*_ENV_20.csv$/), rega_csvChannel.filter(~/.*_ENV_20.csv$/))
+    int_jointChannel = int_joint(json_csvChannel.filter(~/.*_INT_20.csv$/), cometChannel.filter(~/.*_INT_20.csv$/), rega_csvChannel.filter(~/.*_INT_20.csv$/))
 
-    prrtfullChannel = prrt_joint_rega(prrt_jointChannel.filter(~/.*prrt_joint.csv$/), rega_csvChannel.filter(~/.*_PRRT_20.csv$/))
-    envfullChannel = env_joint_rega(env_jointChannel.filter(~/.*env_joint.csv$/), rega_csvChannel.filter(~/.*_ENV_20.csv$/))
-    intfullChannel = int_joint_rega(int_jointChannel.filter(~/.*int_joint.csv$/), rega_csvChannel.filter(~/.*_INT_20.csv$/))
 }
