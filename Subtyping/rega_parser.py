@@ -51,13 +51,23 @@ df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace([
                             "HIV-1 Subtype C (31_BC)"], 
                             ["C","C (07_BC)", "C (31_BC)"])
 
+ # Subtype D                           
+df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace([
+                            "HIV-1 Subtype D",
+                            "HIV-1 Subtype D (10_CD)",
+                            "HIV-1 Subtype D (19cpx)"], 
+                            ["D","D (10_CD)", "D (19cpx)"])
+
+# Subtype F                         
+df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace([
+                            "HIV-1 Subtype F",
+                            "HIV-1 Subtype F (12_BF)",
+                            "HIV-1 Subtype F (F)",
+                            "HIV-1 Subtype F (F1)",
+                            "HIV-1 Subtype F (F2)"], 
+                            ["F","F (12_BF)", "F", "F1", "F2"])
 
 
-
-#df["pure"] = df["pure"].astype(str).str.replace("HIV-1 Subtype", "")
-#df["assignment"] = df["assignment"].astype(str).str.replace("HIV-1 Subtype", "")
-#df["crf"] = df["crf"].astype(str).str.replace("HIV-1", "")
-#df["crf"] = df["crf"].astype(str).str.replace("Subtype", "")
 
 # Rename some columns (as done for stanford df)
 df. rename(columns = {"name":"SequenceName", "assignment": "Rega_" + name2 + "_Subtype"}, inplace = True)
@@ -73,6 +83,6 @@ df = df.sort_values(by=["SequenceName"])
 
 
 # Prepare a clean .csv file
-df.to_csv("rega_" + name3 + ".csv", sep=",", index=False, encoding="utf-8")
+#df.to_csv("rega_" + name3 + ".csv", sep=",", index=False, encoding="utf-8")
 
-#print(df)
+print(df)
