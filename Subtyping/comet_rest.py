@@ -1,6 +1,5 @@
-import requests, time, glob2
+import requests, time
 import pandas as pd
-import csv
 import sys
 
 # First request to get cookies
