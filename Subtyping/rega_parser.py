@@ -3,11 +3,10 @@
 # Import libraries
 import pandas as pd
 import sys
-
+import re
 
 infilename = sys.argv[1]
 outfilename = sys.argv[2]
-
 
 
 # Read .csv file
@@ -21,52 +20,73 @@ name2 = name1.split("_")[-2] # gives a middle part after splitting by "_"
 name3 = name1.split("REGA_")[-1].split(".")[-2]
 
 
-#print(df.columns)
-
 # Select only what is needed
 df = df.loc[:,["name", "assignment", "pure", "crf"]]
 
-# Subtype A
-df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace([
-                            "HIV-1 Subtype A",
-                            "HIV-1 Subtype A (01_AE)",
-                            "HIV-1 Subtype A (06_CPX)",
-                            "HIV-1 Subtype A (35_AD)",
-                            "HIV-1 Subtype A (A1)",
-                            "HIV-1 Subtype A (A2)"], 
-                            ["A","A (01_AE)", "A (06_cpx)", "A (35_AD)", "A (A1)", "A (A2)"])
 
- # Subtype B                           
-df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace([
-                            "HIV-1 Subtype B",
-                            "HIV-1 Subtype B (39_BF)",
-                            "HIV-1 Subtype B (47_BF)"], 
-                            ["B","B (39_BF)", "B (47_BF)"])
+# Simple replacements
+df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"^Check the report$", r"ChkRep", regex=True)
+
+df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"^HIV2 subtype A$", r"HIV2-A", regex=True)
+
+df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"^Recombinant$", r"URF", regex=True)
+
+# HIV 1 N group -> Gruppe N
+df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"^HIV\s1\s(\w)\sgroup$", r"Gruppe \1", regex=True)
 
 
- # Subtype C                           
-df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace([
-                            "HIV-1 Subtype C",
-                            "HIV-1 Subtype C (07_BC)",
-                            "HIV-1 Subtype C (31_BC)"], 
-                            ["C","C (07_BC)", "C (31_BC)"])
 
- # Subtype D                           
-df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace([
-                            "HIV-1 Subtype D",
-                            "HIV-1 Subtype D (10_CD)",
-                            "HIV-1 Subtype D (19cpx)"], 
-                            ["D","D (10_CD)", "D (19cpx)"])
+# "HIV-1 SUBTYPE" group
 
-# Subtype F                         
-df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace([
-                            "HIV-1 Subtype F",
-                            "HIV-1 Subtype F (12_BF)",
-                            "HIV-1 Subtype F (F)",
-                            "HIV-1 Subtype F (F1)",
-                            "HIV-1 Subtype F (F2)"], 
-                            ["F","F (12_BF)", "F", "F1", "F2"])
+# HIV-1 Subtype A -> A
+df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"^\w{3}-\d\s\w{7}\s(\w)$", r"\1", regex=True)
 
+# HIV-1 Subtype A (A1) -> A1
+df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"^\w{3}-\d\s\w{7}\s\w\s\((\w\d)\)$", r"\1", regex=True)
+
+# HIV-1 Subtype A (01_AE) -> A 01_AE
+df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"^\w{3}-\d\s\w{7}\s(\w\s\(\d{2}_\w{2}\))$", r"\1", regex=True)
+
+# HIV-1 Subtype A (06_CPX) -> A (06_cpx)
+df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"^HIV-1\sSubtype\s(\w\s\(\d{2}_CPX\))$", r"\1", regex=True)
+
+# "HIV-1 CRF" group
+# HIV-1 CRF 14_BG -> CRF14_BG
+df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"^HIV-1\sCRF\s(\d{2}_\w{2})$", r"CRF\1", regex=True)
+
+# HIV-1 CRF 11_CPX -> CRF11_cpx
+df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"^HIV-1\sCRF\s(\d{2})_CPX$", r"CRF\1_cpx", regex=True)
+
+# HIV-1 CRF 25_cpx -> CRF25_cpx
+df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"^HIV-1\sCRF\s(\d{2})_cpx$", r"CRF\1_cpx", regex=True)
+
+# HIV-1 CRF 43_02G or HIV-1 CRF 22_02A1 -> CRF43_02G or CRF22_01A1
+df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"^HIV-1\sCRF\s(\d{2}_\d{2}\w\d?)$", r"CRF\1_cpx", regex=True)
+
+# "LIKE" group (below are some examples)
+
+# HIV-1 Subtype G-like -> G-like
+# HIV-1 Subtype A (A1)-like -> A (A1)-like
+df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"^HIV-1\sSubtype\s(\w{1,}\s?\(?\w?\d?\)?-like)$", r"\1", regex=True)
+
+# HIV-1 CRF 01_AE-like -> 01_AE-like
+df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"^HIV-1\sCRF\s(\w{1,}-like)$", r"\1", regex=True)
+
+# POTENTIAL RECOMBINANT group (below are some examples)
+# HIV-1 Subtype B, potential recombinant -> potReCo(B)
+# HIV-1 Subtype A (A1), potential recombinant -> potReCo(A)
+df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"^HIV-1\sSubtype\s(\w)\s?\(?\w?\d?\)?,\spotential\srecombinant$", r"potReCo(\1)", regex=True)
+
+# RECOMBINANT OF group (below are some examples)
+# Recombinant of A1, B or Recombinant of B -> ReCo(B,F1)
+# Recombinant of A1, B, D or Recombinant of B, A1, G -> ReCo(A1,B,D)
+# Recombinant of A1, 03_AB -> ReCo(A1,03_AB)
+# Recombinant of B, 39_BF, D -> ReCo(B,39_BF,D)
+df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"^Recombinant\sof\s(\w{0,}\d?,?)\s?(\w{0,}\d?,?)\s?(\w{0,}\d?)$", r"ReCo(\1\2\3)", regex=True)
+
+
+# Fill nan objects with "-"
+df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].fillna("-")
 
 
 # Rename some columns (as done for stanford df)
@@ -83,6 +103,5 @@ df = df.sort_values(by=["SequenceName"])
 
 
 # Prepare a clean .csv file
-#df.to_csv("rega_" + name3 + ".csv", sep=",", index=False, encoding="utf-8")
+df.to_csv("rega_" + name3 + ".csv", sep=",", index=False, encoding="utf-8")
 
-print(df)
