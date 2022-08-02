@@ -84,6 +84,15 @@ df["Comet_" + name2 + "_Comment"] = df["bootstrap support"].astype(str)
 # Delete undesired columns
 df.drop(columns=["virus", "bootstrap support"], axis = 1,  inplace = True)
 
+# Replace some patterns so they look Stanford-like
+df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"^(\w{1})\d{1}$", r"\1", regex=True)
+
+df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"^(\w{2})_(\D)(\d?)(\w)(\w{0,1}?)(\d?)$", r"CRF\1_\2\4\5", regex=True)
+
+
+# Fill nan objects with "-"
+df["Comet_" + name2 + "_Comment"] = df["Comet_" + name2 + "_Comment"].fillna("-")
+
 # Sort df by SequenceName
 df = df.sort_values(by=["SequenceName"])
 
