@@ -17,8 +17,12 @@ f.close()
 
 name1 = infilename.rsplit("/")[-1] # gives a file name.csv
 name2 = name1.split("_")[-2] # gives a middle part after splitting by "_"
-name3 = name1.split("REGA_")[-1].split(".")[-2]
+#name3 = name1.split("REGA_")[-1].split(".")[-2]
+name3 = name1.split(".")[-2]
 
+print(name1)
+print(name2)
+print(name3)
 
 # Select only what is needed
 df = df.loc[:,["name", "assignment", "pure", "crf"]]
