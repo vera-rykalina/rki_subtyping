@@ -91,7 +91,7 @@ df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"
 
 
 # Fill nan objects with "-"
-df["Comet_" + name2 + "_Comment"] = df["Comet_" + name2 + "_Comment"].fillna("-")
+df["Comet_" + name2 + "_Comment"] = df["Comet_" + name2 + "_Comment"].replace("nan", "-")
 
 # Sort df by SequenceName
 df = df.sort_values(by=["SequenceName"])
