@@ -89,8 +89,11 @@ df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"
 
 df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"^(\w{2})_(\D)(\d?)(\w)(\w{0,1}?)(\d?)$", r"CRF\1_\2\4\5", regex=True)
 
+# Replace "unassigned_" group with "_Seq. nicht klassifizierbar"
+df.loc[df["Comet_" + name2 + "_Subtype"].str.contains("unassigned"), "Comet_" + name2 + "_Subtype"] = "_Seq. nicht klassifizierbar"
 
-# Fill nan objects with "-"
+
+# Replace "nan" with "-"
 df["Comet_" + name2 + "_Comment"] = df["Comet_" + name2 + "_Comment"].replace("nan", "-")
 
 # Sort df by SequenceName
