@@ -6,6 +6,8 @@ projectDir = "/Users/vera/Learning/CQ/Internship/rki_subtyping_resistance/Subtyp
 params.comet_rest = "${projectDir}/Scripts/comet_rest.py"
 params.stanford_parser = "${projectDir}/Scripts/stanford_parser.py"
 params.rega_parser = "${projectDir}/Scripts/rega_parser.py"
+params.tag_parser = "${projectDir}/Scripts/tag_parser.py"
+
 
 process stanford {
   publishDir "${params.outdir}", mode: "copy", overwrite: true
@@ -129,6 +131,22 @@ process int_joint {
 
 }
 
+process tags_to_csv {
+  publishDir "${params.outdir}/tagged_seqs", mode: "copy", overwrite: true
+  input:
+
+    path xlsx
+    
+  output:
+    path "tagged_${xlsx.getSimpleName()}.csv"
+  
+  script:
+   """
+    python3 ${params.tag_parser} ${xlsx} tagged_${xlsx.getSimpleName()}.csv
+   """
+
+}
+
 
 workflow {
     inputfasta = channel.fromPath("${projectDir}/InputFasta/*.fasta")
@@ -140,5 +158,7 @@ workflow {
     prrt_jointChannel = prrt_joint(json_csvChannel.filter(~/.*_PRRT_20.csv$/), cometChannel.filter(~/.*_PRRT_20.csv$/), rega_csvChannel.filter(~/.*_PRRT_20.csv$/))
     env_jointChannel = env_joint(json_csvChannel.filter(~/.*_ENV_20.csv$/), cometChannel.filter(~/.*_ENV_20.csv$/), rega_csvChannel.filter(~/.*_ENV_20.csv$/))
     int_jointChannel = int_joint(json_csvChannel.filter(~/.*_INT_20.csv$/), cometChannel.filter(~/.*_INT_20.csv$/), rega_csvChannel.filter(~/.*_INT_20.csv$/))
+    inputtagxlsx = channel.fromPath("${projectDir}/AllSeqsCO20/*.xlsx")
+    tag_csvChannel = tags_to_csv(inputtagxlsx)
 
 }
