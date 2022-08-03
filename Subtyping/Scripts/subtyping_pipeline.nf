@@ -84,11 +84,11 @@ process prrt_joint {
     path rega
     
   output:
-    path "prrt_joint.csv"
+    path "PRRT_joint.csv"
   
   script:
     """
-     mlr --csv join -u --ul --ur -j SequenceName -f ${stanford} ${comet} |  mlr --csv join -u --ul --ur -j SequenceName -f ${rega} > prrt_joint.csv
+     mlr --csv join -u --ul --ur -j SequenceName -f ${stanford} ${comet} |  mlr --csv join -u --ul --ur -j SequenceName -f ${rega} > PRRT_joint.csv
     """
 
 }
@@ -102,11 +102,11 @@ process env_joint {
     path rega
     
   output:
-    path "env_joint.csv"
+    path "ENV_joint.csv"
   
   script:
     """
-     mlr --csv join -u --ul --ur -j SequenceName -f ${stanford} ${comet} |  mlr --csv join -u --ul --ur -j SequenceName -f ${rega} > env_joint.csv
+     mlr --csv join -u --ul --ur -j SequenceName -f ${stanford} ${comet} |  mlr --csv join -u --ul --ur -j SequenceName -f ${rega} > ENV_joint.csv
     """
 
 }
@@ -120,11 +120,11 @@ process int_joint {
     path rega
     
   output:
-    path "int_joint.csv"
+    path "INT_joint.csv"
   
   script:
     """
-     mlr --csv join -u --ul --ur -j SequenceName -f ${stanford} ${comet} | mlr --csv join -u --ul --ur -j SequenceName -f ${rega} > int_joint.csv
+     mlr --csv join -u --ul --ur -j SequenceName -f ${stanford} ${comet} | mlr --csv join -u --ul --ur -j SequenceName -f ${rega} > INT_joint.csv
     """
 
 }
