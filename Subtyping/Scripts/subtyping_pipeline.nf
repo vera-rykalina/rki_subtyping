@@ -131,7 +131,7 @@ process int_joint {
 
 
 workflow {
-    inputfasta = channel.fromPath("${projectDir}/*.fasta")
+    inputfasta = channel.fromPath("${projectDir}/InputFasta/*.fasta")
     stanfordChannel = stanford(inputfasta)
     json_csvChannel = json_to_csv(stanfordChannel)
     inputregacsv = channel.fromPath("${projectDir}/ManualREGA/*.csv")
