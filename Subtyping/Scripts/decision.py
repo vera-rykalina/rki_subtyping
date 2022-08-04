@@ -20,8 +20,8 @@ for i, row in df_prrt.iterrows():
         df_prrt.at[i, ["PRRT_Subtype"]] = "Manual"
 
 for i, row in df_env.iterrows():
-    if row["Stanford_ENV_Subtype"] == row["Comet_ENV_Subtype"] :
-        df_env.at[i, ["ENV_Subtype"]] = row["Stanford_ENV_Subtype"]
+    if row["Rega_ENV_Subtype"][0] == row["Comet_ENV_Subtype"] and len(row["Rega_ENV_Subtype"]) < 3 :
+        df_env.at[i, ["ENV_Subtype"]] = row["Comet_ENV_Subtype"]
     elif row["Comet_ENV_Subtype"] == "_Seq. nicht klassifizierbar":
         df_env.at[i, ["ENV_Subtype"]] = "_Seq. nicht klassifizierbar"
     else:
@@ -36,8 +36,8 @@ for i, row in df_int.iterrows():
     else:
         df_int.at[i, ["INT_Subtype"]] = "Manual"
 
-print(df_prrt[["SequenceName", "Stanford_PRRT_Subtype", "Comet_PRRT_Subtype", "PRRT_Subtype"]].head(50))
+print(df_prrt[["SequenceName","Rega_PRRT_Subtype", "Stanford_PRRT_Subtype", "Comet_PRRT_Subtype", "PRRT_Subtype"]].head(50))
 
-print(df_env[["SequenceName", "Stanford_ENV_Subtype", "Comet_ENV_Subtype", "ENV_Subtype"]].head(50))
+print(df_env[["SequenceName","Rega_ENV_Subtype", "Stanford_ENV_Subtype", "Comet_ENV_Subtype", "ENV_Subtype"]].head(50))
 
-print(df_int[["SequenceName", "Stanford_INT_Subtype", "Comet_INT_Subtype", "INT_Subtype"]].head(50))
+print(df_int[["SequenceName","Rega_INT_Subtype", "Stanford_INT_Subtype", "Comet_INT_Subtype", "INT_Subtype"]].head(50))
