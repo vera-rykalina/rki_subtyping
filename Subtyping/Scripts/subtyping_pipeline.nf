@@ -7,7 +7,7 @@ params.comet_rest = "${projectDir}/Scripts/comet_rest.py"
 params.stanford_parser = "${projectDir}/Scripts/stanford_parser.py"
 params.rega_parser = "${projectDir}/Scripts/rega_parser.py"
 params.tag_parser = "${projectDir}/Scripts/tag_parser.py"
-
+params.decision = "${projectDir}/Scripts/decision.py"
 
 process stanford {
   publishDir "${params.outdir}", mode: "copy", overwrite: true
@@ -144,8 +144,30 @@ process tags_to_csv {
    """
     python3 ${params.tag_parser} ${xlsx} tagged_${xlsx.getSimpleName()}.csv
    """
-
 }
+
+
+process decision_to_csv {
+  publishDir "${params.outdir}/with_decision", mode: "copy", overwrite: true
+  input:
+
+    path csv_prrt
+    path csv_env
+    path csv_int
+    
+  output:
+    path "with_decision_${csv_prrt.getSimpleName()}.csv"
+    path "with_decision_${csv_env.getSimpleName()}.csv"
+    path "with_decision_${csv_int.getSimpleName()}.csv"
+  
+  script:
+   """
+    python3 ${params.decision} ${csv_prrt} with_decision_${csv_prrt.getSimpleName()}.csv
+    python3 ${params.decision} ${csv_env} with_decision_${csv_env.getSimpleName()}.csv
+    python3 ${params.decision} ${csv_int} with_decision_${csv_int.getSimpleName()}.csv
+   """
+}
+
 
 
 workflow {
@@ -160,5 +182,5 @@ workflow {
     int_jointChannel = int_joint(json_csvChannel.filter(~/.*_INT_20.csv$/), cometChannel.filter(~/.*_INT_20.csv$/), rega_csvChannel.filter(~/.*_INT_20.csv$/))
     inputtagxlsx = channel.fromPath("${projectDir}/AllSeqsCO20/*.xlsx")
     tag_csvChannel = tags_to_csv(inputtagxlsx)
-
+    decision_csvChannel = decision_to_csv(prrt_jointChannel, env_jointChannel,int_jointChannel)
 }
