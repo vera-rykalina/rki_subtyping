@@ -7,7 +7,7 @@ python3 stanford_parser.py results/MS95_PRRT_20.json MS95_PRRT_20.csv
 
 
 # Import libraries
-import json, os, glob2
+import json, os
 import pandas as pd
 import os
 import sys
