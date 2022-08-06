@@ -22,8 +22,8 @@ data=json.load(f)
 f.close()
 
 name1 = infilename.rsplit("/")[-1]
-name2 = name1.split("_")[1]
-name3 = name1.rsplit(".")[-2]
+name2 = name1.split("_")[-2]
+name3 = name1.split(".")[-2]
 
 
 # Initiate lists and dictionary
