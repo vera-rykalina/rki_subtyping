@@ -4,7 +4,6 @@
 import pandas as pd
 import sys
 import re
-import functools as ft
 
 
 # Read .csv file
@@ -17,8 +16,7 @@ df_tag_int = pd.read_csv("tagged_MS95_Seqs_INT_CO20_V5.csv", sep = ",")
 
 
 # Join tables
-dfs = [df_tag_prrt, df_tag_env, df_tag_int]
-df_final = ft.reduce(lambda left, right: pd.merge(left, right, on='Scount'), dfs)
+df_final = pd.concat([df_tag_prrt, df_tag_env, df_tag_int], axis=1)
 
 
 # Select only what is needed
