@@ -9,7 +9,7 @@ from collections import Counter
 infilename = sys.argv[1]
 outfilename = sys.argv[2]
 
-# Read fasta
+# Parse fasta
 names = []
 sequences = []
 fasta_sequences = SeqIO.parse(open(infilename),'fasta')
@@ -36,5 +36,5 @@ name3 = name1.split(".")[-2] # cuts .fasta
 
 
 
-with open("../test/"+ name3 + ".fasta", "w") as file:
+with open(name3 + ".fasta", "w") as file:
     file.writelines(marked_fasta)
