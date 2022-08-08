@@ -9,6 +9,8 @@ params.rega_parser = "${projectDir}/Scripts/rega_parser.py"
 params.tag_parser = "${projectDir}/Scripts/tag_parser.py"
 params.decision = "${projectDir}/Scripts/decision.py"
 params.marking = "${projectDir}/Scripts/repeat_marking.py"
+params.report = "${projectDir}/Scripts/final_report.py"
+
 
 process mark_fasta {
   publishDir "${params.outdir}/marked_fasta", mode: "copy", overwrite: true
@@ -187,7 +189,20 @@ process decision_to_csv {
    """
 }
 
+process final_report {
+  publishDir "${params.outdir}/report", mode: "copy", overwrite: true
+  input:
 
+    path csv
+    
+  output:
+    path "final_report.csv"
+  
+  script:
+   """
+    python3 ${params.report} ${csv} final_report.csv
+   """
+}
 
 workflow {
     
@@ -204,4 +219,6 @@ workflow {
     inputtagxlsx = channel.fromPath("${projectDir}/AllSeqsCO20/*.xlsx")
     tag_csvChannel = tags_to_csv(inputtagxlsx)
     decision_csvChannel = decision_to_csv(prrt_jointChannel, env_jointChannel,int_jointChannel)
+    all_dfs = tag_csvChannel.concat(decision_csvChannel).collect().view()
+    reportChannel = final_report(all_dfs)
 }
