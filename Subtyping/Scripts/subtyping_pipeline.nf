@@ -8,9 +8,28 @@ params.stanford_parser = "${projectDir}/Scripts/stanford_parser.py"
 params.rega_parser = "${projectDir}/Scripts/rega_parser.py"
 params.tag_parser = "${projectDir}/Scripts/tag_parser.py"
 params.decision = "${projectDir}/Scripts/decision.py"
+params.marking = "${projectDir}/Scripts/repeat_marking.py"
+
+process mark_fasta {
+  publishDir "${params.outdir}/marked_fasta", mode: "copy", overwrite: true
+  input:
+ 
+    path fasta
+    
+  output:
+    path "${fasta.getSimpleName()}M.fasta"
+  
+  script:
+   """
+    python3 ${params.marking} ${fasta} ${fasta.getSimpleName()}M.fasta
+
+   """
+
+}
+
 
 process stanford {
-  publishDir "${params.outdir}", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/json_files", mode: "copy", overwrite: true
   
   input:
     path fasta
@@ -171,15 +190,17 @@ process decision_to_csv {
 
 
 workflow {
+    
     inputfasta = channel.fromPath("${projectDir}/InputFasta/*.fasta")
-    stanfordChannel = stanford(inputfasta)
+    markedfasta = mark_fasta(inputfasta)
+    stanfordChannel = stanford(markedfasta)
     json_csvChannel = json_to_csv(stanfordChannel)
     inputregacsv = channel.fromPath("${projectDir}/ManualREGA/*.csv")
     rega_csvChannel = rega_to_csv(inputregacsv)
-    cometChannel = comet(inputfasta)
-    prrt_jointChannel = prrt_joint(json_csvChannel.filter(~/.*_PRRT_20.csv$/), cometChannel.filter(~/.*_PRRT_20.csv$/), rega_csvChannel.filter(~/.*_PRRT_20.csv$/))
-    env_jointChannel = env_joint(json_csvChannel.filter(~/.*_ENV_20.csv$/), cometChannel.filter(~/.*_ENV_20.csv$/), rega_csvChannel.filter(~/.*_ENV_20.csv$/))
-    int_jointChannel = int_joint(json_csvChannel.filter(~/.*_INT_20.csv$/), cometChannel.filter(~/.*_INT_20.csv$/), rega_csvChannel.filter(~/.*_INT_20.csv$/))
+    cometChannel = comet(markedfasta)
+    prrt_jointChannel = prrt_joint(json_csvChannel.filter(~/.*_PRRT_20M.csv$/), cometChannel.filter(~/.*_PRRT_20M.csv$/), rega_csvChannel.filter(~/.*_PRRT_20M.csv$/))
+    env_jointChannel = env_joint(json_csvChannel.filter(~/.*_ENV_20M.csv$/), cometChannel.filter(~/.*_ENV_20M.csv$/), rega_csvChannel.filter(~/.*_ENV_20M.csv$/))
+    int_jointChannel = int_joint(json_csvChannel.filter(~/.*_INT_20M.csv$/), cometChannel.filter(~/.*_INT_20M.csv$/), rega_csvChannel.filter(~/.*_INT_20M.csv$/))
     inputtagxlsx = channel.fromPath("${projectDir}/AllSeqsCO20/*.xlsx")
     tag_csvChannel = tags_to_csv(inputtagxlsx)
     decision_csvChannel = decision_to_csv(prrt_jointChannel, env_jointChannel,int_jointChannel)
