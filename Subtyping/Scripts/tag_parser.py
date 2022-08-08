@@ -4,6 +4,7 @@
 import pandas as pd
 import sys
 import re
+from collections import Counter
 
 infilename = sys.argv[1]
 outfilename = sys.argv[2]
@@ -35,6 +36,22 @@ df[name2 + "_Subtype"] = df["Header"].str.extract("\d\d-\d{5,6}_\w{3,4}_\d{2}(_\
 # df_joint["ENV_Subtype"] = None
 # df_joint["ENV_Subtype"] = df_joint["ENV_Subtype"].fillna(df["ENV_Subtype"])
 # print(df_joint.head(20))
+
+
+seq_names = list(df["SequenceName"])
+  
+
+# Mark repeats
+counts = Counter(seq_names)
+for name, num in counts.items():
+    if num > 1:
+        for suffix in range(1, num+1):
+            seq_names[seq_names.index(name)] = name + "repeat" + str(suffix)
+
+df_marked = pd.DataFrame({'Marked': seq_names})
+
+
+df["SequenceName"] = df_marked["Marked"]
 
 # Sort df by SequenceName
 df = df.sort_values(by=["SequenceName"])
