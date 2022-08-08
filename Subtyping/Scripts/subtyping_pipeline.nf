@@ -219,6 +219,6 @@ workflow {
     inputtagxlsx = channel.fromPath("${projectDir}/AllSeqsCO20/*.xlsx")
     tag_csvChannel = tags_to_csv(inputtagxlsx)
     decision_csvChannel = decision_to_csv(prrt_jointChannel, env_jointChannel,int_jointChannel)
-    all_dfs = tag_csvChannel.concat(decision_csvChannel).collect().view()
+    all_dfs = tag_csvChannel.concat(decision_csvChannel).collect()
     reportChannel = final_report(all_dfs)
 }
