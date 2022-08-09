@@ -29,14 +29,10 @@ df["SequenceName"] = df["Header"].str.extract("(\d\d-\d{5,6}_\w{2,4}_\d{2})_?\w{
 #print(df)
 df[name2 + "_Subtype"] = df["Header"].str.extract("\d\d-\d{5,6}_\w{3,4}_\d{2}(_\w{0,}?)$")
 
-
-# print(df)
-# #df["SeqInfo"] = df["SeqInfo"].fillna(df["SequenceNumber"])
-# df_joint = pd.read_csv("/Users/vera/Learning/CQ/Internship/rki_subtyping_resistance/Subtyping/Results/joint_fragmentwise/ENV_joint.csv", sep = ",")
-# df_joint["ENV_Subtype"] = None
-# df_joint["ENV_Subtype"] = df_joint["ENV_Subtype"].fillna(df["ENV_Subtype"])
-# print(df_joint.head(20))
-
+for i, row in df.iterrows():
+    if row[name2 + "_Subtype"] == "_badAlign":
+        df.at[i, [name2 + "_Subtype"]] = None
+    
 
 seq_names = list(df["SequenceName"])
   
