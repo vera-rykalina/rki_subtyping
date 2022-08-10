@@ -22,9 +22,9 @@ df_final = pd.concat([df_tag_prrt, df_tag_env, df_tag_int], axis=1)
 # Select only what is needed
 df_final = df_final.loc[:,["Scount", "PRRT_Subtype","INT_Subtype", "ENV_Subtype"]]
 
-df_final["PRRT_Subtype"] = df_final["PRRT_Subtype"].fillna(df_prrt["PRRT_Subtype"])
-df_final["INT_Subtype"] = df_final["INT_Subtype"].fillna(df_int["INT_Subtype"])
-df_final["ENV_Subtype"] = df_final["ENV_Subtype"].fillna(df_env["ENV_Subtype"])
+df_final["PRRT_Subtype"] = df_final["PRRT_Subtype"].fillna(df_prrt["PRRT_Subtype_Decision"])
+df_final["INT_Subtype"] = df_final["INT_Subtype"].fillna(df_int["INT_Subtype_Decision"])
+df_final["ENV_Subtype"] = df_final["ENV_Subtype"].fillna(df_env["ENV_Subtype_Decision"])
 
 print(df_final)
 
