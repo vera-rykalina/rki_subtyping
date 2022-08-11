@@ -16,17 +16,20 @@ df_tag_int = pd.read_csv("tagged_MS95_Seqs_INT_CO20_V5.csv", sep = ",")
 
 
 # Join tables
-df_final = pd.concat([df_tag_prrt, df_tag_env, df_tag_int], axis=1)
+df_full_prrt = pd.merge(df_tag_prrt, df_prrt, on = "Scount", how = "outer")
 
+df_full_env = pd.merge(df_tag_env, df_env, on = "Scount", how = "outer")
+
+df_full_int = pd.merge(df_tag_int, df_int, on = "Scount", how = "outer")
 
 # Select only what is needed
-df_final = df_final.loc[:,["Scount", "PRRT_Subtype","INT_Subtype", "ENV_Subtype"]]
+#df_final = df_final.loc[:,["Scount", "PRRT_Subtype","INT_Subtype", "ENV_Subtype"]]
 
-df_final["PRRT_Subtype"] = df_final["PRRT_Subtype"].fillna(df_prrt["PRRT_Subtype_Decision"])
-df_final["INT_Subtype"] = df_final["INT_Subtype"].fillna(df_int["INT_Subtype_Decision"])
-df_final["ENV_Subtype"] = df_final["ENV_Subtype"].fillna(df_env["ENV_Subtype_Decision"])
+#df_final["PRRT_Subtype"] = df_final["PRRT_Subtype"].fillna(df_prrt["PRRT_Subtype_Decision"])
 
-print(df_final)
 
 # Prepare a clean .csv file
-df_final.to_csv("final_report.csv", sep=",", index=False, encoding="utf-8")
+df_full_prrt.to_csv("full_prrt.csv", sep=",", index=False, encoding="utf-8")
+df_full_env.to_csv("full_env.csv", sep=",", index=False, encoding="utf-8")
+df_full_int.to_csv("full_int.csv", sep=",", index=False, encoding="utf-8")
+
