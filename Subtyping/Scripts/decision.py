@@ -11,11 +11,11 @@ df_env = pd.read_csv("ENV_joint.csv", sep = ",")
 df_int = pd.read_csv("INT_joint.csv", sep = ",")
 
 # Create 'Scount' column in dfs
-df_prrt["Scount"] = df_prrt["SequenceName"].str.extract("(^\d+-\d+)_\w{2,4}_\d+$", expand=True)
+df_prrt["Scount"] = df_prrt["SequenceName"].str.extract("(^\d+-\d+)_\w{2,4}_\d+_?\w+?$", expand=True)
 
-df_env["Scount"] = df_env["SequenceName"].str.extract("(^\d+-\d+)_\w{2,4}_\d+$", expand=True)
+df_env["Scount"] = df_env["SequenceName"].str.extract("(^\d+-\d+)_\w{2,4}_\d+_?\w+?$", expand=True)
 
-df_int["Scount"] = df_int["SequenceName"].str.extract("(^\d+-\d+)_\w{2,4}_\d+$", expand=True)
+df_int["Scount"] = df_int["SequenceName"].str.extract("(^\d+-\d+)_\w{2,4}_\d+_?\w+?$", expand=True)
 
 
 # Change the position of this column from last to first in all dfs
