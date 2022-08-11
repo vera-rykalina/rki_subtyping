@@ -49,7 +49,7 @@ df_marked = pd.DataFrame({'Marked': seq_names})
 
 df["SequenceName"] = df_marked["Marked"]
 
-# Sort df by SequenceName
+# Sort df by Scount
 df = df.sort_values(by=["Scount"])
 
 # Select only what is needed
