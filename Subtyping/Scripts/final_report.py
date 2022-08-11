@@ -22,10 +22,20 @@ df_full_env = pd.merge(df_tag_env, df_env, on = "Scount", how = "outer")
 
 df_full_int = pd.merge(df_tag_int, df_int, on = "Scount", how = "outer")
 
+
+
+df_full_prrt["PRRT_Subtype"] = df_full_prrt["PRRT_Subtype"].fillna(df_full_prrt["PRRT_Info"])
+df_full_prrt = df_full_prrt.sort_values(by=["Scount", "PRRT_Subtype"])
+
+df_full_env["ENV_Subtype"] = df_full_env["ENV_Subtype"].fillna(df_full_env["ENV_Info"])
+df_full_env = df_full_env.sort_values(by=["Scount", "ENV_Subtype"])
+
+df_full_int["INT_Subtype"] = df_full_int["INT_Subtype"].fillna(df_full_int["INT_Info"])
+df_full_int = df_full_int.sort_values(by=["Scount", "INT_Subtype"])
+
+
 # Select only what is needed
 #df_final = df_final.loc[:,["Scount", "PRRT_Subtype","INT_Subtype", "ENV_Subtype"]]
-
-#df_final["PRRT_Subtype"] = df_final["PRRT_Subtype"].fillna(df_prrt["PRRT_Subtype_Decision"])
 
 
 # Prepare a clean .csv file
