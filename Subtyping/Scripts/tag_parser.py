@@ -27,11 +27,11 @@ df = df.loc[:,["Scount", "Header", "Sequenz"]]
 
 df["SequenceName"] = df["Header"].str.extract("(\d\d-\d{5,6}_\w{2,4}_\d{2})_?\w{0,}?$", expand=True)
 #print(df)
-df[name2 + "_Subtype"] = df["Header"].str.extract("\d\d-\d{5,6}_\w{3,4}_\d{2}(_\w{0,}?)$")
+df[name2 + "_Info"] = df["Header"].str.extract("\d\d-\d{5,6}_\w{3,4}_\d{2}(_\w{0,}?)$")
 
 for i, row in df.iterrows():
-    if row[name2 + "_Subtype"] == "_badAlign":
-        df.at[i, [name2 + "_Subtype"]] = None
+    if row[name2 + "_Info"] == "_badAlign":
+        df.at[i, [name2 + "_Info"]] = None
     
 
 seq_names = list(df["SequenceName"])
@@ -53,7 +53,7 @@ df["SequenceName"] = df_marked["Marked"]
 df = df.sort_values(by=["Scount"])
 
 # Select only what is needed
-df = df.loc[:,["Scount", "Sequenz", name2 + "_Subtype"]]
+df = df.loc[:,["Scount", "Sequenz", name2 + "_Info"]]
 
 # Prepare a clean .csv file
 df.to_csv("tagged_" + name3 + ".csv", sep=",", index=False, encoding="utf-8")
