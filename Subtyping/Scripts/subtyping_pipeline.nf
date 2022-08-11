@@ -196,11 +196,11 @@ process final_report {
     path csv
     
   output:
-    path "final_report.csv"
+    path "full_*.csv"
   
   script:
    """
-    python3 ${params.report} ${csv} final_report.csv
+    python3 ${params.report} ${csv} full_*.csv
    """
 }
 
