@@ -50,8 +50,10 @@ df_marked = pd.DataFrame({'Marked': seq_names})
 df["SequenceName"] = df_marked["Marked"]
 
 # Sort df by SequenceName
-df = df.sort_values(by=["SequenceName"])
+df = df.sort_values(by=["Scount"])
 
+# Select only what is needed
+df = df.loc[:,["Scount", "Sequenz", name2 + "_Subtype"]]
 
 # Prepare a clean .csv file
 df.to_csv("tagged_" + name3 + ".csv", sep=",", index=False, encoding="utf-8")
