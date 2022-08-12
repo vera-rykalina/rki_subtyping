@@ -16,11 +16,11 @@ df_tag_int = pd.read_csv("tagged_MS95_Seqs_INT_CO20_V5.csv", sep = ",")
 
 
 # Join tables
-df_full_prrt = pd.merge(df_tag_prrt, df_prrt, on = "Scount", how = "outer")
+df_full_prrt = pd.merge(df_tag_prrt, df_prrt, on = "Scount", how = "left")
 
-df_full_env = pd.merge(df_tag_env, df_env, on = "Scount", how = "outer")
+df_full_env = pd.merge(df_tag_env, df_env, on = "Scount", how = "left")
 
-df_full_int = pd.merge(df_tag_int, df_int, on = "Scount", how = "outer")
+df_full_int = pd.merge(df_tag_int, df_int, on = "Scount", how = "left")
 
 
 
