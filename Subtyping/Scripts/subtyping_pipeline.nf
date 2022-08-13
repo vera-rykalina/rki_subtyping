@@ -9,7 +9,7 @@ params.rega_parser = "${projectDir}/Scripts/rega_parser.py"
 params.tag_parser = "${projectDir}/Scripts/tag_parser.py"
 params.decision = "${projectDir}/Scripts/decision.py"
 params.marking = "${projectDir}/Scripts/repeat_marking.py"
-params.report = "${projectDir}/Scripts/final_report.py"
+params.full_join = "${projectDir}/Scripts/full_join.py"
 
 
 process mark_fasta {
@@ -200,7 +200,7 @@ process full_joint {
   
   script:
    """
-    python3 ${params.report} ${csv} full_*.csv
+    python3 ${params.full_join} ${csv} full_*.csv
    """
 }
 
