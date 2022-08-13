@@ -189,7 +189,7 @@ process decision_to_csv {
    """
 }
 
-process final_report {
+process full_joint {
   publishDir "${params.outdir}/report", mode: "copy", overwrite: true
   input:
 
@@ -220,5 +220,5 @@ workflow {
     tag_csvChannel = tags_to_csv(inputtagxlsx)
     decision_csvChannel = decision_to_csv(prrt_jointChannel, env_jointChannel,int_jointChannel)
     all_dfs = tag_csvChannel.concat(decision_csvChannel).collect()
-    reportChannel = final_report(all_dfs)
+    reportChannel = full_joint(all_dfs)
 }
