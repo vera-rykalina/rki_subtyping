@@ -190,7 +190,7 @@ process decision_to_csv {
 }
 
 process full_joint {
-  publishDir "${params.outdir}/report", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/full_joint", mode: "copy", overwrite: true
   input:
 
     path csv
