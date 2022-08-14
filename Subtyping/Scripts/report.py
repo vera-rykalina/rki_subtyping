@@ -17,7 +17,7 @@ final_report.rename(columns = {"Scount":"SCount", "PRRT_Subtype": "Subtyp_PRRT"}
 
 # Add other columns
 final_report["Subtyp_INT"] = df_full_int["INT_Subtype"]
-final_report["Subtyp_ENV"] = df_full_int["ENV_Subtype"]
+final_report["Subtyp_ENV"] = df_full_env["ENV_Subtype"]
 final_report["Subtyp_Summe"] = None
 final_report["Env_FPR"] = ""
 
