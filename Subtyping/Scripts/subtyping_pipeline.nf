@@ -10,7 +10,7 @@ params.tag_parser = "${projectDir}/Scripts/tag_parser.py"
 params.decision = "${projectDir}/Scripts/decision.py"
 params.marking = "${projectDir}/Scripts/repeat_marking.py"
 params.full_join = "${projectDir}/Scripts/full_join.py"
-
+params.report = "${projectDir}/Scripts/report.py"
 
 process mark_fasta {
   publishDir "${params.outdir}/marked_fasta", mode: "copy", overwrite: true
@@ -204,6 +204,24 @@ process full_joint {
    """
 }
 
+process report {
+  publishDir "${params.outdir}/report", mode: "copy", overwrite: true
+  input:
+    
+    val run
+    path csv
+    
+  output:
+    path "${run}_subtype_uploads.xlsx"
+  
+  script:
+   """
+    python3 ${params.report} ${csv} _subtype_uploads.xlsx
+    mv _subtype_uploads.xlsx ${run}_subtype_uploads.xlsx
+    """
+}
+
+
 workflow {
     
     inputfasta = channel.fromPath("${projectDir}/InputFasta/*.fasta")
@@ -220,5 +238,7 @@ workflow {
     tag_csvChannel = tags_to_csv(inputtagxlsx)
     decision_csvChannel = decision_to_csv(prrt_jointChannel, env_jointChannel,int_jointChannel)
     all_dfs = tag_csvChannel.concat(decision_csvChannel).collect()
-    reportChannel = full_joint(all_dfs)
+    fullChannel = full_joint(all_dfs)
+    fullFromPathChannel = channel.fromPath("${projectDir}/Results/full_joint/*.csv").collect()
+    report(params.run, fullFromPathChannel)
 }
