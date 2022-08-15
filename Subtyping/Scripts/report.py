@@ -5,9 +5,9 @@ import pandas as pd
 
 
 # Read .csv file
-df_full_prrt = pd.read_csv("full_PRRT.csv", sep = ",")
-df_full_env = pd.read_csv("full_ENV.csv", sep = ",")
-df_full_int = pd.read_csv("full_INT.csv", sep = ",")
+df_full_prrt = pd.read_excel("full_PRRT.xlsx")
+df_full_env = pd.read_excel("full_ENV.xlsx")
+df_full_int = pd.read_excel("full_INT.xlsx")
 
 # Prepare final report
 final_report = df_full_prrt[["Scount", "PRRT_Subtype"]].copy()
