@@ -39,7 +39,7 @@ df_full_int = df_full_int.sort_values(by=["Scount", "INT_Subtype"])
 
 
 # Prepare a clean .csv file
-df_full_prrt.to_csv("full_prrt.csv", sep=",", index=False, encoding="utf-8")
-df_full_env.to_csv("full_env.csv", sep=",", index=False, encoding="utf-8")
-df_full_int.to_csv("full_int.csv", sep=",", index=False, encoding="utf-8")
+df_full_prrt.to_csv("full_PRRT.csv", sep=",", index=False, encoding="utf-8")
+df_full_env.to_csv("full_ENV.csv", sep=",", index=False, encoding="utf-8")
+df_full_int.to_csv("full_INT.csv", sep=",", index=False, encoding="utf-8")
 
