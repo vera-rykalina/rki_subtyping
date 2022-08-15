@@ -190,17 +190,17 @@ process decision_to_csv {
 }
 
 process full_joint {
-  publishDir "${params.outdir}/full_joint", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/full_joint", mode: "copy", overwrite: false
   input:
 
-    path csv
+    path xlsx
     
   output:
-    path "full_*.csv"
+    path "full_*.xlsx"
   
   script:
    """
-    python3 ${params.full_join} ${csv} full_*.csv
+    python3 ${params.full_join} ${xlsx} full_*.xlsx
    """
 }
 
@@ -209,14 +209,14 @@ process report {
   input:
     
     val run
-    path csv
+    path xlsx
     
   output:
     path "${run}_subtype_uploads.xlsx"
   
   script:
    """
-    python3 ${params.report} ${csv} _subtype_uploads.xlsx
+    python3 ${params.report} ${xlsx} _subtype_uploads.xlsx
     mv _subtype_uploads.xlsx ${run}_subtype_uploads.xlsx
     """
 }
@@ -239,6 +239,6 @@ workflow {
     decision_csvChannel = decision_to_csv(prrt_jointChannel, env_jointChannel,int_jointChannel)
     all_dfs = tag_csvChannel.concat(decision_csvChannel).collect()
     fullChannel = full_joint(all_dfs)
-    fullFromPathChannel = channel.fromPath("${projectDir}/Results/full_joint/*.csv").collect()
+    fullFromPathChannel = channel.fromPath("${projectDir}/Results/full_joint/*.xlsx").collect()
     report(params.run, fullFromPathChannel)
 }
