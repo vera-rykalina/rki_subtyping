@@ -38,8 +38,8 @@ df_full_int = df_full_int.sort_values(by=["Scount", "INT_Subtype"])
 #df_final = df_final.loc[:,["Scount", "PRRT_Subtype","INT_Subtype", "ENV_Subtype"]]
 
 
-# Prepare a clean .csv file
-df_full_prrt.to_csv("full_PRRT.csv", sep=",", index=False, encoding="utf-8")
-df_full_env.to_csv("full_ENV.csv", sep=",", index=False, encoding="utf-8")
-df_full_int.to_csv("full_INT.csv", sep=",", index=False, encoding="utf-8")
+# Prepare a clean .xlsx file
+df_full_prrt.to_excel("full_PRRT.xlsx", index=False, encoding="utf-8")
+df_full_env.to_excel("full_ENV.xlsx", index=False, encoding="utf-8")
+df_full_int.to_excel("full_INT.xlsx", index=False, encoding="utf-8")
 
