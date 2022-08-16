@@ -258,6 +258,7 @@ workflow {
     decision_csvChannel = decision_to_csv(prrt_jointChannel, env_jointChannel,int_jointChannel)
     all_dfs = tag_csvChannel.concat(decision_csvChannel).collect()
     fullChannel = full_joint(all_dfs)
+    /* replace Results to params.outdir */
     fullFromPathChannel = channel.fromPath("${projectDir}/Results/full_joint/*.xlsx").collect()
     report(params.run, fullFromPathChannel)
     phylo_fasta(params.run, fullFromPathChannel.flatten())
