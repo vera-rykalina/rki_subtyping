@@ -11,6 +11,7 @@ params.decision = "${projectDir}/Scripts/decision.py"
 params.marking = "${projectDir}/Scripts/repeat_marking.py"
 params.full_join = "${projectDir}/Scripts/full_join.py"
 params.report = "${projectDir}/Scripts/report.py"
+params.phylo = "${projectDir}/Scripts/fasta_phylo.py"
 
 process mark_fasta {
   publishDir "${params.outdir}/marked_fasta", mode: "copy", overwrite: true
@@ -221,6 +222,24 @@ process report {
     """
 }
 
+process phylo_fasta {
+  publishDir "${params.outdir}/phylo_fasta", mode: "copy", overwrite: true
+  input:
+    
+    val run
+    path xlsx
+    
+  output:
+    path "phylo_${run}_${xlsx.getSimpleName().split('_')[1]}_20M.fasta"
+  
+  script:
+   """
+    python3 ${params.phylo} ${xlsx} ${xlsx.getSimpleName()}.fasta
+    mv ${xlsx.getSimpleName()}.fasta phylo_${run}_${xlsx.getSimpleName().split('_')[1]}_20M.fasta
+    """
+}
+
+
 
 workflow {
     
@@ -241,4 +260,5 @@ workflow {
     fullChannel = full_joint(all_dfs)
     fullFromPathChannel = channel.fromPath("${projectDir}/Results/full_joint/*.xlsx").collect()
     report(params.run, fullFromPathChannel)
+    phylo_fasta(params.run, fullFromPathChannel.flatten())
 }
