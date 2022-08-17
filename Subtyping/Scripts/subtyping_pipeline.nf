@@ -223,7 +223,7 @@ process report {
 }
 
 process phylo_fasta {
-  publishDir "${params.outdir}/phylo_fasta", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/phylo_fasta", mode: "copy", overwrite: false
   input:
     
     val run
