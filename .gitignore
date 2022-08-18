@@ -5,10 +5,11 @@ Subtyping/nexflow.config
 AnnualReport/resistance.csv
 COMET/Subtyping/results/
 COMET/
-Subtyping/results/
+Subtyping/Results/
 nf_core/
 ManualREGA/
 IQ-TREE/
 Subtyping/AllSeqsCO20
+Subtyping/InputFasta
 AnnualReport/
 HivTrace/
