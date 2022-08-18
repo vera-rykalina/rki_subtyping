@@ -102,14 +102,14 @@ process rega_to_csv {
     path csv
     
   output:
-    path "rega_${csv.getSimpleName()}.csv"
+    path "rega_${csv.getSimpleName().split('_rega_')[1]}.csv"
   
   when:
     params.fullpipeline == true
 
   script:
    """
-    python3 ${params.rega_parser} ${csv} rega_${csv.getSimpleName()}.csv
+    python3 ${params.rega_parser} ${csv} rega_${csv.getSimpleName().split('_rega_')[1]}.csv
    """
 
 }
