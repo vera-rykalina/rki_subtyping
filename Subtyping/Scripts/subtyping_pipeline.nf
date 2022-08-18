@@ -2,7 +2,7 @@
 nextflow.enable.dsl = 2
 
 
-projectDir = "/Users/vera/Learning/CQ/Internship/rki_subtyping_resistance/Subtyping"
+projectDir = "/Users/vera/Learning/CQ/Internship/rki/Subtyping"
 params.fullpipeline = false
 params.comet_rest = "${projectDir}/Scripts/comet_rest.py"
 params.stanford_parser = "${projectDir}/Scripts/stanford_parser.py"
