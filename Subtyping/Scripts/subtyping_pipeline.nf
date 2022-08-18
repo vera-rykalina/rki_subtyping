@@ -12,7 +12,7 @@ params.decision = "${projectDir}/Scripts/decision.py"
 params.marking = "${projectDir}/Scripts/repeat_marking.py"
 params.full_join = "${projectDir}/Scripts/full_join.py"
 params.report = "${projectDir}/Scripts/report.py"
-params.phylo = "${projectDir}/Scripts/fasta_phylo.py"
+params.phylo = "${projectDir}/Scripts/fasta_to_phylo.py"
 
 
 log.info """
