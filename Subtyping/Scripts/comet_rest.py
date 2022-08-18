@@ -93,8 +93,8 @@ df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"
 df.loc[df["Comet_" + name2 + "_Subtype"].str.contains("unassigned"), "Comet_" + name2 + "_Subtype"] = "_Seq. nicht klassifizierbar"
 
 
-# Replace "nan" with "-"
-df["Comet_" + name2 + "_Comment"] = df["Comet_" + name2 + "_Comment"].replace("nan", "-")
+# Replace "nan" with "0"
+df["Comet_" + name2 + "_Comment"] = df["Comet_" + name2 + "_Comment"].replace("nan", "0")
 
 # Sort df by SequenceName
 df = df.sort_values(by=["SequenceName"])
