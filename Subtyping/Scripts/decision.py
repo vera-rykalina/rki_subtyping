@@ -28,8 +28,10 @@ df_env.insert(0, 'Scount', col2)
 col3 = df_int.pop('Scount')
 df_int.insert(0, 'Scount', col3)
 
+# Change data type string -> float
+df_prrt["Comet_PRRT_Comment"] = pd.to_numeric(df_prrt["Comet_PRRT_Comment"], downcast="float")
 
-
+# Make a decision
 for i, row in df_prrt.iterrows():
     if row["Stanford_PRRT_Subtype"] == row["Comet_PRRT_Subtype"] :
         df_prrt.at[i, ["PRRT_Subtype"]] = row["Stanford_PRRT_Subtype"]
@@ -38,8 +40,13 @@ for i, row in df_prrt.iterrows():
     else:
         df_prrt.at[i, ["PRRT_Subtype"]] = "Manual"
 
+
+# Change data type string -> float
+df_int["Comet_INT_Comment"] = pd.to_numeric(df_int["Comet_INT_Comment"], downcast="float")
+
+# Make a decision
 for i, row in df_env.iterrows():
-    if row["Rega_ENV_Subtype"][0] == row["Comet_ENV_Subtype"] and len(row["Rega_ENV_Subtype"]) < 3 :
+    if row["Rega_ENV_Subtype"][0] == row["Comet_ENV_Subtype"] and len(row["Rega_ENV_Subtype"]) < 3 and row["Comet_ENV_Comment"] > 45:
         df_env.at[i, ["ENV_Subtype"]] = row["Comet_ENV_Subtype"]
     elif row["Comet_ENV_Subtype"] == "_Seq. nicht klassifizierbar":
         df_env.at[i, ["ENV_Subtype"]] = "_Seq. nicht klassifizierbar"
@@ -47,6 +54,10 @@ for i, row in df_env.iterrows():
         df_env.at[i, ["ENV_Subtype"]] = "Manual"
     
 
+# Change data type string -> float
+df_env["Comet_ENV_Comment"] = pd.to_numeric(df_env["Comet_ENV_Comment"], downcast="float")
+
+# Make a decision
 for i, row in df_int.iterrows():
     if row["Stanford_INT_Subtype"] == row["Comet_INT_Subtype"] :
         df_int.at[i, ["INT_Subtype"]] = row["Stanford_INT_Subtype"]
