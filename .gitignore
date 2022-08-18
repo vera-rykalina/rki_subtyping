@@ -1,16 +1,10 @@
 .DS_Store
-Subtyping/stanford/stanford_prrt.csv
+
 Subtyping/test/
-Subtyping/nexflow.config
-AnnualReport/resistance.csv
-COMET/Subtyping/results/
 COMET/
 Subtyping/Results/
 nf_core/
-ManualREGA/
 IQ-TREE/
-Subtyping/AllSeqsCO20
-Subtyping/InputFasta
 AnnualReport/
 HivTrace/
 mock_fasta_list.txt
