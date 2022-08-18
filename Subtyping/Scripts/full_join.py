@@ -2,8 +2,7 @@
 
 # Import libraries
 import pandas as pd
-import sys
-import re
+
 
 
 # Read .csv file
@@ -32,10 +31,6 @@ df_full_env = df_full_env.sort_values(by=["Scount", "ENV_Subtype"])
 
 df_full_int["INT_Subtype"] = df_full_int["INT_Subtype"].fillna(df_full_int["INT_Info"])
 df_full_int = df_full_int.sort_values(by=["Scount", "INT_Subtype"])
-
-
-# Select only what is needed
-#df_final = df_final.loc[:,["Scount", "PRRT_Subtype","INT_Subtype", "ENV_Subtype"]]
 
 
 # Prepare a clean .xlsx file
