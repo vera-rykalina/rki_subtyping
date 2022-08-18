@@ -3,6 +3,7 @@ nextflow.enable.dsl = 2
 
 
 projectDir = "/Users/vera/Learning/CQ/Internship/rki_subtyping_resistance/Subtyping"
+params.fullpipeline = false
 params.comet_rest = "${projectDir}/Scripts/comet_rest.py"
 params.stanford_parser = "${projectDir}/Scripts/stanford_parser.py"
 params.rega_parser = "${projectDir}/Scripts/rega_parser.py"
@@ -12,6 +13,19 @@ params.marking = "${projectDir}/Scripts/repeat_marking.py"
 params.full_join = "${projectDir}/Scripts/full_join.py"
 params.report = "${projectDir}/Scripts/report.py"
 params.phylo = "${projectDir}/Scripts/fasta_phylo.py"
+
+
+log.info """
+VERA RYKALINA - HIV-1 GENOTYPING PIPELINE
+================================================================================
+projectDir       : ${projectDir}
+ourdir           : ${params.outdir}
+run              : ${params.run}
+fasta to phylo   : ${params.phylo}
+
+September 2022
+"""
+
 
 process mark_fasta {
   publishDir "${params.outdir}/marked_fasta", mode: "copy", overwrite: true
@@ -90,6 +104,9 @@ process rega_to_csv {
   output:
     path "rega_${csv.getSimpleName()}.csv"
   
+  when:
+    params.fullpipeline == true
+
   script:
    """
     python3 ${params.rega_parser} ${csv} rega_${csv.getSimpleName()}.csv
@@ -110,6 +127,9 @@ process prrt_joint {
   output:
     path "PRRT_joint.csv"
   
+   when:
+    params.fullpipeline == true
+
   script:
     """
      mlr --csv join -u --ul --ur -j SequenceName -f ${stanford} ${comet} |  mlr --csv join -u --ul --ur -j SequenceName -f ${rega} > PRRT_joint.csv
@@ -127,6 +147,9 @@ process env_joint {
     
   output:
     path "ENV_joint.csv"
+  
+  when:
+   params.fullpipeline == true
   
   script:
     """
@@ -146,6 +169,9 @@ process int_joint {
   output:
     path "INT_joint.csv"
   
+  when:
+    params.fullpipeline == true
+
   script:
     """
      mlr --csv join -u --ul --ur -j SequenceName -f ${stanford} ${comet} | mlr --csv join -u --ul --ur -j SequenceName -f ${rega} > INT_joint.csv
@@ -182,6 +208,9 @@ process decision_to_csv {
     path "with_decision_${csv_env.getSimpleName()}.csv"
     path "with_decision_${csv_int.getSimpleName()}.csv"
   
+  when:
+    params.fullpipeline == true
+
   script:
    """
     python3 ${params.decision} ${csv_prrt} with_decision_${csv_prrt.getSimpleName()}.csv
@@ -191,7 +220,7 @@ process decision_to_csv {
 }
 
 process full_joint {
-  publishDir "${params.outdir}/full_joint", mode: "copy", overwrite: false
+  publishDir "${params.outdir}/full_joint", mode: "copy", overwrite: true
   input:
 
     path xlsx
@@ -199,6 +228,9 @@ process full_joint {
   output:
     path "full_*.xlsx"
   
+  when:
+    params.fullpipeline == true
+
   script:
    """
     python3 ${params.full_join} ${xlsx} full_*.xlsx
@@ -206,7 +238,7 @@ process full_joint {
 }
 
 process report {
-  publishDir "${params.outdir}/report", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/report", mode: "copy", overwrite: false
   input:
     
     val run
@@ -215,6 +247,9 @@ process report {
   output:
     path "${run}_subtype_uploads.xlsx"
   
+  when:
+    params.fullpipeline == true
+
   script:
    """
     python3 ${params.report} ${xlsx} _subtype_uploads.xlsx
@@ -232,6 +267,9 @@ process phylo_fasta {
   output:
     path "phylo_${run}_${xlsx.getSimpleName().split('_')[1]}_20M.fasta"
   
+  when:
+    params.fullpipeline == true
+
   script:
    """
     python3 ${params.phylo} ${xlsx} ${xlsx.getSimpleName()}.fasta
