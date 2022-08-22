@@ -6,7 +6,7 @@ projectDir = "/Users/vera/Learning/CQ/Internship/rki/Subtyping"
 params.fullpipeline = false
 params.comet_rest = "${projectDir}/Scripts/comet_rest.py"
 params.stanford_parser = "${projectDir}/Scripts/stanford_parser.py"
-params.rega_parser = "${projectDir}/Scripts/rega_parser.py"
+params.rega = "${projectDir}/Scripts/rega_cleanup.py"
 params.tag_parser = "${projectDir}/Scripts/tag_parser.py"
 params.decision = "${projectDir}/Scripts/decision.py"
 params.marking = "${projectDir}/Scripts/repeat_marking.py"
@@ -109,7 +109,7 @@ process rega_to_csv {
 
   script:
    """
-    python3 ${params.rega_parser} ${csv} rega_${csv.getSimpleName().split('_rega_')[1]}.csv
+    python3 ${params.rega} ${csv} rega_${csv.getSimpleName().split('_rega_')[1]}.csv
    """
 
 }
