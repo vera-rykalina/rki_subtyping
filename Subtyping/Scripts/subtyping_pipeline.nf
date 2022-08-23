@@ -125,14 +125,14 @@ process prrt_joint {
     path rega
     
   output:
-    path "PRRT_joint.csv"
+    path "joint_${stanford.getSimpleName().split('stanford_')[1]}.csv"
   
    when:
     params.fullpipeline == true
 
   script:
     """
-     mlr --csv join -u --ul --ur -j SequenceName -f ${stanford} ${comet} |  mlr --csv join -u --ul --ur -j SequenceName -f ${rega} > PRRT_joint.csv
+     mlr --csv join -u --ul --ur -j SequenceName -f ${stanford} ${comet} |  mlr --csv join -u --ul --ur -j SequenceName -f ${rega} > joint_${stanford.getSimpleName().split('stanford_')[1]}.csv
     """
 
 }
@@ -146,14 +146,14 @@ process env_joint {
     path rega
     
   output:
-    path "ENV_joint.csv"
+    path "joint_${stanford.getSimpleName().split('stanford_')[1]}.csv"
   
   when:
    params.fullpipeline == true
   
   script:
     """
-     mlr --csv join -u --ul --ur -j SequenceName -f ${stanford} ${comet} |  mlr --csv join -u --ul --ur -j SequenceName -f ${rega} > ENV_joint.csv
+     mlr --csv join -u --ul --ur -j SequenceName -f ${stanford} ${comet} |  mlr --csv join -u --ul --ur -j SequenceName -f ${rega} > joint_${stanford.getSimpleName().split('stanford_')[1]}.csv
     """
 
 }
@@ -167,14 +167,14 @@ process int_joint {
     path rega
     
   output:
-    path "INT_joint.csv"
+    path "joint_${stanford.getSimpleName().split('stanford_')[1]}.csv"
   
   when:
     params.fullpipeline == true
 
   script:
     """
-     mlr --csv join -u --ul --ur -j SequenceName -f ${stanford} ${comet} | mlr --csv join -u --ul --ur -j SequenceName -f ${rega} > INT_joint.csv
+     mlr --csv join -u --ul --ur -j SequenceName -f ${stanford} ${comet} | mlr --csv join -u --ul --ur -j SequenceName -f ${rega} > joint_${stanford.getSimpleName().split('stanford_')[1]}.csv
     """
 
 }
@@ -186,7 +186,7 @@ process tags_to_csv {
     path xlsx
     
   output:
-    path "tagged_${xlsx.getSimpleName()}.csv"
+    path "tag_${xlsx.getSimpleName()}.csv"
   
   script:
    """
@@ -293,11 +293,11 @@ workflow {
     int_jointChannel = int_joint(json_csvChannel.filter(~/.*_INT_20M.csv$/), cometChannel.filter(~/.*_INT_20M.csv$/), rega_csvChannel.filter(~/.*_INT_20M.csv$/))
     inputtagxlsx = channel.fromPath("${projectDir}/AllSeqsCO20/*.xlsx")
     tag_csvChannel = tags_to_csv(inputtagxlsx)
-    decision_csvChannel = decision_to_csv(prrt_jointChannel, env_jointChannel,int_jointChannel)
-    all_dfs = tag_csvChannel.concat(decision_csvChannel).collect()
-    fullChannel = full_joint(all_dfs)
+    //decision_csvChannel = decision_to_csv(prrt_jointChannel, env_jointChannel,int_jointChannel)
+    //all_dfs = tag_csvChannel.concat(decision_csvChannel).collect()
+    //fullChannel = full_joint(all_dfs)
     /* replace Results to params.outdir */
-    fullFromPathChannel = channel.fromPath("${projectDir}/Results/full_joint/*.xlsx").collect()
-    report(params.run, fullFromPathChannel)
-    phylo_fasta(params.run, fullFromPathChannel.flatten())
+    //fullFromPathChannel = channel.fromPath("${projectDir}/Results/full_joint/*.xlsx").collect()
+    //report(params.run, fullFromPathChannel)
+    //phylo_fasta(params.run, fullFromPathChannel.flatten())
 }
