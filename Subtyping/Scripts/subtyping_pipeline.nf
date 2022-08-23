@@ -95,7 +95,7 @@ process comet{
 }
 
 
-process rega_to_csv {
+process clean_rega {
   publishDir "${params.outdir}/rega", mode: "copy", overwrite: true
   input:
 
@@ -286,7 +286,7 @@ workflow {
     stanfordChannel = stanford(markedfasta)
     json_csvChannel = json_to_csv(stanfordChannel)
     inputregacsv = channel.fromPath("${projectDir}/ManualREGA/*.csv")
-    rega_csvChannel = rega_to_csv(inputregacsv)
+    rega_csvChannel = clean_rega(inputregacsv)
     cometChannel = comet(markedfasta)
     prrt_jointChannel = join_prrt(json_csvChannel.filter(~/.*_PRRT_20M.csv$/), cometChannel.filter(~/.*_PRRT_20M.csv$/), rega_csvChannel.filter(~/.*_PRRT_20M.csv$/))
     env_jointChannel = join_env(json_csvChannel.filter(~/.*_ENV_20M.csv$/), cometChannel.filter(~/.*_ENV_20M.csv$/), rega_csvChannel.filter(~/.*_ENV_20M.csv$/))
