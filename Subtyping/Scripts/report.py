@@ -2,12 +2,21 @@
 
 # Import libraries
 import pandas as pd
-
+import sys
 
 # Read .csv file
-df_full_prrt = pd.read_excel("full_PRRT.xlsx")
-df_full_env = pd.read_excel("full_ENV.xlsx")
-df_full_int = pd.read_excel("full_INT.xlsx")
+for infilename in sys.argv[1:]:
+    name0 = infilename.rsplit("/")[-1] # gives a file name.csv
+    list_of_substrings = name0.split("_")
+    if "PRRT" in list_of_substrings:
+        df_full_prrt = pd.read_excel(infilename)
+    if "ENV" in list_of_substrings:
+        df_full_env = pd.read_excel(infilename)
+    if "INT" in list_of_substrings:
+        df_full_int = pd.read_excel(infilename)
+
+
+outfilename = sys.argv[2]
 
 
 # Select only what is needed
@@ -22,15 +31,6 @@ final_report = df_full_prrt.merge(df_full_int, on = "Scount", how = "outer").mer
 # Rename two first columns 
 final_report.rename(columns = {"Scount":"SCount", "PRRT_Subtype": "Subtyp_PRRT","INT_Subtype": "Subtyp_INT", "ENV_Subtype": "Subtyp_ENV"}, inplace = True)
 
-# #  Prepare final report
-# final_report = df_full_prrt[["Scount", "PRRT_Subtype"]].copy()
-
-# # Rename two first columns 
-# final_report.rename(columns = {"Scount":"SCount", "PRRT_Subtype": "Subtyp_PRRT"}, inplace = True)
-
-# # Add other columns
-# final_report["Subtyp_INT"] = df_full_int["INT_Subtype"].copy()
-# final_report["Subtyp_ENV"] = df_full_env["ENV_Subtype"].copy()
 
 final_report["Subtyp_Summe"] = None
 final_report["Env_FPR"] = None
