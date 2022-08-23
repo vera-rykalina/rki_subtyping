@@ -7,9 +7,8 @@ python3 stanford_parser.py results/MS95_PRRT_20.json MS95_PRRT_20.csv
 
 
 # Import libraries
-import json, os
+import json
 import pandas as pd
-import os
 import sys
 
 
@@ -75,6 +74,3 @@ df = df.sort_values(by=["SequenceName"])
 # Convert a pandas dataframe to a .csv file
 df.to_csv("stanford_" + name3 + ".csv", index=False, sep=",", encoding="utf-8")
 
-
-# Remove .json file
-os.remove(infilename)
