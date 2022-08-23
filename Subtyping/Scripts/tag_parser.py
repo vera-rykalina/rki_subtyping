@@ -56,4 +56,4 @@ df = df.sort_values(by=["Scount"])
 df = df.loc[:,["Scount", "Sequenz", name2 + "_Info"]]
 
 # Prepare a clean .csv file
-df.to_csv("tagged_" + name3 + ".csv", sep=",", index=False, encoding="utf-8")
+df.to_csv("tag_" + name3 + ".csv", sep=",", index=False, encoding="utf-8")
