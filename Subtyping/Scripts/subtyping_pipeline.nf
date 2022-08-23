@@ -116,7 +116,7 @@ process rega_to_csv {
 
 
 
-process prrt_joint {
+process join_prrt {
   publishDir "${params.outdir}/joint_fragmentwise", mode: "copy", overwrite: true
   input:
  
@@ -137,7 +137,7 @@ process prrt_joint {
 
 }
 
-process env_joint {
+process join_env {
   publishDir "${params.outdir}/joint_fragmentwise", mode: "copy", overwrite: true
   input:
  
@@ -158,7 +158,7 @@ process env_joint {
 
 }
 
-process int_joint {
+process join_int {
   publishDir "${params.outdir}/joint_fragmentwise", mode: "copy", overwrite: true
   input:
  
@@ -288,9 +288,9 @@ workflow {
     inputregacsv = channel.fromPath("${projectDir}/ManualREGA/*.csv")
     rega_csvChannel = rega_to_csv(inputregacsv)
     cometChannel = comet(markedfasta)
-    prrt_jointChannel = prrt_joint(json_csvChannel.filter(~/.*_PRRT_20M.csv$/), cometChannel.filter(~/.*_PRRT_20M.csv$/), rega_csvChannel.filter(~/.*_PRRT_20M.csv$/))
-    env_jointChannel = env_joint(json_csvChannel.filter(~/.*_ENV_20M.csv$/), cometChannel.filter(~/.*_ENV_20M.csv$/), rega_csvChannel.filter(~/.*_ENV_20M.csv$/))
-    int_jointChannel = int_joint(json_csvChannel.filter(~/.*_INT_20M.csv$/), cometChannel.filter(~/.*_INT_20M.csv$/), rega_csvChannel.filter(~/.*_INT_20M.csv$/))
+    prrt_jointChannel = join_prrt(json_csvChannel.filter(~/.*_PRRT_20M.csv$/), cometChannel.filter(~/.*_PRRT_20M.csv$/), rega_csvChannel.filter(~/.*_PRRT_20M.csv$/))
+    env_jointChannel = join_env(json_csvChannel.filter(~/.*_ENV_20M.csv$/), cometChannel.filter(~/.*_ENV_20M.csv$/), rega_csvChannel.filter(~/.*_ENV_20M.csv$/))
+    int_jointChannel = join_int(json_csvChannel.filter(~/.*_INT_20M.csv$/), cometChannel.filter(~/.*_INT_20M.csv$/), rega_csvChannel.filter(~/.*_INT_20M.csv$/))
     inputtagxlsx = channel.fromPath("${projectDir}/AllSeqsCO20/*.xlsx")
     tag_csvChannel = get_tags(inputtagxlsx)
     //decision_csvChannel = decision_to_csv(prrt_jointChannel, env_jointChannel,int_jointChannel)
