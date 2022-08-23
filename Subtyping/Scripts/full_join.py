@@ -2,17 +2,32 @@
 
 # Import libraries
 import pandas as pd
+import sys
 
 
+for infilename in sys.argv[1:]:
+    name0 = infilename.rsplit("/")[-1] # gives a file name.csv
+    list_of_substrings = name0.split("_")
+    if "tag" in list_of_substrings and "PRRT" in list_of_substrings:
+        df_tag_prrt = pd.read_csv(infilename, sep = ",")
+        name1 = name0.split("tag_")[-1].split(".")[-2]
+    if "tag" in list_of_substrings and  "ENV" in list_of_substrings:
+        df_tag_env = pd.read_csv(infilename, sep = ",")
+        name2 = name0.split("tag_")[-1].split(".")[-2]
+    if "tag" in list_of_substrings and "INT" in list_of_substrings:
+        df_tag_int = pd.read_csv(infilename, sep = ",")
+        name3 = name0.split("tag_")[-1].split(".")[-2]
+    if "decision" in list_of_substrings and "PRRT" in list_of_substrings:
+        df_prrt = pd.read_csv(infilename, sep = ",")
+        name4 = name0.split("decision_")[-1].split(".")[-2]
+    if "decision" in list_of_substrings and "ENV" in list_of_substrings:
+        df_env = pd.read_csv(infilename, sep = ",")
+        name5 = name0.split("decision_")[-1].split(".")[-2]
+    if "decision" in list_of_substrings and "INT" in list_of_substrings:
+        df_int = pd.read_csv(infilename, sep = ",")
+        name6 = name0.split("decision_")[-1].split(".")[-2]
 
-# Read .csv file
-df_prrt = pd.read_csv("with_decision_PRRT_joint.csv", sep = ",")
-df_env = pd.read_csv("with_decision_ENV_joint.csv", sep = ",")
-df_int = pd.read_csv("with_decision_INT_joint.csv", sep = ",")
-df_tag_prrt = pd.read_csv("tagged_MS95_Seqs_PRRT_CO20_V5.csv", sep = ",")
-df_tag_env = pd.read_csv("tagged_MS95_Seqs_ENV_CO20_V5.csv", sep = ",")
-df_tag_int = pd.read_csv("tagged_MS95_Seqs_INT_CO20_V5.csv", sep = ",")
-
+outfilename = sys.argv[2]
 
 # Join tables
 df_full_prrt = pd.merge(df_tag_prrt, df_prrt, on = "Scount", how = "left")
@@ -34,7 +49,7 @@ df_full_int = df_full_int.sort_values(by=["Scount", "INT_Subtype"])
 
 
 # Prepare a clean .xlsx file
-df_full_prrt.to_excel("full_PRRT.xlsx", index=False, encoding="utf-8")
-df_full_env.to_excel("full_ENV.xlsx", index=False, encoding="utf-8")
-df_full_int.to_excel("full_INT.xlsx", index=False, encoding="utf-8")
+df_full_prrt.to_excel("full_" + name4 + ".xlsx", index=False, encoding="utf-8")
+df_full_env.to_excel("full_" + name5 + ".xlsx", index=False, encoding="utf-8")
+df_full_int.to_excel("full_" + name6 + ".xlsx", index=False, encoding="utf-8")
 
