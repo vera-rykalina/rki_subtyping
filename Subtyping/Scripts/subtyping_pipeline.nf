@@ -195,7 +195,7 @@ process get_tags {
 }
 
 
-process decision_to_csv {
+process make_decision {
   publishDir "${params.outdir}/with_decision", mode: "copy", overwrite: true
   input:
 
@@ -293,7 +293,7 @@ workflow {
     int_jointChannel = join_int(json_csvChannel.filter(~/.*_INT_20M.csv$/), cometChannel.filter(~/.*_INT_20M.csv$/), rega_csvChannel.filter(~/.*_INT_20M.csv$/))
     inputtagxlsx = channel.fromPath("${projectDir}/AllSeqsCO20/*.xlsx")
     tag_csvChannel = get_tags(inputtagxlsx)
-    decision_csvChannel = decision_to_csv(prrt_jointChannel, env_jointChannel,int_jointChannel)
+    decision_csvChannel = make_decision(prrt_jointChannel, env_jointChannel,int_jointChannel)
     //all_dfs = tag_csvChannel.concat(decision_csvChannel).collect()
     //fullChannel = full_joint(all_dfs)
     /* replace Results to params.outdir */
