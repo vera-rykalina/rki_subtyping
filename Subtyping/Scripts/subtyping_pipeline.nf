@@ -204,18 +204,18 @@ process decision_to_csv {
     path csv_int
     
   output:
-    path "with_decision_${csv_prrt.getSimpleName()}.csv"
-    path "with_decision_${csv_env.getSimpleName()}.csv"
-    path "with_decision_${csv_int.getSimpleName()}.csv"
+    path "decision_${csv_prrt.getSimpleName().split('joint_')[1]}.csv"
+    path "decision_${csv_env.getSimpleName().split('joint_')[1]}.csv"
+    path "decision_${csv_int.getSimpleName().split('joint_')[1]}.csv"
   
   when:
     params.fullpipeline == true
 
   script:
    """
-    python3 ${params.decision} ${csv_prrt} with_decision_${csv_prrt.getSimpleName()}.csv
-    python3 ${params.decision} ${csv_env} with_decision_${csv_env.getSimpleName()}.csv
-    python3 ${params.decision} ${csv_int} with_decision_${csv_int.getSimpleName()}.csv
+    python3 ${params.decision} ${csv_prrt} decision_${csv_prrt.getSimpleName().split('joint_')[1]}.csv
+    python3 ${params.decision} ${csv_env} decision_${csv_env.getSimpleName().split('joint_')[1]}.csv
+    python3 ${params.decision} ${csv_int} decision_${csv_int.getSimpleName().split('joint_')[1]}.csv
    """
 }
 
@@ -293,7 +293,7 @@ workflow {
     int_jointChannel = join_int(json_csvChannel.filter(~/.*_INT_20M.csv$/), cometChannel.filter(~/.*_INT_20M.csv$/), rega_csvChannel.filter(~/.*_INT_20M.csv$/))
     inputtagxlsx = channel.fromPath("${projectDir}/AllSeqsCO20/*.xlsx")
     tag_csvChannel = get_tags(inputtagxlsx)
-    //decision_csvChannel = decision_to_csv(prrt_jointChannel, env_jointChannel,int_jointChannel)
+    decision_csvChannel = decision_to_csv(prrt_jointChannel, env_jointChannel,int_jointChannel)
     //all_dfs = tag_csvChannel.concat(decision_csvChannel).collect()
     //fullChannel = full_joint(all_dfs)
     /* replace Results to params.outdir */
