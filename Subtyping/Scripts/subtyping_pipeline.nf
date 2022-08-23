@@ -265,7 +265,7 @@ process phylo_fasta {
     path xlsx
     
   output:
-    path "phylo_${run}_${xlsx.getSimpleName().split('_')[1]}_20M.fasta"
+    path "phylo_${run}_${xlsx.getSimpleName().split('_')[2]}_20M.fasta"
   
   when:
     params.fullpipeline == true
@@ -273,7 +273,7 @@ process phylo_fasta {
   script:
    """
     python3 ${params.phylo} ${xlsx} ${xlsx.getSimpleName()}.fasta
-    mv ${xlsx.getSimpleName()}.fasta phylo_${run}_${xlsx.getSimpleName().split('_')[1]}_20M.fasta
+    mv ${xlsx.getSimpleName()}.fasta phylo_${run}_${xlsx.getSimpleName().split('_')[2]}_20M.fasta
     """
 }
 
@@ -297,7 +297,7 @@ workflow {
     all_dfs = tag_csvChannel.concat(decision_csvChannel).collect()
     fullChannel = full_joint(all_dfs)
     /* replace Results to params.outdir */
-    //fullFromPathChannel = channel.fromPath("${projectDir}/Results/full_joint/*.xlsx").collect()
-    //report(params.run, fullFromPathChannel)
-    //phylo_fasta(params.run, fullFromPathChannel.flatten())
+    fullFromPathChannel = channel.fromPath("${projectDir}/Results/full_joint/*.xlsx").collect()
+    report(params.run, fullFromPathChannel)
+    phylo_fasta(params.run, fullFromPathChannel.flatten())
 }
