@@ -180,7 +180,7 @@ process join_int {
 }
 
 process get_tags {
-  publishDir "${params.outdir}/tagged_seqs", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/tags", mode: "copy", overwrite: true
   input:
 
     path xlsx
