@@ -6,9 +6,9 @@ import sys
 import re
 
 # Read .csv file
-df_prrt = pd.read_csv("PRRT_joint.csv", sep = ",")
-df_env = pd.read_csv("ENV_joint.csv", sep = ",")
-df_int = pd.read_csv("INT_joint.csv", sep = ",")
+df_prrt = pd.read_csv("joint_MS95_PRRT_20M.csv", sep = ",")
+df_env = pd.read_csv("joint_ENV_20M.csv", sep = ",")
+df_int = pd.read_csv("joint_INT_INT_20M.csv", sep = ",")
 
 # Create 'Scount' column in dfs
 df_prrt["Scount"] = df_prrt["SequenceName"].str.extract("(^\d+-\d+)_\w{2,4}_\d+_?\w+?$", expand=True)
