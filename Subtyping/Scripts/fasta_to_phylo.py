@@ -11,7 +11,7 @@ df=pd.read_excel(f)
 f.close()
 
 name1 = infilename.rsplit("/")[-1]
-name2 = name1.split("_")[-1].split(".")[-2] # get fragment part
+name2 = name1.split("_")[-2] # get fragment part
 name3 = name1.split(".")[-2] # cut xlsx
 
 names = []
