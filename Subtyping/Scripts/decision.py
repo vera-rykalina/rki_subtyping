@@ -79,4 +79,4 @@ df_prrt.to_csv("decision_MS95_PRRT_20M.csv", sep=",", index=False, encoding="utf
 df_env.to_csv("decision_MS95_ENV_20M.csv", sep=",", index=False, encoding="utf-8")
 
 # Prepare a clean .csv file
-df_int.to_csv("decision_MS95_ENV_20M.csv", sep=",", index=False, encoding="utf-8")
+df_int.to_csv("decision_MS95_INT_20M.csv", sep=",", index=False, encoding="utf-8")
