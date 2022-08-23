@@ -179,14 +179,14 @@ process int_joint {
 
 }
 
-process tags_to_csv {
+process get_tags {
   publishDir "${params.outdir}/tagged_seqs", mode: "copy", overwrite: true
   input:
 
     path xlsx
     
   output:
-    path "tag_${xlsx.getSimpleName()}.csv"
+    path "tagged_${xlsx.getSimpleName()}.csv"
   
   script:
    """
@@ -292,7 +292,7 @@ workflow {
     env_jointChannel = env_joint(json_csvChannel.filter(~/.*_ENV_20M.csv$/), cometChannel.filter(~/.*_ENV_20M.csv$/), rega_csvChannel.filter(~/.*_ENV_20M.csv$/))
     int_jointChannel = int_joint(json_csvChannel.filter(~/.*_INT_20M.csv$/), cometChannel.filter(~/.*_INT_20M.csv$/), rega_csvChannel.filter(~/.*_INT_20M.csv$/))
     inputtagxlsx = channel.fromPath("${projectDir}/AllSeqsCO20/*.xlsx")
-    tag_csvChannel = tags_to_csv(inputtagxlsx)
+    tag_csvChannel = get_tags(inputtagxlsx)
     //decision_csvChannel = decision_to_csv(prrt_jointChannel, env_jointChannel,int_jointChannel)
     //all_dfs = tag_csvChannel.concat(decision_csvChannel).collect()
     //fullChannel = full_joint(all_dfs)
