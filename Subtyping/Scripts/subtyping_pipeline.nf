@@ -186,11 +186,11 @@ process get_tags {
     path xlsx
     
   output:
-    path "tagged_${xlsx.getSimpleName()}.csv"
+    path "tag_${xlsx.getSimpleName()}.csv"
   
   script:
    """
-    python3 ${params.tag_parser} ${xlsx} tagged_${xlsx.getSimpleName()}.csv
+    python3 ${params.tag_parser} ${xlsx} tag_${xlsx.getSimpleName()}.csv
    """
 }
 
