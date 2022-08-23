@@ -182,15 +182,16 @@ process join_int {
 process get_tags {
   publishDir "${params.outdir}/tags", mode: "copy", overwrite: true
   input:
-
+    val run
     path xlsx
     
   output:
-    path "tag_${xlsx.getSimpleName()}.csv"
+    path "tag_${run}_${xlsx.getSimpleName().split('_')[2]}_20M.csv"
   
   script:
    """
     python3 ${params.tag_parser} ${xlsx} tag_${xlsx.getSimpleName()}.csv
+    mv tag_${xlsx.getSimpleName()}.csv tag_${run}_${xlsx.getSimpleName().split('_')[2]}_20M.csv
    """
 }
 
@@ -222,8 +223,7 @@ process make_decision {
 process full_joint {
   publishDir "${params.outdir}/full_joint", mode: "copy", overwrite: true
   input:
-
-    path xlsx
+    path csv
     
   output:
     path "full_*.xlsx"
@@ -233,7 +233,7 @@ process full_joint {
 
   script:
    """
-    python3 ${params.full_join} ${xlsx} full_*.xlsx
+    python3 ${params.full_join} ${csv} full_*.xlsx
    """
 }
 
@@ -292,10 +292,10 @@ workflow {
     env_jointChannel = join_env(json_csvChannel.filter(~/.*_ENV_20M.csv$/), cometChannel.filter(~/.*_ENV_20M.csv$/), rega_csvChannel.filter(~/.*_ENV_20M.csv$/))
     int_jointChannel = join_int(json_csvChannel.filter(~/.*_INT_20M.csv$/), cometChannel.filter(~/.*_INT_20M.csv$/), rega_csvChannel.filter(~/.*_INT_20M.csv$/))
     inputtagxlsx = channel.fromPath("${projectDir}/AllSeqsCO20/*.xlsx")
-    tag_csvChannel = get_tags(inputtagxlsx)
+    tag_csvChannel = get_tags(params.run, inputtagxlsx)
     decision_csvChannel = make_decision(prrt_jointChannel, env_jointChannel,int_jointChannel)
-    //all_dfs = tag_csvChannel.concat(decision_csvChannel).collect()
-    //fullChannel = full_joint(all_dfs)
+    all_dfs = tag_csvChannel.concat(decision_csvChannel).collect()
+    fullChannel = full_joint(all_dfs)
     /* replace Results to params.outdir */
     //fullFromPathChannel = channel.fromPath("${projectDir}/Results/full_joint/*.xlsx").collect()
     //report(params.run, fullFromPathChannel)
