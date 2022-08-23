@@ -73,10 +73,10 @@ print(df_env[["SequenceName","Rega_ENV_Subtype", "Stanford_ENV_Subtype", "Comet_
 print(df_int[["SequenceName","Rega_INT_Subtype", "Stanford_INT_Subtype", "Comet_INT_Subtype", "INT_Subtype"]].head(50))
 
 # Prepare a clean .csv file
-df_prrt.to_csv("with_decision_PRRT_joint.csv", sep=",", index=False, encoding="utf-8")
+df_prrt.to_csv("decision_MS95_PRRT_20M.csv", sep=",", index=False, encoding="utf-8")
 
 # Prepare a clean .csv file
-df_env.to_csv("with_decision_ENV_joint.csv", sep=",", index=False, encoding="utf-8")
+df_env.to_csv("decision_MS95_ENV_20M.csv", sep=",", index=False, encoding="utf-8")
 
 # Prepare a clean .csv file
-df_int.to_csv("with_decision_INT_joint.csv", sep=",", index=False, encoding="utf-8")
+df_int.to_csv("decision_MS95_ENV_20M.csv", sep=",", index=False, encoding="utf-8")
