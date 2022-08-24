@@ -47,6 +47,21 @@ df_full_env = df_full_env.sort_values(by=["Scount", "ENV_Subtype"])
 df_full_int["INT_Subtype"] = df_full_int["INT_Subtype"].fillna(df_full_int["INT_Info"])
 df_full_int = df_full_int.sort_values(by=["Scount", "INT_Subtype"])
 
+# Add a columns with sequence length
+df_full_prrt["SeqLength"] = df_full_prrt["Sequenz"].str.len()
+df_full_int["SeqLength"] = df_full_int["Sequenz"].str.len()
+df_full_env["SeqLength"] = df_full_env["Sequenz"].str.len()
+
+
+# Change the position of SeqLength column from last to next to last in all dfs
+col1 = df_full_prrt.pop("SeqLength")
+df_full_prrt.insert(2, "SeqLength", col1)
+
+col2 = df_full_env.pop("SeqLength")
+df_full_env.insert(2, "SeqLength", col2)
+
+col3 = df_full_int.pop("SeqLength")
+df_full_int.insert(2, "SeqLength", col3)
 
 # Prepare a clean .xlsx file
 df_full_prrt.to_excel("full_" + name4 + ".xlsx", index=False, encoding="utf-8")
