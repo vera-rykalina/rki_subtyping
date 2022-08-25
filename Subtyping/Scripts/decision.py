@@ -33,10 +33,8 @@ df["Comet_" + name2 + "_Comment"] = pd.to_numeric(df["Comet_" + name2 + "_Commen
 # Make a decision for PRRT and INT
 if name2 == "PRRT" or "INT":
     for i, row in df.iterrows():
-        if row["Stanford_" + name2 + "_Subtype"] == row["Comet_" + name2 + "_Subtype"] :
+        if row["Stanford_" + name2 + "_Subtype"] == row["Comet_" + name2 + "_Subtype"] and row["Comet_" + name2 + "_Comment"] >= 50:
             df.at[i, [name2 + "_Subtype"]] = row["Stanford_" + name2 + "_Subtype"]
-        elif row["Comet_" + name2 + "_Subtype"] == "_Seq. nicht klassifizierbar":
-            df.at[i, [name2 + "_Subtype"]] = "_Seq. nicht klassifizierbar"
         else:
             df.at[i, [name2 + "_Subtype"]] = "Manual" 
 
@@ -48,11 +46,14 @@ if name2 == "PRRT" or "INT":
 # Make a decision for ENV
 if name2 == "ENV":
     for i, row in df.iterrows():
-        if row["Rega_" + name2 + "_Subtype"][0] == row["Comet_" + name2 + "_Subtype"] and len(row["Rega_" + name2 + "_Subtype"]) < 3 and row["Comet_" + name2 + "_Comment"] > 45:
+        if row["Rega_" + name2 + "_Subtype"][0] == row["Comet_" + name2 + "_Subtype"] and len(row["Rega_" + name2 + "_Subtype"]) < 3 and row["Comet_" + name2 + "_Comment"] >= 50:
             df.at[i, [name2 + "_Subtype"]] = row["Comet_" + name2 + "_Subtype"]
-        elif row["Comet_" + name2 + "_Subtype"] == "_Seq. nicht klassifizierbar":
-            df.at[i, [name2 + "_Subtype"]] = "_Seq. nicht klassifizierbar"
+
+        elif row["Rega_" + name2 + "_Subtype"] != row["Comet_" + name2 + "_Subtype"] and row["Comet_" + name2 + "_Comment"] >= 70:
+            df.at[i, [name2 + "_Subtype"]] = row["Comet_" + name2 + "_Subtype"]
+
         else:
             df.at[i, [name2 + "_Subtype"]] = "Manual"
+    
     # Prepare .csv file
     df.to_csv("decision_" + name3 + ".csv", sep=",", index=False, encoding="utf-8")
