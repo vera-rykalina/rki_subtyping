@@ -59,5 +59,6 @@ for i, row in final_report.iterrows():
     else:
         final_report.at[i, ["Subtyp_Summe"]] = "Manual"
 
-
-final_report.to_excel("_subtype_uploads.xlsx", index=False, encoding="utf-8")
+# Create output file
+name1 = name0.split("_")[1]
+final_report.to_excel(name1 + "_subtype_uploads.xlsx", index=False, encoding="utf-8")
