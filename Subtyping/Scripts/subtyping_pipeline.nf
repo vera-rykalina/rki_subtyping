@@ -258,7 +258,7 @@ process report {
 }
 
 process phylo_fasta {
-  publishDir "${params.outdir}/phylo_fasta", mode: "copy", overwrite: false
+  publishDir "${params.outdir}/phylo_fasta", mode: "copy", overwrite: true
   input:
     
     val run
@@ -296,8 +296,8 @@ workflow {
     decision_csvChannel = make_decision(prrt_jointChannel, env_jointChannel,int_jointChannel)
     all_dfs = tag_csvChannel.concat(decision_csvChannel).collect()
     fullChannel = full_joint(all_dfs)
+    phylo_fasta(params.run, fullChannel.flatten())
     /* replace Results to params.outdir */
     fullFromPathChannel = channel.fromPath("${projectDir}/Results/full_joint/*.xlsx").collect()
     report(params.run, fullFromPathChannel)
-    phylo_fasta(params.run, fullFromPathChannel.flatten())
 }
