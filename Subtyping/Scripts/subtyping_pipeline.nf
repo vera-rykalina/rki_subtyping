@@ -296,5 +296,5 @@ workflow {
     phylo_fasta(params.run, fullChannel.flatten())
     /* replace Results to params.outdir */
     fullFromPathChannel = channel.fromPath("${projectDir}/Results/full_joint/*.xlsx").collect()
-    report(params.run, fullFromPathChannel)
+    report(fullFromPathChannel)
 }
