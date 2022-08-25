@@ -35,12 +35,27 @@ final_report.rename(columns = {"Scount":"SCount", "PRRT_Subtype": "Subtyp_PRRT",
 final_report["Subtyp_Summe"] = None
 final_report["Env_FPR"] = None
 
+
+special_cases = ["_Seq. nicht klassifizierbar", "_SeqNichtAuswertbar", "_nichtSequenziert", "Manual"]
+
+
 # Make a decision
 for i, row in final_report.iterrows():
     if row["Subtyp_PRRT"] == row["Subtyp_INT"] and row["Subtyp_PRRT"] == row["Subtyp_ENV"]:
         final_report.at[i, ["Subtyp_Summe"]] = row["Subtyp_PRRT"]
-    elif row["Subtyp_PRRT"] == "_Seq. nicht klassifizierbar" or row["Subtyp_INT"] == "_Seq. nicht klassifizierbar":
+
+    if row["Subtyp_PRRT"] == row["Subtyp_INT"]:
+        final_report.at[i, ["Subtyp_Summe"]] = row["Subtyp_PRRT"]
+    
+    elif row["Subtyp_PRRT"] == "_Seq. nicht klassifizierbar":
         final_report.at[i, ["Subtyp_Summe"]] = "_Seq. nicht klassifizierbar"
+        
+    elif row["Subtyp_PRRT"] == "_SeqNichtAuswertbar":
+        final_report.at[i, ["Subtyp_Summe"]] = "_Seq. nicht auswertbar"
+
+    elif row["Subtyp_INT"] in special_cases:
+        final_report.at[i, ["Subtyp_Summe"]] = row["Subtyp_PRRT"]
+
     else:
         final_report.at[i, ["Subtyp_Summe"]] = "Manual"
 
