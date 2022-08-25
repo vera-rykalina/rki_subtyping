@@ -274,6 +274,42 @@ process phylo_fasta {
     """
 }
 
+process concatenate {
+  publishDir "${params.outdir}/concatenated", mode: "copy", overwrite: true
+  input:
+      path infile
+  output:
+      path  "concat_${infile[1].getSimpleName().split('phylo_')[1]}.fasta"
+
+  when:
+    params.fullpipeline == true
+
+  script:
+    if (infile instanceof List) {
+    """
+    cat ${infile[0]} ${infile[1]} > concat_${infile[1].getSimpleName().split('phylo_')[1]}.fasta
+    """
+  } }
+
+
+  process msa {
+  publishDir "${params.outdir}/msa", mode: "copy", overwrite: true
+  input:
+      path fasta
+  output:
+      path  "msa_${fasta.getSimpleName().split('concat_')[1]}.fasta"
+
+  when:
+    params.fullpipeline == true
+
+  script:
+  
+    """
+    mafft --auto ${fasta} > msa_${fasta.getSimpleName().split('concat_')[1]}.fasta
+    """
+  
+    }
+
 
 
 workflow {
@@ -293,8 +329,11 @@ workflow {
     decision_csvChannel = make_decision(prrt_jointChannel, env_jointChannel,int_jointChannel)
     all_dfs = tag_csvChannel.concat(decision_csvChannel).collect()
     fullChannel = full_joint(all_dfs)
-    phylo_fasta(params.run, fullChannel.flatten())
+    phylo_fastaChannel = phylo_fasta(params.run, fullChannel.flatten())
     /* replace Results to params.outdir */
     fullFromPathChannel = channel.fromPath("${projectDir}/Results/full_joint/*.xlsx").collect()
     report(fullFromPathChannel)
+    panelChannel = channel.fromPath("${projectDir}/References/*.fas")
+    concatChannel = concatenate(panelChannel.combine(phylo_fastaChannel))
+    msa(concatChannel)
 }
