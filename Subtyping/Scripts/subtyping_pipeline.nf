@@ -240,20 +240,17 @@ process full_joint {
 process report {
   publishDir "${params.outdir}/report", mode: "copy", overwrite: false
   input:
-    
-    val run
     path xlsx
     
   output:
-    path "${run}_subtype_uploads.xlsx"
+    path "*.xlsx"
   
   when:
     params.fullpipeline == true
 
   script:
    """
-    python3 ${params.report} ${xlsx} _subtype_uploads.xlsx
-    mv _subtype_uploads.xlsx ${run}_subtype_uploads.xlsx
+    python3 ${params.report} ${xlsx} *.xlsx
     """
 }
 
