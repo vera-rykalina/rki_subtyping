@@ -276,23 +276,59 @@ process fasta_for_mafft {
     """
 }
 
-process concat_with_panel {
+
+  process prrt_concat_panel {
   publishDir "${params.outdir}/11_concat_with_panel", mode: "copy", overwrite: true
   input:
-      path infile
-  output:
-      path  "concat_${infile[0].getSimpleName().split('mafft_')[1]}.fasta"
+    path fragment
+    path ref
 
+  output:
+    path "concat_${fragment.getSimpleName().split('mafft_')[1]}.fasta"
   when:
     params.fullpipeline == true
 
   script:
-    if (infile instanceof List) {
     """
-    cat ${infile[0]} ${infile[1]} > concat_${infile[0].getSimpleName().split('mafft_')[1]}.fasta
-    """
-  } }
+    cat ${fragment} ${ref} > concat_${fragment.getSimpleName().split('mafft_')[1]}.fasta 
+    """ 
+    
+  } 
 
+  process int_concat_panel {
+  publishDir "${params.outdir}/11_concat_with_panel", mode: "copy", overwrite: true
+  input:
+    path fragment
+    path ref
+
+  output:
+      path "concat_${fragment.getSimpleName().split('mafft_')[1]}.fasta"
+  when:
+    params.fullpipeline == true
+
+  script:
+    """
+    cat ${fragment} ${ref} > concat_${fragment.getSimpleName().split('mafft_')[1]}.fasta 
+    """ 
+    
+  } 
+
+  process env_concat_panel {
+  publishDir "${params.outdir}/11_concat_with_panel", mode: "copy", overwrite: true
+  input:
+    path fragment
+    path ref
+
+  output:
+    path "concat_${fragment.getSimpleName().split('mafft_')[1]}.fasta"
+  when:
+    params.fullpipeline == true
+
+  script:
+    """
+    cat ${fragment} ${ref} > concat_${fragment.getSimpleName().split('mafft_')[1]}.fasta 
+    """  
+  } 
 
   process mafft {
   publishDir "${params.outdir}/12_mafft", mode: "copy", overwrite: true
@@ -336,6 +372,10 @@ workflow {
     fullFromPathChannel = channel.fromPath("${projectDir}/Results/9_joint_with_tags/*.xlsx").collect()
     report(fullFromPathChannel)
     panelChannel = channel.fromPath("${projectDir}/References/*.fas")
-    concatChannel = concat_with_panel(fasta_mafftChannel.combine(panelChannel))
-    mafft(concatChannel)
+
+    prrtConcatChannel = prrt_concat_panel(fasta_mafftChannel.filter(~/.*_PRRT_.*.fasta/), panelChannel.filter(~/.*_PRRT_.*.fas/))
+    intConcatChannel = int_concat_panel(fasta_mafftChannel.filter(~/.*_INT_.*.fasta/), panelChannel.filter(~/.*_INT_.*.fas/))
+    envConcatChannel = env_concat_panel(fasta_mafftChannel.filter(~/.*_ENV_.*.fasta/), panelChannel.filter(~/.*_ENV_.*.fas/))
+    
+    mafft(prrtConcatChannel.concat(intConcatChannel).concat(envConcatChannel))
 }
