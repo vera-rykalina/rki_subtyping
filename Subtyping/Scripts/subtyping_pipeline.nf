@@ -5,14 +5,14 @@ nextflow.enable.dsl = 2
 projectDir = "/Users/vera/Learning/CQ/Internship/rki/Subtyping"
 params.fullpipeline = false
 params.comet_rest = "${projectDir}/Scripts/comet_rest.py"
-params.stanford_parser = "${projectDir}/Scripts/stanford_parser.py"
+params.json_parser = "${projectDir}/Scripts/json_parser.py"
 params.rega = "${projectDir}/Scripts/rega_cleanup.py"
 params.tag_parser = "${projectDir}/Scripts/tag_parser.py"
 params.decision = "${projectDir}/Scripts/decision.py"
 params.marking = "${projectDir}/Scripts/repeat_marking.py"
 params.full_join = "${projectDir}/Scripts/full_join.py"
 params.report = "${projectDir}/Scripts/report.py"
-params.phylo = "${projectDir}/Scripts/fasta_to_phylo.py"
+params.fasta_for_mafft = "${projectDir}/Scripts/fasta_for_mafft.py"
 
 
 log.info """
@@ -21,7 +21,10 @@ VERA RYKALINA - HIV-1 GENOTYPING PIPELINE
 projectDir       : ${projectDir}
 ourdir           : ${params.outdir}
 run              : ${params.run}
-fasta to phylo   : ${params.phylo}
+comet            : ${params.comet_rest}
+json_to_csv      : ${params.json_parser}
+fasta_for_mafft  : ${params.fasta_for_mafft}
+
 
 September 2022
 """
@@ -72,7 +75,7 @@ process json_to_csv {
   
   script:
    """
-    python3 ${params.stanford_parser} ${json} stanford_${json.getSimpleName()}.csv
+    python3 ${params.json_parser} ${json} stanford_${json.getSimpleName()}.csv
    """
 
 }
@@ -220,7 +223,7 @@ process make_decision {
    """
 }
 
-process full_joint {
+process join_with_tags {
   publishDir "${params.outdir}/full_joint", mode: "copy", overwrite: true
   input:
     path csv
@@ -254,8 +257,8 @@ process report {
     """
 }
 
-process phylo_fasta {
-  publishDir "${params.outdir}/phylo_fasta", mode: "copy", overwrite: true
+process fasta_for_mafft {
+  publishDir "${params.outdir}/fasta_for_mafft", mode: "copy", overwrite: true
   input:
     
     val run
@@ -269,12 +272,12 @@ process phylo_fasta {
 
   script:
    """
-    python3 ${params.phylo} ${xlsx} ${xlsx.getSimpleName()}.fasta
+    python3 ${params.fasta_for_mafft} ${xlsx} ${xlsx.getSimpleName()}.fasta
     mv ${xlsx.getSimpleName()}.fasta phylo_${run}_${xlsx.getSimpleName().split('_')[2]}_20M.fasta
     """
 }
 
-process concatenate {
+process concat_with_panel {
   publishDir "${params.outdir}/concatenated", mode: "copy", overwrite: true
   input:
       path infile
@@ -292,7 +295,7 @@ process concatenate {
   } }
 
 
-  process msa {
+  process mafft {
   publishDir "${params.outdir}/msa", mode: "copy", overwrite: true
   input:
       path fasta
@@ -328,12 +331,12 @@ workflow {
     tag_csvChannel = get_tags(params.run, inputtagxlsx)
     decision_csvChannel = make_decision(prrt_jointChannel, env_jointChannel,int_jointChannel)
     all_dfs = tag_csvChannel.concat(decision_csvChannel).collect()
-    fullChannel = full_joint(all_dfs)
-    phylo_fastaChannel = phylo_fasta(params.run, fullChannel.flatten())
+    fullChannel = join_with_tags(all_dfs)
+    fasta_mafftChannel = fasta_for_mafft(params.run, fullChannel.flatten())
     /* replace Results to params.outdir */
     fullFromPathChannel = channel.fromPath("${projectDir}/Results/full_joint/*.xlsx").collect()
     report(fullFromPathChannel)
     panelChannel = channel.fromPath("${projectDir}/References/*.fas")
-    concatChannel = concatenate(panelChannel.combine(phylo_fastaChannel))
-    msa(concatChannel)
+    concatChannel = concat_with_panel(panelChannel.combine(fasta_mafftChannel))
+    mafft(concatChannel)
 }
