@@ -3,6 +3,7 @@
 # Import libraries
 import pandas as pd
 import sys
+import re
 
 # Read .csv file
 for infilename in sys.argv[1:]:
@@ -36,7 +37,10 @@ final_report["Subtyp_Summe"] = None
 final_report["Env_FPR"] = None
 
 
-special_cases = ["_Seq. nicht klassifizierbar", "_SeqNichtAuswertbar", "_nichtSequenziert", "Manual"]
+special_cases = ["_Seq. nicht klassifizierbar", "_Seq. nicht auswertbar", "_nichtSequenziert", "Manual"]
+
+# Replacements
+final_report[["Subtyp_PRRT", "Subtyp_INT", "Subtyp_ENV"]] = final_report[["Subtyp_PRRT", "Subtyp_INT", "Subtyp_ENV"]].replace(r"^_SeqNichtAuswertbar$", r"_Seq. nicht auswertbar", regex=True)
 
 
 # Make a decision
@@ -50,7 +54,7 @@ for i, row in final_report.iterrows():
     elif row["Subtyp_PRRT"] == "_Seq. nicht klassifizierbar":
         final_report.at[i, ["Subtyp_Summe"]] = "_Seq. nicht klassifizierbar"
         
-    elif row["Subtyp_PRRT"] == "_SeqNichtAuswertbar":
+    elif row["Subtyp_PRRT"] == "_Seq. nicht auswertbar":
         final_report.at[i, ["Subtyp_Summe"]] = "_Seq. nicht auswertbar"
 
     elif row["Subtyp_INT"] in special_cases:
@@ -58,6 +62,8 @@ for i, row in final_report.iterrows():
 
     else:
         final_report.at[i, ["Subtyp_Summe"]] = "Manual"
+
+
 
 # Create output file
 name1 = name0.split("_")[1]
