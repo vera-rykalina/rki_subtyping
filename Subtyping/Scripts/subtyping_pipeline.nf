@@ -241,7 +241,7 @@ process join_with_tags {
 }
 
 process report {
-  publishDir "${params.outdir}/13_report", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/14_report", mode: "copy", overwrite: true
   input:
     path xlsx
     
@@ -345,10 +345,24 @@ process fasta_for_mafft {
     """
     mafft --auto ${fasta} > msa_${fasta.getSimpleName().split('concat_')[1]}.fasta
     """
+  }
+
+process iqtree {
+  publishDir "${params.outdir}/13_iqtree", mode: "copy", overwrite: true
+  input:
+      path fasta
+  output:
+      path  "*.treefile"
+
+  when:
+    params.fullpipeline == true
+
+  script:
   
-    }
-
-
+    """
+    iqtree -s ${fasta} -pre ${fasta.getSimpleName().split('msa_')[1]} -m GTR+I+G4 -bb 10000 -nt 8
+    """
+  }
 
 workflow {
     
@@ -376,6 +390,8 @@ workflow {
     prrtConcatChannel = prrt_concat_panel(fasta_mafftChannel.filter(~/.*_PRRT_.*.fasta/), panelChannel.filter(~/.*_PRRT_.*.fas/))
     intConcatChannel = int_concat_panel(fasta_mafftChannel.filter(~/.*_INT_.*.fasta/), panelChannel.filter(~/.*_INT_.*.fas/))
     envConcatChannel = env_concat_panel(fasta_mafftChannel.filter(~/.*_ENV_.*.fasta/), panelChannel.filter(~/.*_ENV_.*.fas/))
-    
-    mafft(prrtConcatChannel.concat(intConcatChannel).concat(envConcatChannel))
+    // MAFFT
+    msaChannel = mafft(prrtConcatChannel.concat(intConcatChannel).concat(envConcatChannel))
+    // IQTREE
+    iqtree(msaChannel)
 }
