@@ -224,7 +224,7 @@ process make_decision {
 }
 
 process join_with_tags {
-  publishDir "${params.outdir}/9_joint_with_tags", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/9_joint_with_tags", mode: "copy", overwrite: false
   input:
     path csv
     
@@ -241,7 +241,7 @@ process join_with_tags {
 }
 
 process report {
-  publishDir "${params.outdir}/13_report", mode: "copy", overwrite: false
+  publishDir "${params.outdir}/13_report", mode: "copy", overwrite: true
   input:
     path xlsx
     
