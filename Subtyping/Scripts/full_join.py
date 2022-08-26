@@ -63,6 +63,11 @@ df_full_env.insert(2, "SeqLength", col2)
 col3 = df_full_int.pop("SeqLength")
 df_full_int.insert(2, "SeqLength", col3)
 
+
+# Remove non-relevant content
+df_full_env["Stanford_ENV_Subtype"] = None
+df_full_env["Stanford_ENV_Comment"] = None
+
 # Prepare a clean .xlsx file
 df_full_prrt.to_excel("full_" + name4 + ".xlsx", index=False, encoding="utf-8")
 df_full_env.to_excel("full_" + name5 + ".xlsx", index=False, encoding="utf-8")
