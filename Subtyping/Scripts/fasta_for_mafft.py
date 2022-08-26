@@ -12,7 +12,7 @@ f.close()
 
 name1 = infilename.rsplit("/")[-1]
 name2 = name1.split("_")[-2] # get fragment part
-name3 = name1.split(".")[-2] # cut xlsx
+name3 = name1.split(".")[-2].split("full_")[1] # cut xlsx
 
 names = []
 sequences = []
@@ -25,7 +25,7 @@ for i, row in df.iterrows():
 
 
 # Write into a fasta file
-with open(name3 + ".fasta", "w") as file:
+with open("mafft_" + name3 + ".fasta", "w") as file:
     for i in range(len(names)):
         file.writelines(">" + names[i])
         file.writelines("\n")
