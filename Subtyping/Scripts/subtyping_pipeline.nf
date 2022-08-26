@@ -261,19 +261,18 @@ process fasta_for_mafft {
   publishDir "${params.outdir}/10_fasta_for_mafft", mode: "copy", overwrite: true
   input:
     
-    val run
     path xlsx
     
   output:
-    path "phylo_${run}_${xlsx.getSimpleName().split('_')[2]}_20M.fasta"
-  
+    
+    path "*.fasta"
+
   when:
     params.fullpipeline == true
 
   script:
    """
-    python3 ${params.fasta_for_mafft} ${xlsx} ${xlsx.getSimpleName()}.fasta
-    mv ${xlsx.getSimpleName()}.fasta phylo_${run}_${xlsx.getSimpleName().split('_')[2]}_20M.fasta
+    python3 ${params.fasta_for_mafft} ${xlsx} *.fasta
     """
 }
 
@@ -282,7 +281,7 @@ process concat_with_panel {
   input:
       path infile
   output:
-      path  "concat_${infile[1].getSimpleName().split('phylo_')[1]}.fasta"
+      path  "concat_${infile[0].getSimpleName().split('mafft_')[1]}.fasta"
 
   when:
     params.fullpipeline == true
@@ -290,7 +289,7 @@ process concat_with_panel {
   script:
     if (infile instanceof List) {
     """
-    cat ${infile[0]} ${infile[1]} > concat_${infile[1].getSimpleName().split('phylo_')[1]}.fasta
+    cat ${infile[0]} ${infile[1]} > concat_${infile[0].getSimpleName().split('mafft_')[1]}.fasta
     """
   } }
 
@@ -332,11 +331,11 @@ workflow {
     decision_csvChannel = make_decision(prrt_jointChannel, env_jointChannel,int_jointChannel)
     all_dfs = tag_csvChannel.concat(decision_csvChannel).collect()
     fullChannel = join_with_tags(all_dfs)
-    fasta_mafftChannel = fasta_for_mafft(params.run, fullChannel.flatten())
+    fasta_mafftChannel = fasta_for_mafft(fullChannel.flatten())
     /* replace Results to params.outdir */
     fullFromPathChannel = channel.fromPath("${projectDir}/Results/9_joint_with_tags/*.xlsx").collect()
     report(fullFromPathChannel)
     panelChannel = channel.fromPath("${projectDir}/References/*.fas")
-    concatChannel = concat_with_panel(panelChannel.combine(fasta_mafftChannel))
+    concatChannel = concat_with_panel(fasta_mafftChannel.combine(panelChannel))
     mafft(concatChannel)
 }
