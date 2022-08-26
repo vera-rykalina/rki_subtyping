@@ -31,7 +31,7 @@ September 2022
 
 
 process mark_fasta {
-  publishDir "${params.outdir}/marked_fasta", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/1_marked_fasta", mode: "copy", overwrite: true
   input:
  
     path fasta
@@ -49,7 +49,7 @@ process mark_fasta {
 
 
 process stanford {
-  publishDir "${params.outdir}/json_files", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/2_json_files", mode: "copy", overwrite: true
   
   input:
     path fasta
@@ -65,7 +65,7 @@ process stanford {
 }
 
 process json_to_csv {
-  publishDir "${params.outdir}/stanford", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/3_stanford", mode: "copy", overwrite: true
   input:
  
     path json
@@ -81,7 +81,7 @@ process json_to_csv {
 }
 
 process comet{
-   publishDir "${params.outdir}/comet", mode: "copy", overwrite: true
+   publishDir "${params.outdir}/4_comet", mode: "copy", overwrite: true
   input:
     
     path fasta
@@ -99,7 +99,7 @@ process comet{
 
 
 process clean_rega {
-  publishDir "${params.outdir}/rega", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/5_rega", mode: "copy", overwrite: true
   input:
 
     path csv
@@ -120,7 +120,7 @@ process clean_rega {
 
 
 process join_prrt {
-  publishDir "${params.outdir}/joint_fragmentwise", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/6_joint_fragmentwise", mode: "copy", overwrite: true
   input:
  
     path stanford
@@ -141,7 +141,7 @@ process join_prrt {
 }
 
 process join_env {
-  publishDir "${params.outdir}/joint_fragmentwise", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/6_joint_fragmentwise", mode: "copy", overwrite: true
   input:
  
     path stanford
@@ -162,7 +162,7 @@ process join_env {
 }
 
 process join_int {
-  publishDir "${params.outdir}/joint_fragmentwise", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/6_joint_fragmentwise", mode: "copy", overwrite: true
   input:
  
     path stanford
@@ -183,7 +183,7 @@ process join_int {
 }
 
 process get_tags {
-  publishDir "${params.outdir}/tags", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/7_tags", mode: "copy", overwrite: true
   input:
     val run
     path xlsx
@@ -200,7 +200,7 @@ process get_tags {
 
 
 process make_decision {
-  publishDir "${params.outdir}/with_decision", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/8_with_decision", mode: "copy", overwrite: true
   input:
 
     path csv_prrt
@@ -224,7 +224,7 @@ process make_decision {
 }
 
 process join_with_tags {
-  publishDir "${params.outdir}/full_joint", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/9_joint_with_tags", mode: "copy", overwrite: true
   input:
     path csv
     
@@ -241,7 +241,7 @@ process join_with_tags {
 }
 
 process report {
-  publishDir "${params.outdir}/report", mode: "copy", overwrite: false
+  publishDir "${params.outdir}/13_report", mode: "copy", overwrite: false
   input:
     path xlsx
     
@@ -258,7 +258,7 @@ process report {
 }
 
 process fasta_for_mafft {
-  publishDir "${params.outdir}/fasta_for_mafft", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/10_fasta_for_mafft", mode: "copy", overwrite: true
   input:
     
     val run
@@ -278,7 +278,7 @@ process fasta_for_mafft {
 }
 
 process concat_with_panel {
-  publishDir "${params.outdir}/concatenated", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/11_concat_with_panel", mode: "copy", overwrite: true
   input:
       path infile
   output:
@@ -296,7 +296,7 @@ process concat_with_panel {
 
 
   process mafft {
-  publishDir "${params.outdir}/msa", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/12_mafft", mode: "copy", overwrite: true
   input:
       path fasta
   output:
@@ -334,7 +334,7 @@ workflow {
     fullChannel = join_with_tags(all_dfs)
     fasta_mafftChannel = fasta_for_mafft(params.run, fullChannel.flatten())
     /* replace Results to params.outdir */
-    fullFromPathChannel = channel.fromPath("${projectDir}/Results/full_joint/*.xlsx").collect()
+    fullFromPathChannel = channel.fromPath("${projectDir}/Results/9_joint_with_tags/*.xlsx").collect()
     report(fullFromPathChannel)
     panelChannel = channel.fromPath("${projectDir}/References/*.fas")
     concatChannel = concat_with_panel(panelChannel.combine(fasta_mafftChannel))
