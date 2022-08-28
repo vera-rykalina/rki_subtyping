@@ -1,17 +1,5 @@
 [0] Config.pm:304> INFO - This is Biber 2.14
 [0] Config.pm:307> INFO - Logfile is 'Subtyping_Presentation.blg'
-[117] biber-darwin:322> INFO - === Sun Aug 28, 2022, 05:37:12
-[139] Biber.pm:415> INFO - Reading 'Subtyping_Presentation.bcf'
-[298] Biber.pm:943> INFO - Found 1 citekeys in bib section 0
-[321] Biber.pm:4256> INFO - Processing section 0
-[322] Utils.pm:75> INFO - Globbing data source 'citation.bib'
-[322] Utils.pm:91> INFO - Globbed data source 'citation.bib' to citation.bib
-[340] Biber.pm:4455> INFO - Looking for bibtex format file 'citation.bib' for section 0
-[342] bibtex.pm:1653> INFO - LaTeX decoding ...
-[349] bibtex.pm:1471> INFO - Found BibTeX data source 'citation.bib'
-[398] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[398] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[398] Biber.pm:4084> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'en-US'
-[398] Biber.pm:4090> INFO - No sort tailoring available for locale 'en-US'
-[407] bbl.pm:652> INFO - Writing 'Subtyping_Presentation.bbl' with encoding 'UTF-8'
-[409] bbl.pm:755> INFO - Output to Subtyping_Presentation.bbl
+[135] biber-darwin:322> INFO - === Mon Aug 29, 2022, 00:18:40
+[162] Utils.pm:320> ERROR - Subtyping_Presentation.bcf is malformed, last biblatex run probably failed. Deleted Subtyping_Presentation.bbl
+[162] Biber.pm:132> INFO - ERRORS: 1
