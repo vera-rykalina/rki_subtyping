@@ -25,9 +25,9 @@ df = df.loc[:,["Scount", "Header", "Sequenz"]]
 
 #print(df)
 
-df["SequenceName"] = df["Header"].str.extract("(\d\d-\d{5,6}_\w{2,4}_\d{2})_?\w{0,}?$", expand=True)
+df["SequenceName"] = df["Header"].str.extract("(^\d\d-\d{5,6}_\w{2,4}_\d{2})_?\w{0,}?$", expand=True)
 #print(df)
-df[name2 + "_Info"] = df["Header"].str.extract("\d\d-\d{5,6}_\w{2,4}_\d{2}(_\w{0,}?)$")
+df[name2 + "_Info"] = df["Header"].str.extract("^\d\d-\d{5,6}_\w{2,4}_\d{2}(_\w{0,}?)$")
 
 for i, row in df.iterrows():
     if row[name2 + "_Info"] == "_badAlign":
