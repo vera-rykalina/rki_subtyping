@@ -20,7 +20,6 @@ VERA RYKALINA - HIV-1 GENOTYPING PIPELINE
 ================================================================================
 projectDir       : ${projectDir}
 ourdir           : ${params.outdir}
-run              : ${params.run}
 comet            : ${params.comet_rest}
 json_to_csv      : ${params.json_parser}
 fasta_for_mafft  : ${params.fasta_for_mafft}
@@ -185,16 +184,14 @@ process join_int {
 process get_tags {
   publishDir "${params.outdir}/7_tags", mode: "copy", overwrite: true
   input:
-    val run
     path xlsx
     
   output:
-    path "tag_${run}_${xlsx.getSimpleName().split('_')[2]}_20M.csv"
-  
+    path "tag_${xlsx.getSimpleName().split('_')[0]}_${xlsx.getSimpleName().split('_')[2]}_20M.csv"
   script:
    """
-    python3 ${params.tag_parser} ${xlsx} tag_${xlsx.getSimpleName()}.csv
-    mv tag_${xlsx.getSimpleName()}.csv tag_${run}_${xlsx.getSimpleName().split('_')[2]}_20M.csv
+    python3 ${params.tag_parser} ${xlsx} tag_${xlsx.getSimpleName().split('_')[0]}_${xlsx.getSimpleName().split('_')[2]}_20M.csv
+    
    """
 }
 
@@ -377,7 +374,7 @@ workflow {
     env_jointChannel = join_env(json_csvChannel.filter(~/.*_ENV_20M.csv$/), cometChannel.filter(~/.*_ENV_20M.csv$/), rega_csvChannel.filter(~/.*_ENV_20M.csv$/))
     int_jointChannel = join_int(json_csvChannel.filter(~/.*_INT_20M.csv$/), cometChannel.filter(~/.*_INT_20M.csv$/), rega_csvChannel.filter(~/.*_INT_20M.csv$/))
     inputtagxlsx = channel.fromPath("${projectDir}/AllSeqsCO20/*.xlsx")
-    tag_csvChannel = get_tags(params.run, inputtagxlsx)
+    tag_csvChannel = get_tags(inputtagxlsx)
     decision_csvChannel = make_decision(prrt_jointChannel, env_jointChannel,int_jointChannel)
     all_dfs = tag_csvChannel.concat(decision_csvChannel).collect()
     fullChannel = join_with_tags(all_dfs)
@@ -393,5 +390,5 @@ workflow {
     // MAFFT
     msaChannel = mafft(prrtConcatChannel.concat(intConcatChannel).concat(envConcatChannel))
     // IQTREE
-    iqtree(msaChannel)
+    //iqtree(msaChannel)
 }
