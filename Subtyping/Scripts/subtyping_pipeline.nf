@@ -20,9 +20,15 @@ VERA RYKALINA - HIV-1 GENOTYPING PIPELINE
 ================================================================================
 projectDir       : ${projectDir}
 ourdir           : ${params.outdir}
+mark_fasta       : ${params.marking}
 comet            : ${params.comet_rest}
 json_to_csv      : ${params.json_parser}
+clean_rega       : ${params.rega}
+get_tags         : ${params.tag_parser}
+make_decision    : ${params.decision}
+join_with_tags   : ${params.full_join}
 fasta_for_mafft  : ${params.fasta_for_mafft}
+report           : ${params.report}
 
 
 September 2022
@@ -390,5 +396,5 @@ workflow {
     // MAFFT
     msaChannel = mafft(prrtConcatChannel.concat(intConcatChannel).concat(envConcatChannel))
     // IQTREE
-    //iqtree(msaChannel)
+    iqtree(msaChannel)
 }
