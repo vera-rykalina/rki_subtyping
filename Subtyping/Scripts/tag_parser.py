@@ -17,7 +17,7 @@ f.close()
 
 name1 = infilename.rsplit("/")[-1] # gives a file name.csv
 name2 = name1.split("_")[-3] # gives a middle part after splitting by "_"
-name3 = name1.split(".")[-2] # cuts .xlsx
+name3 = name1.split("_")[0] # get run index
 
 
 # Select only what is needed
@@ -56,4 +56,4 @@ df = df.sort_values(by=["Scount"])
 df = df.loc[:,["Scount", "Sequenz", name2 + "_Info"]]
 
 # Prepare a clean .csv file
-df.to_csv("tag_" + name3 + ".csv", sep=",", index=False, encoding="utf-8")
+df.to_csv("tag_" + name3 + "_" + name2 + "_20M" + ".csv", sep=",", index=False, encoding="utf-8")
