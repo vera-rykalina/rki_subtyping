@@ -21,3 +21,4 @@ plt.xlabel("Count")
 plt.ylabel("Total Subtype by PR, RT, INT, and ENV")
 sns.despine(right = True)
 plt.show()
+plt.savefig('subtype_counts.png') # save that figure
