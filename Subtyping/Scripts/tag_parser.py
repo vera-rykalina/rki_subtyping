@@ -1,5 +1,3 @@
-#!/bin/python3
-
 # Import libraries
 import pandas as pd
 import sys
@@ -9,7 +7,7 @@ from collections import Counter
 infilename = sys.argv[1]
 outfilename = sys.argv[2]
 
-# Read .csv file
+# Read .xlsx file
 f = open(infilename, "rb")
 df = pd.read_excel(f)
 f.close()
