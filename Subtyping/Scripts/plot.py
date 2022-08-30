@@ -1,24 +1,41 @@
+import sys
 import pandas as pd 
 import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-df = pd.read_excel("MS95_subtype_uploads.xlsx")
-#plt.style.use('ggplot')
+# Open .json file
+infilename = sys.argv[1]
+outfilename = sys.argv[2]
+
+# Read .xlsx file
+f = open(infilename, "rb")
+df=pd.read_excel(f)
+f.close()
+
+name1 = infilename.rsplit("/")[-1]
+name2 = name1.split("_")[1]
+name3 = name1.split(".")[-2]
+
 sns.set_style("darkgrid")
-fig, ax = plt.subplots(figsize=(10, 6))
-
-
+sns.set_context("talk")
+fig, ax = plt.subplots(figsize=(16, 8))
 
 count_plot = sns.countplot(y="Subtyp_Summe", data=df, 
                            palette="twilight",
                            order = df["Subtyp_Summe"].value_counts().index)
-plt.savefig('subtype_counts.png') # Save that figure
 
 
-ax.legend(title="HIV-1 Genotyping", fontsize=16, title_fontsize=20)
-plt.xlabel("Count")
-plt.ylabel("Total Subtype by PR, RT, INT, and ENV")
-sns.despine(right = True)
+# Create a legend with RUN_NUMBER (e.g. MS95)
+ax.legend(title=name2, fontsize=16, title_fontsize=20)
+
+# Add lebels
+ax.set(xlabel="Count", ylabel="Subtype Sum")
+
+# Add values to bars
+for container in ax.containers:
+    ax.bar_label(container) 
+
+# Save figure
+plt.savefig(name2 + "_subtype_counts.png") 
 plt.show()
-plt.savefig('subtype_counts.png') # save that figure
