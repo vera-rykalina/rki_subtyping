@@ -13,7 +13,7 @@ params.marking = "${projectDir}/Scripts/repeat_marking.py"
 params.full_join = "${projectDir}/Scripts/full_join.py"
 params.report = "${projectDir}/Scripts/report.py"
 params.fasta_for_mafft = "${projectDir}/Scripts/fasta_for_mafft.py"
-
+params.countplot = "$${projectDir}/Scripts/plot.py"
 
 log.info """
 VERA RYKALINA - HIV-1 GENOTYPING PIPELINE
@@ -29,7 +29,7 @@ make_decision    : ${params.decision}
 join_with_tags   : ${params.full_join}
 fasta_for_mafft  : ${params.fasta_for_mafft}
 report           : ${params.report}
-
+countplot        : ${params.countplot}
 
 September 2022
 """
@@ -243,22 +243,6 @@ process join_with_tags {
    """
 }
 
-process report {
-  publishDir "${params.outdir}/14_report", mode: "copy", overwrite: true
-  input:
-    path xlsx
-    
-  output:
-    path "*.xlsx"
-  
-  when:
-    params.fullpipeline == true
-
-  script:
-   """
-    python3 ${params.report} ${xlsx} *.xlsx
-    """
-}
 
 process fasta_for_mafft {
   publishDir "${params.outdir}/10_fasta_for_mafft", mode: "copy", overwrite: true
@@ -367,6 +351,42 @@ process iqtree {
     """
   }
 
+process report {
+  publishDir "${params.outdir}/14_report", mode: "copy", overwrite: true
+  input:
+    path xlsx
+    
+  output:
+    path "*.xlsx"
+  
+  when:
+    params.fullpipeline == true
+
+  script:
+   """
+    python3 ${params.report} ${xlsx} *.xlsx
+    """
+}
+
+
+process countplot {
+  publishDir "${params.outdir}/14_report", mode: "copy", overwrite: true
+  input:
+    path xlsx
+    
+  output:
+    path "*.png"
+  
+  when:
+    params.fullpipeline == true
+
+  script:
+   """
+    python3 ${params.countplot} ${xlsx} *.png
+    """
+}
+
+
 workflow {
     
     inputfasta = channel.fromPath("${projectDir}/InputFasta/*.fasta")
@@ -387,9 +407,7 @@ workflow {
     fasta_mafftChannel = fasta_for_mafft(fullChannel.flatten())
     /* replace Results to params.outdir */
     fullFromPathChannel = channel.fromPath("${projectDir}/Results/9_joint_with_tags/*.xlsx").collect()
-    report(fullFromPathChannel)
     panelChannel = channel.fromPath("${projectDir}/References/*.fas")
-
     prrtConcatChannel = prrt_concat_panel(fasta_mafftChannel.filter(~/.*_PRRT_.*.fasta/), panelChannel.filter(~/.*_PRRT_.*.fas/))
     intConcatChannel = int_concat_panel(fasta_mafftChannel.filter(~/.*_INT_.*.fasta/), panelChannel.filter(~/.*_INT_.*.fas/))
     envConcatChannel = env_concat_panel(fasta_mafftChannel.filter(~/.*_ENV_.*.fasta/), panelChannel.filter(~/.*_ENV_.*.fas/))
@@ -397,4 +415,8 @@ workflow {
     msaChannel = mafft(prrtConcatChannel.concat(intConcatChannel).concat(envConcatChannel))
     // IQTREE
     iqtree(msaChannel)
+    //REPORT
+    reportChannel = report(fullFromPathChannel)
+    // PLOT
+    plotChannel = countplot(reportChannel)
 }
