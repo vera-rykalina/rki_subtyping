@@ -10,3 +10,7 @@ HivTrace/
 mock_fasta_list.txt
 subtyping_tech_description.pdf
 Latex/
+Results/
+work/
+.nextflow
+.nextlow.log*
