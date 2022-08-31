@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-# Open .json file
+# Open .xlsx file
 infilename = sys.argv[1]
 outfilename = sys.argv[2]
 
@@ -14,16 +14,18 @@ df=pd.read_excel(f)
 f.close()
 
 name1 = infilename.rsplit("/")[-1]
-name2 = name1.split("_")[1]
+name2 = name1.split("_")[0]
 name3 = name1.split(".")[-2]
 
 sns.set_style("darkgrid")
 sns.set_context("talk")
 fig, ax = plt.subplots(figsize=(16, 8))
 
+
 count_plot = sns.countplot(y="Subtyp_Summe", data=df, 
                            palette="twilight",
                            order = df["Subtyp_Summe"].value_counts().index)
+
 
 
 # Create a legend with RUN_NUMBER (e.g. MS95)
