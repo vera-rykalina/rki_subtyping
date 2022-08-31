@@ -1,4 +1,3 @@
-#!/usr/bin/env nextflow
 nextflow.enable.dsl = 2
 
 
@@ -13,7 +12,7 @@ params.marking = "${projectDir}/Scripts/repeat_marking.py"
 params.full_join = "${projectDir}/Scripts/full_join.py"
 params.report = "${projectDir}/Scripts/report.py"
 params.fasta_for_mafft = "${projectDir}/Scripts/fasta_for_mafft.py"
-params.countplot = "$${projectDir}/Scripts/plot.py"
+params.countplot = "${projectDir}/Scripts/plot.py"
 
 log.info """
 VERA RYKALINA - HIV-1 GENOTYPING PIPELINE
@@ -414,7 +413,7 @@ workflow {
     // MAFFT
     msaChannel = mafft(prrtConcatChannel.concat(intConcatChannel).concat(envConcatChannel))
     // IQTREE
-    iqtree(msaChannel)
+    //iqtree(msaChannel)
     //REPORT
     reportChannel = report(fullFromPathChannel)
     // PLOT

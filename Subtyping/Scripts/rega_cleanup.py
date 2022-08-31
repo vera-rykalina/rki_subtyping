@@ -1,5 +1,3 @@
-#!/bin/python3
-
 # Import libraries
 import pandas as pd
 import sys

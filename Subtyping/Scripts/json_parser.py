@@ -1,5 +1,3 @@
-#!/bin/python3
-
 """
 To play with this parser outside of pipeline
 python3 stanford_parser.py results/MS95_PRRT_20.json MS95_PRRT_20.csv
