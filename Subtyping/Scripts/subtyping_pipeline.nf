@@ -3,6 +3,7 @@ nextflow.enable.dsl = 2
 
 projectDir = "/Users/vera/Learning/CQ/Internship/rki/Subtyping"
 params.fullpipeline = false
+params.iqtree = false
 params.comet_rest = "${projectDir}/Scripts/comet_rest.py"
 params.json_parser = "${projectDir}/Scripts/json_parser.py"
 params.rega = "${projectDir}/Scripts/rega_cleanup.py"
@@ -341,7 +342,7 @@ process iqtree {
       path  "*.treefile"
 
   when:
-    params.fullpipeline == true
+    params.iqtree == true
 
   script:
   
@@ -413,7 +414,7 @@ workflow {
     // MAFFT
     msaChannel = mafft(prrtConcatChannel.concat(intConcatChannel).concat(envConcatChannel))
     // IQTREE
-    //iqtree(msaChannel)
+    iqtree(msaChannel)
     //REPORT
     reportChannel = report(fullFromPathChannel)
     // PLOT
