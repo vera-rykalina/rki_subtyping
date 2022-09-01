@@ -351,7 +351,7 @@ process iqtree {
   }
 
 process report {
-  publishDir "${params.outdir}/14_report", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/14_report", mode: "copy", overwrite: false
   input:
     path xlsx
     
@@ -405,7 +405,7 @@ workflow {
     fullChannel = join_with_tags(all_dfs)
     fasta_mafftChannel = fasta_for_mafft(fullChannel.flatten())
     /* replace Results to params.outdir */
-    fullFromPathChannel = channel.fromPath("${projectDir}/Results/9_joint_with_tags/*.xlsx").collect()
+    fullFromPathChannel = channel.fromPath("${projectDir}/${params.outdir}/9_joint_with_tags/*.xlsx").collect()
     panelChannel = channel.fromPath("${projectDir}/References/*.fas")
     prrtConcatChannel = prrt_concat_panel(fasta_mafftChannel.filter(~/.*_PRRT_.*.fasta/), panelChannel.filter(~/.*_PRRT_.*.fas/))
     intConcatChannel = int_concat_panel(fasta_mafftChannel.filter(~/.*_INT_.*.fasta/), panelChannel.filter(~/.*_INT_.*.fas/))
@@ -417,5 +417,5 @@ workflow {
     //REPORT
     reportChannel = report(fullFromPathChannel)
     // PLOT
-    plotChannel = countplot(reportChannel)
+    plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/14_report/*.xlsx"))
 }
