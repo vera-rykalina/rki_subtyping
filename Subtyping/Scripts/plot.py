@@ -22,10 +22,12 @@ sns.set_context("talk")
 fig, ax = plt.subplots(figsize=(16, 8))
 
 
-count_plot = sns.countplot(y="Subtyp_Summe", data=df, 
-                           palette="twilight",
-                           order = df["Subtyp_Summe"].value_counts().index)
 
+count_plot = sns.countplot(y="Subtyp_Summe", data=df, 
+                           #palette="twilight",
+                           palette = "GnBu_d",
+                           #palette="viridis",
+                           order = df["Subtyp_Summe"].value_counts().index)
 
 
 # Create a legend with RUN_NUMBER (e.g. MS95)
@@ -39,5 +41,5 @@ for container in ax.containers:
     ax.bar_label(container) 
 
 # Save figure
-plt.savefig(name2 + "_subtype_counts.png", dpi = 200) 
+plt.savefig(name2 + "_subtype_counts.png", dpi = 300) 
 plt.show()
