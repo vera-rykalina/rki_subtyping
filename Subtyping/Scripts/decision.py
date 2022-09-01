@@ -18,11 +18,14 @@ name3 = name1.split("joint_")[-1].split(".")[-2] # cuts .csv
 print(name3)
 
 # Create 'Scount' column in dfs
-df["Scount"] = df["SequenceName"].str.extract("(^\d+-\d+)_\w{2,4}_\d+_?\w+?$", expand=True)
+#df["Scount"] = df["SequenceName"].str.extract("(^\d+-\d+)_\w{2,4}_\d+_?\w+?$", expand=True)
 
 # Change the position of this column from last to first in all dfs
-col1 = df.pop('Scount')
-df.insert(0, 'Scount', col1)
+#col1 = df.pop('Scount')
+#df.insert(0, 'Scount', col1)
+
+# Delete a control sample with no Scount
+#df = df.dropna(subset=["Scount"])
 
 # Change data type string -> float
 df["Comet_" + name2 + "_Comment"] = pd.to_numeric(df["Comet_" + name2 + "_Comment"], downcast="float")

@@ -12,7 +12,7 @@ names = []
 sequences = []
 fasta_sequences = SeqIO.parse(open(infilename),'fasta')
 for fasta in fasta_sequences:
-    names.append(fasta.id)
+    names.append(fasta.id.split("_badAlign")[0])
     sequences.append(str(fasta.seq))
 
 # Mark repeats

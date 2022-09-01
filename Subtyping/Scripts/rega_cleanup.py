@@ -98,8 +98,14 @@ df["Rega_" + name2 + "_Comment"] = df["pure"].astype(str).str.strip() + " / " + 
 # Delete undesired columns
 df.drop(columns=["pure", "crf"], axis = 1,  inplace = True)
 
+
+# Remove _badAlign
+for i, row in df.iterrows():
+        df.at[i, ["SequenceName"]] = row["SequenceName"].split("_badAlign")[0]
+
+
 # Sort df by SequenceName
-df = df.sort_values(by=["SequenceName"])
+df.sort_values(by=["SequenceName"], inplace=True)
 
 
 # Prepare a clean .csv file

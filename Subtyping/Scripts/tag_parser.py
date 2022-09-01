@@ -21,19 +21,19 @@ name3 = name1.split("_")[0] # get run index
 # Select only what is needed
 df = df.loc[:,["Scount", "Header", "Sequenz"]]
 
-#print(df)
 
 df["SequenceName"] = df["Header"].str.extract("(^\d\d-\d{5,6}_\w{2,4}_\d{2})_?\w{0,}?$", expand=True)
-#print(df)
+
 df[name2 + "_Info"] = df["Header"].str.extract("^\d\d-\d{5,6}_\w{2,4}_\d{2}(_\w{0,}?)$")
 
-for i, row in df.iterrows():
-    if row[name2 + "_Info"] == "_badAlign":
-        df.at[i, [name2 + "_Info"]] = None
-    
+
+# for i, row in df.iterrows():
+#     if row[name2 + "_Info"] == "_badAlign":
+#         df.at[i, [name2 + "_Info"]] = None
+
 
 seq_names = list(df["SequenceName"])
-  
+
 
 # Mark repeats
 counts = Counter(seq_names)
@@ -47,11 +47,18 @@ df_marked = pd.DataFrame({'Marked': seq_names})
 
 df["SequenceName"] = df_marked["Marked"]
 
-# Sort df by Scount
-df = df.sort_values(by=["Scount"])
 
 # Select only what is needed
-df = df.loc[:,["Scount", "Sequenz", name2 + "_Info"]]
+df = df.loc[:,["SequenceName", "Sequenz", name2 + "_Info"]]
+
+
+# Sort df by Scount
+df = df.sort_values(by=["SequenceName"])
+
+
+# Create "Repeat" columns
+df["Repeat"] = df["SequenceName"].str.extract("^\d+-\d+_\w{2,4}_\d+(repeat\d{1})?$", expand=True)
+
 
 # Prepare a clean .csv file
 df.to_csv("tag_" + name3 + "_" + name2 + "_20M" + ".csv", sep=",", index=False, encoding="utf-8")
