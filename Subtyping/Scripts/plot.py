@@ -39,5 +39,5 @@ for container in ax.containers:
     ax.bar_label(container) 
 
 # Save figure
-plt.savefig(name2 + "_subtype_counts.png") 
+plt.savefig(name2 + "_subtype_counts.png", dpi = 200) 
 plt.show()
