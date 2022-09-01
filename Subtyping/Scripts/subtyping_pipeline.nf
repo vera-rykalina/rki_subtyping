@@ -347,7 +347,7 @@ process iqtree {
   script:
   
     """
-    iqtree -s ${fasta} -pre ${fasta.getSimpleName().split('msa_')[1]} -m GTR+I+G4
+    iqtree -s ${fasta} -pre ${fasta.getSimpleName().split('msa_')[1]} -m TEST -bb 10000 -nt AUTO
     """
   }
 
