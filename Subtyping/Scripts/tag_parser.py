@@ -27,6 +27,7 @@ df["SequenceName"] = df["Header"].str.extract("(^\d\d-\d{5,6}_\w{2,4}_\d{2})_?\w
 df[name2 + "_Info"] = df["Header"].str.extract("^\d\d-\d{5,6}_\w{2,4}_\d{2}(_\w{0,}?)$")
 
 
+# Uncomment, if you don't want to have _badAgling tag shown
 # for i, row in df.iterrows():
 #     if row[name2 + "_Info"] == "_badAlign":
 #         df.at[i, [name2 + "_Info"]] = None
