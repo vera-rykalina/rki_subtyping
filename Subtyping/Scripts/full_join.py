@@ -37,15 +37,15 @@ df_full_int = pd.merge(df_tag_int, df_int, on = "SequenceName", how = "left")
 
 df_full_prrt = df_full_prrt.sort_values(by=["SequenceName"])
 df_full_prrt["PRRT_Subtype"] = df_full_prrt["PRRT_Subtype"].fillna(df_full_prrt["PRRT_Info"])
-#df_full_prrt = df_full_prrt.sort_values(by=["Scount", "PRRT_Subtype"])
+
 
 df_full_env = df_full_env.sort_values(by=["SequenceName"])
 df_full_env["ENV_Subtype"] = df_full_env["ENV_Subtype"].fillna(df_full_env["ENV_Info"])
-#df_full_env = df_full_env.sort_values(by=["Scount", "ENV_Subtype"])
+
 
 df_full_int = df_full_int.sort_values(by=["SequenceName"])
 df_full_int["INT_Subtype"] = df_full_int["INT_Subtype"].fillna(df_full_int["INT_Info"])
-#df_full_int = df_full_int.sort_values(by=["Scount", "INT_Subtype"])
+
 
 # Add a columns with sequence length
 df_full_prrt["SeqLength"] = df_full_prrt["Sequenz"].str.len()
