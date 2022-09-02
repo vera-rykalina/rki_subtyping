@@ -34,7 +34,7 @@ count_plot = sns.countplot(y="Subtyp_Summe", data=df,
 ax.legend(title=name2, fontsize=16, title_fontsize=20)
 
 # Add lebels
-ax.set(xlabel="Count", ylabel="Subtype Sum")
+ax.set(xlabel="Count", ylabel="Subtype Sum", title = "HIV-1 Subtyping (Stanford, Comet, Rega)")
 
 # Add values to bars
 for container in ax.containers:
