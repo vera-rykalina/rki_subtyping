@@ -52,6 +52,19 @@ process mark_fasta {
 
 }
 
+process get_tags {
+  publishDir "${params.outdir}/7_tags", mode: "copy", overwrite: true
+  input:
+    path xlsx
+    
+  output:
+    path "tag_${xlsx.getSimpleName().split('_')[0]}_${xlsx.getSimpleName().split('_')[2]}_20M.csv"
+  script:
+   """
+    python3 ${params.tag_parser} ${xlsx} tag_${xlsx.getSimpleName().split('_')[0]}_${xlsx.getSimpleName().split('_')[2]}_20M.csv
+    
+   """
+}
 
 process stanford {
   publishDir "${params.outdir}/2_json_files", mode: "copy", overwrite: true
@@ -123,7 +136,6 @@ process clean_rega {
 }
 
 
-
 process join_prrt {
   publishDir "${params.outdir}/6_joint_fragmentwise", mode: "copy", overwrite: true
   input:
@@ -185,20 +197,6 @@ process join_int {
      mlr --csv join -u --ul --ur -j SequenceName -f ${stanford} ${comet} | mlr --csv join -u --ul --ur -j SequenceName -f ${rega} > joint_${stanford.getSimpleName().split('stanford_')[1]}.csv
     """
 
-}
-
-process get_tags {
-  publishDir "${params.outdir}/7_tags", mode: "copy", overwrite: true
-  input:
-    path xlsx
-    
-  output:
-    path "tag_${xlsx.getSimpleName().split('_')[0]}_${xlsx.getSimpleName().split('_')[2]}_20M.csv"
-  script:
-   """
-    python3 ${params.tag_parser} ${xlsx} tag_${xlsx.getSimpleName().split('_')[0]}_${xlsx.getSimpleName().split('_')[2]}_20M.csv
-    
-   """
 }
 
 
@@ -393,16 +391,16 @@ workflow {
     
     inputfasta = channel.fromPath("${projectDir}/InputFasta/*.fasta")
     markedfasta = mark_fasta(inputfasta)
+    inputtagxlsx = channel.fromPath("${projectDir}/AllSeqsCO20/*.xlsx")
+    tag_csvChannel = get_tags(inputtagxlsx)
     stanfordChannel = stanford(markedfasta)
     json_csvChannel = json_to_csv(stanfordChannel)
+    cometChannel = comet(markedfasta)
     inputregacsv = channel.fromPath("${projectDir}/ManualREGA/*.csv")
     rega_csvChannel = clean_rega(inputregacsv)
-    cometChannel = comet(markedfasta)
     prrt_jointChannel = join_prrt(json_csvChannel.filter(~/.*_PRRT_20M.csv$/), cometChannel.filter(~/.*_PRRT_20M.csv$/), rega_csvChannel.filter(~/.*_PRRT_20M.csv$/))
     env_jointChannel = join_env(json_csvChannel.filter(~/.*_ENV_20M.csv$/), cometChannel.filter(~/.*_ENV_20M.csv$/), rega_csvChannel.filter(~/.*_ENV_20M.csv$/))
     int_jointChannel = join_int(json_csvChannel.filter(~/.*_INT_20M.csv$/), cometChannel.filter(~/.*_INT_20M.csv$/), rega_csvChannel.filter(~/.*_INT_20M.csv$/))
-    inputtagxlsx = channel.fromPath("${projectDir}/AllSeqsCO20/*.xlsx")
-    tag_csvChannel = get_tags(inputtagxlsx)
     decision_csvChannel = make_decision(prrt_jointChannel, env_jointChannel,int_jointChannel)
     all_dfs = tag_csvChannel.concat(decision_csvChannel).collect()
     fullChannel = join_with_tags(all_dfs)
