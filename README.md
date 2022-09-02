@@ -28,4 +28,4 @@ An aim of the project was to automatine a routine HIV-1 subtyping analysis, usin
 
 A final output of the pipeline .xlsx table for internal DB and a plot. The pipeline is supossed to be run for each sequencing ran of 96 samples, including control samples. 
 
-![Plot](MS95_subtype_counts.png)
+![Plot](Documentation/images/MS95_subtype_counts.png)
