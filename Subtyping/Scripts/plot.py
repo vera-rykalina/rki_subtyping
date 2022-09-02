@@ -18,7 +18,7 @@ name2 = name1.split("_")[0]
 name3 = name1.split(".")[-2]
 
 sns.set_style("darkgrid")
-sns.set_context("talk")
+sns.set_context("poster")
 fig, ax = plt.subplots(figsize=(16, 8))
 
 
@@ -31,7 +31,7 @@ count_plot = sns.countplot(y="Subtyp_Summe", data=df,
 
 
 # Create a legend with RUN_NUMBER (e.g. MS95)
-ax.legend(title=name2, fontsize=16, title_fontsize=20)
+ax.legend(title=name2, fontsize=18, title_fontsize=20)
 
 # Add lebels
 ax.set(xlabel="Count", ylabel="Subtype Sum", title = "HIV-1 Subtyping (Stanford, Comet, Rega)")
@@ -41,5 +41,5 @@ for container in ax.containers:
     ax.bar_label(container) 
 
 # Save figure
-plt.savefig(name2 + "_subtype_counts.png", dpi = 300) 
+plt.savefig(name2 + "_subtype_counts.png", dpi = 300, bbox_inches="tight") 
 plt.show()
