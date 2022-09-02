@@ -340,6 +340,8 @@ process iqtree {
       path fasta
   output:
       path  "*.treefile"
+      path  "*.iqtree"
+      path  "*.log"
 
   when:
     params.iqtree == true
