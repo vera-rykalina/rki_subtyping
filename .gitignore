@@ -14,7 +14,7 @@ Results/
 work/
 .nextflow/
 .nextflow.log*
-marp.md
+test.md
 mock_fasta_list.txt
 subtyping_tech_description.pdf
 Pipeline/test/
