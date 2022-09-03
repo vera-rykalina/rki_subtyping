@@ -5,7 +5,7 @@ https://comet.lih.lu/
 ## REGA Subtyping Tool:
 https://www.genomedetective.com/app/typingtool/hiv
 
-## Standford Resistance HIV-DB, inluding Subtyping
+## Standford Resistance HIV-DB, including Subtyping
 https://hivdb.stanford.edu/hivdb/by-sequences/
 
 # Release Notes
