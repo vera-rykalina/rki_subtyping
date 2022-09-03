@@ -396,7 +396,7 @@ workflow {
     cometChannel = comet(markedfasta)
     stanfordChannel = stanford(markedfasta)
     json_csvChannel = json_to_csv(stanfordChannel)
-    inputregacsv = channel.fromPath("${projectDir}/ManualREGA/*.csv")
+    inputregacsv = channel.fromPath("${projectDir}/ManualRega/*.csv")
     rega_csvChannel = clean_rega(inputregacsv)
     prrt_jointChannel = join_prrt(json_csvChannel.filter(~/.*_PRRT_20M.csv$/), cometChannel.filter(~/.*_PRRT_20M.csv$/), rega_csvChannel.filter(~/.*_PRRT_20M.csv$/))
     env_jointChannel = join_env(json_csvChannel.filter(~/.*_ENV_20M.csv$/), cometChannel.filter(~/.*_ENV_20M.csv$/), rega_csvChannel.filter(~/.*_ENV_20M.csv$/))
