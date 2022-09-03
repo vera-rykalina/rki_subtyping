@@ -2,22 +2,11 @@
 marp: true
 paginate: true
 author: Vera Rykalina
-theme: 
+theme: default
 size: 4:3
 footer: Vera Rykalina | September 2022
 
 ---
-
-<!--<style>
-    :root {
-        --color-background: #101010;
-        --color-forebround: #FFFFFF;
-    }
-    h1 {
-        font-family: Courier New
-    }
-</style>
---->
 
 # Subtyping Pipeline
 
@@ -28,23 +17,29 @@ footer: Vera Rykalina | September 2022
 # Repo 
 ### https://github.com/vera-rykalina/rki_subtyping
 
-
 ---
 
-# Home
-Locate to home directory:
+# Conda Version
+Pipeline's version of conda `4.14.0`
 ```sh
-beast2@beast2:~$ cd rki_subtyping/Pipeline
-beast2@beast2:~/Subtyping/Pipeline$
+$ conda --version
+```
+---
+
+# Pipeline Directory
+Locate to Pipeline directory:
+```sh
+$ cd ~/rki_subtyping/Pipeline
 ```
 
-Print working directory (double check):
-```sh
-beast2@beast2:~/Subtyping/Pipeline$ pwd
-/home/beast2/Subtyping/Pipeline
-```
 ---
 # Input Folders
+Make sure you have 5 directories:
+
+```sh
+tree  -d
+```
+
 ```sh
 ├── AllSeqsCO20
 ├── InputFasta
@@ -71,7 +66,7 @@ InputFasta/
 └── MS95_PRRT_20.fasta
 ```
 ---
-# Example of Fasta File within InputFasta
+# Example of .fasta within InputFasta
 ```sh
 >20-02955_ENV_20
 GGAATTAGGCCAGTGGTGTCAACCCAACTATTGTTAAATGGCAGCCTAGCAGAAGAAGAT
@@ -86,26 +81,19 @@ TGCAGAATAAAACAAATTATAAATAGATGGCAGGAAGCAGGAAGGG
 ```
 ---
 # AllSeqCO20 Folder
-Prodive this folder with excel files as listed: 
+Prodive this folder with .xlsx files as listed: 
 ```sh
 AllSeqsCO20/
 ├── MS95_Seqs_ENV_CO20_V5.xlsx
 ├── MS95_Seqs_INT_CO20_V5.xlsx
 └── MS95_Seqs_PRRT_CO20_V5.xlsx
 ```
----
-# Conda Version
-
-```sh
-beast2@beast2:~$ conda --version
-conda 4.14.0
-```
 
 ---
-# Conda Info
+# Conda Info (can be skipped)
 List available conda environments.
 ```sh
-beast2@beast2:~$ conda info --envs
+$ conda info --envs
 # conda environments:
 #
 base                  *  /home/beast2/anaconda3
@@ -115,12 +103,13 @@ subtyping_pipeline       /home/beast2/anaconda3/envs/subtyping_pipeline
 # Activate Environment
 Activate `subtyping_pipeline` enviromnet.
 ```sh
-beast2@beast2:~$ conda activate subtyping_pipeline
-
-(subtyping_pipeline) beast2@beast2:~$ 
+$ conda activate subtyping_pipeline
 ```
----
+Be sure you have change in prompt:
 
+```sh
+(subtyping_pipeline) beast2@Beast2:~/rki_sybtyping/Pipeline$
+```
 
 ---
 #### Processes Overview
