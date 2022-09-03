@@ -43,7 +43,7 @@ tree  -d
 ```sh
 ├── AllSeqsCO20
 ├── InputFasta
-├── ManualREGA
+├── ManualRega
 ├── References
 └── Scripts
 ```
