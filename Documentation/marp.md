@@ -49,7 +49,7 @@ tree  -d
 ```
 ---
 # InputFasta Folder
-Prodive this folder with files as listed: 
+Prodive this folder with files as listed (from NGS pipeline): 
 ```sh
 InputFasta/
 ├── MS95_ENV_20.fasta
