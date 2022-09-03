@@ -16,7 +16,7 @@ An aim of the project was to automate a routine HIV-1 subtyping analysis, using 
 │   ├── MS95_ENV_20.fasta
 │   ├── MS95_INT_20.fasta
 │   └── MS95_PRRT_20.fasta
-├── ManualREGA
+├── ManualRega
 │   ├── manual_rega_MS95_ENV_20M.csv
 │   ├── manual_rega_MS95_INT_20M.csv
 │   └── manual_rega_MS95_PRRT_20M.csv
