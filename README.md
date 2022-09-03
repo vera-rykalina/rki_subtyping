@@ -26,6 +26,8 @@ An aim of the project was to automate a routine HIV-1 subtyping analysis, using 
 │   └── Reference_PRRT_Panel_Stanford.fas
 ```
 
+A decision is made based on combination of 3 subtyping tools. Records with unclear or ambiguous subtypes are sorted concatenated with the Stanford reference panels and subjected to multiple suquence alignment (msa) via Mafft. MSA samples are analysed using iQtree to make a final decision and update report table and plot.  
+
 A final output of the pipeline .xlsx table for internal DB and a plot. The pipeline is supposed to be run for each sequencing ran of 96 samples, including control samples. 
 
 ![Plot](Documentation/images/MS95_subtype_counts.png)
