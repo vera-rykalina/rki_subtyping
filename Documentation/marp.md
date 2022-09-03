@@ -57,15 +57,8 @@ InputFasta/
 └── MS95_PRRT_20.fasta
 ```
 ---
-# InputFasta Folder
-Prodive this folder with fasta files as listed: 
-```sh
-InputFasta/
-├── MS95_ENV_20.fasta
-├── MS95_INT_20.fasta
-└── MS95_PRRT_20.fasta
-```
----
+
+
 # Example of .fasta within InputFasta
 ```sh
 >20-02955_ENV_20
@@ -81,7 +74,7 @@ TGCAGAATAAAACAAATTATAAATAGATGGCAGGAAGCAGGAAGGG
 ```
 ---
 # AllSeqCO20 Folder
-Prodive this folder with .xlsx files as listed: 
+Prodive this folder with .xlsx files as listed (from NGS pipeline): 
 ```sh
 AllSeqsCO20/
 ├── MS95_Seqs_ENV_CO20_V5.xlsx
