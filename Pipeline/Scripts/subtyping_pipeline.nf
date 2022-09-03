@@ -1,7 +1,7 @@
 nextflow.enable.dsl = 2
 
 
-projectDir = "/Users/vera/Learning/CQ/Internship/rki/Subtyping"
+projectDir = "/Users/vera/Learning/CQ/Internship/rki_subtyping/Pipeline"
 params.fullpipeline = false
 params.iqtree = false
 params.comet_rest = "${projectDir}/Scripts/comet_rest.py"
