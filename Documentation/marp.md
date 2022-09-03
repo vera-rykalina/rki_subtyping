@@ -25,7 +25,7 @@ footer: Vera Rykalina | September 2022
 
 ---
 # Repo 
-### ![fg w:30](Documentation/../images/github.svg) | https://github.com/vera-rykalina/rki_subtyping
+### ![fg :25% w:30](Documentation/../images/github.svg) | https://github.com/vera-rykalina/rki_subtyping
 
 
 ---
@@ -33,7 +33,7 @@ footer: Vera Rykalina | September 2022
 # Home
 Locate to home directory:
 ```sh
-beast2@beast2:~$ cd Subtyping/Pipeline
+beast2@beast2:~$ cd rki_subtyping/Pipeline
 beast2@beast2:~/Subtyping/Pipeline$
 ```
 
