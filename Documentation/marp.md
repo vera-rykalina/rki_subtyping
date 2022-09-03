@@ -24,8 +24,9 @@ footer: Vera Rykalina | September 2022
 ## Comprehensive Guide
 
 ---
+<!-- ![fg :25% w:30](Documentation/../images/github.svg)-->
 # Repo 
-### ![fg :25% w:30](Documentation/../images/github.svg) | https://github.com/vera-rykalina/rki_subtyping
+### https://github.com/vera-rykalina/rki_subtyping
 
 
 ---
