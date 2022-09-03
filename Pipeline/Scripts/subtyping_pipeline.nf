@@ -53,7 +53,7 @@ process mark_fasta {
 }
 
 process get_tags {
-  publishDir "${params.outdir}/7_tags", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/2_tags", mode: "copy", overwrite: true
   input:
     path xlsx
     
@@ -65,41 +65,8 @@ process get_tags {
     
    """
 }
-
-process stanford {
-  publishDir "${params.outdir}/2_json_files", mode: "copy", overwrite: true
-  
-  input:
-    path fasta
-
-  output:
-    path "${fasta.getSimpleName()}.json"
-  
-  script:
-    """
-    sierrapy fasta ${fasta} -o ${fasta.getSimpleName()}.json
-  
-    """
-}
-
-process json_to_csv {
-  publishDir "${params.outdir}/3_stanford", mode: "copy", overwrite: true
-  input:
- 
-    path json
-    
-  output:
-    path "stanford_${json.getSimpleName()}.csv"
-  
-  script:
-   """
-    python3 ${params.json_parser} ${json} stanford_${json.getSimpleName()}.csv
-   """
-
-}
-
-process comet{
-   publishDir "${params.outdir}/4_comet", mode: "copy", overwrite: true
+process comet {
+   publishDir "${params.outdir}/3_comet", mode: "copy", overwrite: true
   input:
     
     path fasta
@@ -116,8 +83,42 @@ process comet{
 }
 
 
+process stanford {
+  publishDir "${params.outdir}/4_json_files", mode: "copy", overwrite: true
+  
+  input:
+    path fasta
+
+  output:
+    path "${fasta.getSimpleName()}.json"
+  
+  script:
+    """
+    sierrapy fasta ${fasta} -o ${fasta.getSimpleName()}.json
+  
+    """
+}
+
+process json_to_csv {
+  publishDir "${params.outdir}/5_stanford", mode: "copy", overwrite: true
+  input:
+ 
+    path json
+    
+  output:
+    path "stanford_${json.getSimpleName()}.csv"
+  
+  script:
+   """
+    python3 ${params.json_parser} ${json} stanford_${json.getSimpleName()}.csv
+   """
+
+}
+
+
+
 process clean_rega {
-  publishDir "${params.outdir}/5_rega", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/6_rega", mode: "copy", overwrite: true
   input:
 
     path csv
@@ -137,7 +138,7 @@ process clean_rega {
 
 
 process join_prrt {
-  publishDir "${params.outdir}/6_joint_fragmentwise", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/7_joint_fragmentwise", mode: "copy", overwrite: true
   input:
  
     path stanford
@@ -158,7 +159,7 @@ process join_prrt {
 }
 
 process join_env {
-  publishDir "${params.outdir}/6_joint_fragmentwise", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/7_joint_fragmentwise", mode: "copy", overwrite: true
   input:
  
     path stanford
@@ -179,7 +180,7 @@ process join_env {
 }
 
 process join_int {
-  publishDir "${params.outdir}/6_joint_fragmentwise", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/7_joint_fragmentwise", mode: "copy", overwrite: true
   input:
  
     path stanford
