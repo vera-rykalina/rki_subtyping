@@ -26,6 +26,6 @@ An aim of the project was to automate a routine HIV-1 subtyping analysis, using 
 │   └── Reference_PRRT_Panel_Stanford.fas
 ```
 
-A final output of the pipeline .xlsx table for internal DB and a plot. The pipeline is supossed to be run for each sequencing ran of 96 samples, including control samples. 
+A final output of the pipeline .xlsx table for internal DB and a plot. The pipeline is supposed to be run for each sequencing ran of 96 samples, including control samples. 
 
 ![Plot](Documentation/images/MS95_subtype_counts.png)
