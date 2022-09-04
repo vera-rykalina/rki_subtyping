@@ -2,10 +2,10 @@
 
 An aim of the project was to automate a routine HIV-1 subtyping analysis, using Stanford (SierraPy), Comet (Rest API), and Rega (manually generated .csv files via click or drop file) tools. A pipeline is built with NextFlow with custom Python scripts. Inputs of the pipeline include (mock data, imitating real datasets):
 
-- fasta file per fragment (fused PRRT, INT, and ENV)
-- .xlsx per fragment (NGS pipeline, contrain information for invalid sequences)
-- manually derived .csv for Rega (using fasta files with marked repeated samples, if any)
-- per fragment reference panels (subtype_origin_year_accession)
+- .fasta files (fused PRRT, INT, and ENV)
+- .xlsx files (NGS pipeline, contain information for invalid sequences)
+- .csv files (manually generated via Rega online tool, using fasta files with marked repeated samples, if any)
+- .fasta files of reference panels (subtype_origin_year_accession)
   
 ```sh
 ├── AllSeqsCO20
