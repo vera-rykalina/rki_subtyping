@@ -1,6 +1,6 @@
 # HIV-1 Subtyping
 
-An aim of the project was to automate a routine HIV-1 subtyping analysis, using SierapPy (Stanford), Rest API (Comet), and Rega (integration of manually generated .csv files) tools. A pipeline is built with NextFlow with custom Python scripts. Inputs of the pipeline include (mock data, imitating real datasets):
+An aim of the project was to automate a routine HIV-1 subtyping analysis, using SierraPy (Stanford), Rest API (Comet), and Rega (integration of manually generated .csv files) tools. A pipeline is built with NextFlow with custom Python scripts. Inputs of the pipeline include (mock data, imitating real datasets):
 
 - fasta file per fragment (fused PRRT, INT, and ENV)
 - .xlsx per fragment (NGS pipeline, contrain information for invalid sequences)
