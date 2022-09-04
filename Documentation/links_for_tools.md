@@ -3,8 +3,8 @@ title: "Links to Subtyping Tools"
 author: "Vera Rykalina"
 date: "03.09.2022"
 output: pdf_document
-size: 4:3
 geometry: left=2cm, right=2cm, top=3cm, bottom=3cm
+output: pdf_document
 ---
 
 # Online Tools for HIV-1 Subtyping
