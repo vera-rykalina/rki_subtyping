@@ -4,7 +4,7 @@ An aim of the project was to automate a routine HIV-1 subtyping analysis, using 
 
 - .fasta files (fused PRRT, INT, and ENV)
 - .xlsx files (NGS pipeline, contain information for invalid sequences)
-- .csv files (manually generated via Rega online tool, input: marked .fasta)
+- .csv files (manually generated, using Rega online tool; input: marked .fasta files)
 - .fasta files of reference panels (subtype_origin_year_accession)
   
 ```sh
