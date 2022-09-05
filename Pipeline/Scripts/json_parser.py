@@ -1,6 +1,6 @@
 """
 To play with this parser outside of pipeline
-python3 stanford_parser.py results/MS95_PRRT_20.json MS95_PRRT_20.csv
+python3 stanford_parser.py Results/MS95_PRRT_20.json MS95_PRRT_20.csv
 """
 
 
@@ -23,25 +23,37 @@ name2 = name1.split("_")[-2]
 name3 = name1.split(".")[-2]
 
 
-# Initiate lists and dictionary
-columns = {}
-col_header = []
-col_subtype = []
+for infilename in sys.argv[1:]:
+    name0 = infilename.rsplit("/")[-1] # gives a file name.csv
+    list_of_substrings = name0.split("_")
+    # Initiate lists and dictionary
+    columns = {}
+    col_header = []
+    col_subtype = []
+    if "PRRT" in list_of_substrings or "INT" in list_of_substrings:
+        # Extract useful info 
+        for sequence in data: 
+            col_header.append(sequence["inputSequence"]["header"])
+            col_subtype.append(sequence["subtypeText"])
+        # Add info to the dictionary
+        columns["SequenceName"] = col_header
+        columns["Subtype%"] = col_subtype
+        # Create a dataframe
+        df = pd.DataFrame(columns)
 
-# Extract useful info
-for sequence in data:
-    col_header.append(sequence["inputSequence"]["header"])
-    col_subtype.append(sequence["subtypeText"])
+    if "ENV" in list_of_substrings:
+        # Extract useful info 
+        for sequence in data: 
+            col_header.append(sequence["inputSequence"]["header"])
+            col_subtype.append("NA")
+        # Add info to the dictionary
+        columns["SequenceName"] = col_header
+        columns["Subtype%"] = col_subtype
+        # Create a dataframe
+        df = pd.DataFrame(columns)
 
-# Add info to the dictionary
-columns["SequenceName"] = col_header
-columns["Subtype%"] = col_subtype
 
-# Create a dataframe
-df = pd.DataFrame(columns)
-
-
-# Iterate over row in df (some sequence may have NAs as subtype)
+# Iterate over rows in df (some sequence may have NAs as a subtype)
 # Create new columns "Subtype" and "Comment"
 
 for i, row in df.iterrows():
@@ -59,7 +71,6 @@ df["Stanford_" + name2 + "_Comment"] = df["Stanford_" + name2 + "_Comment"].fill
 
 
 # Remove original subtype column as formatted: A (5.08%), it works in place
-#df.drop(columns=["Subtype%"], inplace = True)
 df.drop("Subtype%", axis=1, inplace = True)
 
 # Check output
