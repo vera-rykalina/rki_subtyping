@@ -287,7 +287,7 @@ $ git clone https://github.com/vera-rykalina/rki_subtyping
 Modify path of `ProjectDir` within `subtyping_pipeline.nf`
 
 ```sh
-projectDir = "/home/beast3/rki_subtyping/Pipeline"
+projectDir = "/home/beast2/rki_subtyping/Pipeline"
 ```
 
 
