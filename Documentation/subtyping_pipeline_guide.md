@@ -51,7 +51,7 @@ $ tree  -d
 ```
 
 ---
-## AllSeqCO20 Folder
+## AllSeqsCO20 Folder
 Provide this folder with .xlsx files as listed (from NGS pipeline): 
 ```sh
 AllSeqsCO20/
