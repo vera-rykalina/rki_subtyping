@@ -98,10 +98,15 @@ df["Rega_" + name2 + "_Comment"] = df["pure"].astype(str).str.strip() + " / " + 
 # Delete undesired columns
 df.drop(columns=["pure", "crf"], axis = 1,  inplace = True)
 
+# Double QC check (if missed in repeat_marking.py):
 
 # Remove _badAlign
 for i, row in df.iterrows():
         df.at[i, ["SequenceName"]] = row["SequenceName"].split("_badAlign")[0]
+
+# Remove _lowTrust
+for i, row in df.iterrows():
+        df.at[i, ["SequenceName"]] = row["SequenceName"].split("_lowTrust")[0]
 
 
 # Sort df by SequenceName
