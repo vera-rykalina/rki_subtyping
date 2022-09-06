@@ -1,6 +1,6 @@
 # HIV-1 Subtyping
 
-An aim of the project was to automate a routine HIV-1 subtyping analysis, using Stanford (SierraPy), Comet (Rest API), and Rega (manually generated .csv files via click or drop file) tools. A pipeline is built with NextFlow with custom Python scripts. Inputs of the pipeline include (mock data, imitating real datasets):
+An aim of the project was to automate a routine HIV-1 subtyping analysis, using Stanford (SierraPy), Comet (Rest API), and Rega (manually generated .csv files via click or drop file) tools. A pipeline is built with NextFlow with custom Python scripts. Inputs of the pipeline include:
 
 - .fasta files (fused PRRT, INT, and ENV)
 - .xlsx files (NGS pipeline, contain information for invalid sequences)
@@ -24,6 +24,19 @@ An aim of the project was to automate a routine HIV-1 subtyping analysis, using 
 │   ├── Reference_ENV_Panel_Stanford.fas
 │   ├── Reference_INT_Panel_Stanford.fas
 │   └── Reference_PRRT_Panel_Stanford.fas
+├── Scripts
+│   ├── comet_rest.py
+│   ├── decision.py
+│   ├── fasta_for_mafft.py
+│   ├── full_join.py
+│   ├── json_parser.py
+│   ├── nexflow.config
+│   ├── plot.py
+│   ├── rega_cleanup.py
+│   ├── repeat_marking.py
+│   ├── report.py
+│   ├── subtyping_pipeline.nf
+│   └── tag_parser.py
 ```
 
 A decision is made based on combination of 3 subtyping tools. Records with unclear or ambiguous subtypes are sorted concatenated with the Stanford reference panels and subjected to multiple suquence alignment (msa) via Mafft. MSA samples are analysed using iQtree to make a final decision and update report table and plot.  
