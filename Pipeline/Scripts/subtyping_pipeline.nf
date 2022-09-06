@@ -124,7 +124,7 @@ process clean_rega {
     path csv
     
   output:
-    path "rega_${csv.getSimpleName().split('_rega_')[1]}.csv"
+    path "rega_${csv.getSimpleName().split('_Rega_')[1]}.csv"
   
   when:
     params.fullpipeline == true
