@@ -155,9 +155,18 @@ Repeating the command above generates `14_report` folder with `MS95_subtype_uplo
 
 Repating it again generates a `MS95_subtype_counts.png` plot and adds it to the `14_report` folder.
 
-
 ---
+## Clean Up
 
+Once the pipeline has generated `Results` folder with all desired output files (**save** all needed outputs first), the input files can be removed from the input folders.
+```sh
+$ rm -rf InputFasta/* AllSeqsCO20/* ManualRega/* Results/
+```
+The same is true for dot and nextflow temp files/folders:
+```sh
+$ rm -rf .nextflow work .nextflow.log .nextflow.log.*
+```
+---
 
 ## Processes Overview
 ```sh
