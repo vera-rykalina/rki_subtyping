@@ -73,6 +73,9 @@ df["Stanford_" + name2 + "_Comment"] = df["Stanford_" + name2 + "_Comment"].fill
 # Remove original subtype column as formatted: A (5.08%), it works in place
 df.drop("Subtype%", axis=1, inplace = True)
 
+# Replace subsubtypes (e.g. A2 -> A, F1 -> F)
+df["Stanford_" + name2 + "_Subtype"] = df["Stanford_" + name2 + "_Subtype"].replace(r"^(\w{1})\d{1}$", r"\1", regex=True)
+
 # Check output
 print(df.head())
 print(df.tail())
