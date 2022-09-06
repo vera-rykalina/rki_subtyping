@@ -131,7 +131,7 @@ process clean_rega {
 
   script:
    """
-    python3 ${params.rega} ${csv} rega_${csv.getSimpleName().split('_rega_')[1]}.csv
+    python3 ${params.rega} ${csv} rega_${csv.getSimpleName().split('_Rega_')[1]}.csv
    """
 
 }
