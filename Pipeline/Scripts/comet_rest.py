@@ -10,7 +10,7 @@ cookies = r.cookies
 # First send the form data (which button was clicked, which checkboxes have been checked)
 
 """
-You can get this postdata by using print(r.text)
+ Postdata can be gotten by using print(r.text)
 <form action="index.php?cat=hiv1" method="post" enctype="multipart/form-data" style = "margin-left:20px;">
         <input name="fastafile" type="file" size="40"><p><input type="checkbox" name="non_commercial" value="confirmed">
         I confirm to use COMET only for non-commercial research purpose (*)</p><input style="color:#5d0524;font-weight:bolder"
@@ -25,8 +25,7 @@ postdata = {
 
 
 """
-You can get this url (https://comet.lih.lu/index.php?cat=hiv1) after manual upload of 
-a fasta file. 
+Get the url (https://comet.lih.lu/index.php?cat=hiv1) after manual upload of a fasta file. 
 """
 # Then, post the request with postdata, file and cookies
 
