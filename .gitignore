@@ -18,3 +18,6 @@ test.md
 mock_fasta_list.txt
 subtyping_tech_description.pdf
 Pipeline/test/
+InputFasta/*.fasta
+AllSeqsCO20/*.xlsx
+ManualRega/*.csv
