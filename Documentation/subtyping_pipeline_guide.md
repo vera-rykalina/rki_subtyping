@@ -110,9 +110,9 @@ Name Rega-produced files, using the pattern as in the example below:
 
 ```sh
 ManualRega/
-├── manual_rega_MS95_ENV_20M.csv
-├── manual_rega_MS95_INT_20M.csv
-└── manual_rega_MS95_PRRT_20M.csv
+├── Manual_Rega_MS95_ENV_20M.csv
+├── Manual_Rega_MS95_INT_20M.csv
+└── Manual_Rega_MS95_PRRT_20M.csv
 ```
 
 ---
