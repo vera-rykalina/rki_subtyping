@@ -20,6 +20,8 @@ footer: Vera Rykalina | September 2022
 > Conda
 
 > GitHub Repo 
+
+> Notes
 ---
 
 # Quick Guide
@@ -179,6 +181,7 @@ Repating it again generates a `MS95_subtype_counts.png` plot and adds it to the 
 [3c/0fb71f] process > report                [100%] 1 of 1, cached: 1 ✔
 [c5/462a18] process > countplot (1)         [100%] 1 of 1 ✔
 ```
+
 ---
 # Supplementary
 ---
@@ -289,7 +292,13 @@ Modify path of `ProjectDir` within `subtyping_pipeline.nf`
 ```sh
 projectDir = "/home/beast2/rki_subtyping/Pipeline"
 ```
+---
+# Notes
 
+---
 
+## To Keep in Mind
 
+- The pipeline does not take into account subsubtypes. If there are subsubtypes hey are converted to subtypes. For instance, A1 is converted to A, F2 is converted to F etc.
 
+- The pipeline does not perform any quality check of `.fasta` sequences. Any illegal characters should be excluded e.g "_" (see for ENV). Sequences with such characters are not accepted by Rega online tool. 
