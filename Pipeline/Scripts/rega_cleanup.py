@@ -9,7 +9,7 @@ outfilename = sys.argv[2]
 
 # Read .csv file
 f = open(infilename, "r")
-df = pd.read_csv(f, sep = ";")
+df = pd.read_csv(f, sep = ",")
 f.close()
 
 
