@@ -306,8 +306,12 @@ projectDir = "/home/beast2/rki_subtyping/Pipeline"
 
 ---
 
-## To Keep in Mind
+## Keep in Mind (1)
 
-- The pipeline does not take into account subsubtypes. If there are subsubtypes hey are converted to subtypes. For instance, A1 is converted to A, F2 is converted to F etc.
+- The pipeline does not take into account subsubtypes. If there are subsubtypes they are converted to subtypes. For instance, A1 is converted to A, F2 is converted to F etc.
 
-- The pipeline does not perform any quality check of `.fasta` sequences. Any illegal characters should be excluded e.g "_" (see for ENV). Sequences with such characters are not accepted by Rega online tool. 
+- The pipeline does not perform any quality check of `.fasta` sequences. Any illegal characters should be excluded e.g "_" (see ENV `.fasta`). Sequences with such characters are not accepted by Rega online tool. 
+
+---
+## Keep in Mind (2)
+- Make sure that sample names do not exceed 30 characters in length. Long sample names get shorten by Rega online tool that can cause issues. E.g, this sequence name **PK105_F482_23_MiS84_S86_20consensus_PRRT_20** is too long and gets shortern by Rega to **PK105_F482_23_MiS84_S86_20cons**. In such cases a manual change is necessary. 
