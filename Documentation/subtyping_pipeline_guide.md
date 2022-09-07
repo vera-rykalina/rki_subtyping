@@ -171,14 +171,14 @@ $ rm -rf .nextflow work .nextflow.log .nextflow.log.*
 ## Processes Overview
 ```sh
 [1b/f2f10a] process > mark_fasta (2)        [100%] 3 of 3, cached: 3 ✔
+[a9/dd644a] process > get_tags (3)          [100%] 3 of 3, cached: 3 ✔
+[97/70bbdd] process > comet (3)             [100%] 3 of 3, cached: 3 ✔
 [73/a28f41] process > stanford (3)          [100%] 3 of 3, cached: 3 ✔
 [e6/e4af1d] process > json_to_csv (3)       [100%] 3 of 3, cached: 3 ✔
 [65/e0eb90] process > clean_rega (3)        [100%] 3 of 3, cached: 3 ✔
-[97/70bbdd] process > comet (3)             [100%] 3 of 3, cached: 3 ✔
 [62/e59285] process > join_prrt (1)         [100%] 1 of 1, cached: 1 ✔
 [87/4d2fcf] process > join_env (1)          [100%] 1 of 1, cached: 1 ✔
 [34/36991e] process > join_int (1)          [100%] 1 of 1, cached: 1 ✔
-[a9/dd644a] process > get_tags (3)          [100%] 3 of 3, cached: 3 ✔
 [8d/dad394] process > make_decision (1)     [100%] 1 of 1, cached: 1 ✔
 [d8/983216] process > join_with_tags        [100%] 1 of 1, cached: 1 ✔
 [e6/ceaa42] process > fasta_for_mafft (2)   [100%] 3 of 3, cached: 3 ✔
