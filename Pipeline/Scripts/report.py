@@ -62,10 +62,7 @@ for i, row in final_report.iterrows():
     
     elif row["Subtyp_INT"] in special_cases:
         final_report.at[i, ["Subtyp_Summe"]] = row["Subtyp_PRRT"]
-    
-    elif row["Subtyp_PRRT"] != row["Subtyp_INT"]:
-        final_report.at[i, ["Subtyp_Summe"]] = row["Subtyp_PRRT"]
-        
+         
     else:
         final_report.at[i, ["Subtyp_Summe"]] = "Manual"
 
