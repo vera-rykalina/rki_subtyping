@@ -67,6 +67,8 @@ for i, row in final_report.iterrows():
         final_report.at[i, ["Subtyp_Summe"]] = "Manual"
 
 
+# Sort df by SequenceName
+final_report.sort_values(by=["SCount"], inplace=True)
 
 # Create output file
 name1 = name0.split("_")[1]
