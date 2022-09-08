@@ -323,7 +323,7 @@ process fasta_for_mafft {
   } 
 
   process mafft {
-  publishDir "${params.outdir}/12_mafft", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/12_mafft", mode: "copy", overwrite: false
   input:
       path fasta
   output:
@@ -354,7 +354,7 @@ process iqtree {
   script:
   
     """
-    iqtree -s ${fasta} -pre ${fasta.getSimpleName().split('msa_')[1]} -m TEST -bb 10000 -nt AUTO
+    iqtree -s ${fasta} -pre iqtree_${fasta.getSimpleName().split('msa_')[1]} -m TEST -bb 10000 -nt AUTO
     """
   }
 
@@ -419,8 +419,10 @@ workflow {
     prrtConcatChannel = prrt_concat_panel(fasta_mafftChannel.filter(~/.*_PRRT_.*.fasta/), panelChannel.filter(~/.*_PRRT_.*.fas/))
     // MAFFT
     msaChannel = mafft(prrtConcatChannel.concat(intConcatChannel).concat(envConcatChannel))
-    // IQTREE
-    iqtree(msaChannel)
+    // IQTREE (let iqtree get modified msa files)
+    mafftPathChannel = channel.fromPath("${projectDir}/${params.outdir}/12_mafft/*.fasta")
+    //iqtree(msaChannel)
+    iqtree(mafftPathChannel)
     //REPORT
     reportChannel = report(fullFromPathChannel)
     // PLOT
