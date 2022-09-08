@@ -145,8 +145,7 @@ Manually modify files (see below) which contain `Manual` tag in PRRT_Subpype, IN
 ## Report and Plot
 
 ```sh
-$ nextflow Scripts/subtyping_pipeline.nf --outdir Results 
---fullpipeline --iqtree -resume
+$ nextflow Scripts/subtyping_pipeline.nf --outdir Results --fullpipeline --iqtree -resume
 ``` 
 
 Repeating the command above generates `14_report` folder with `MS95_subtype_uploads.xlsx` report file.
