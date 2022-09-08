@@ -171,8 +171,8 @@ $ rm -rf .nextflow work .nextflow.log .nextflow.log.*
 [1b/f2f10a] process > mark_fasta (2)        [100%] 3 of 3, cached: 3 ✔
 [a9/dd644a] process > get_tags (3)          [100%] 3 of 3, cached: 3 ✔
 [97/70bbdd] process > comet (3)             [100%] 3 of 3, cached: 3 ✔
-[73/a28f41] process > stanford (3)          [100%] 2 of 2, cached: 3 ✔
-[e6/e4af1d] process > json_to_csv (3)       [100%] 2 of 2, cached: 3 ✔
+[73/a28f41] process > stanford (3)          [100%] 2 of 2, cached: 2 ✔
+[e6/e4af1d] process > json_to_csv (3)       [100%] 2 of 2, cached: 2 ✔
 [65/e0eb90] process > clean_rega (3)        [100%] 3 of 3, cached: 3 ✔
 [87/4d2fcf] process > join_env (1)          [100%] 1 of 1, cached: 1 ✔
 [34/36991e] process > join_int (1)          [100%] 1 of 1, cached: 1 ✔
