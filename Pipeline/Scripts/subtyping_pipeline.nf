@@ -15,11 +15,18 @@ params.report = "${projectDir}/Scripts/report.py"
 params.fasta_for_mafft = "${projectDir}/Scripts/fasta_for_mafft.py"
 params.countplot = "${projectDir}/Scripts/plot.py"
 
+params.outdir = null
+if (!params.outdir) {
+  println "outdir: $params.outdir"
+  error "Missing output directory"
+}
+
+
 log.info """
 VERA RYKALINA - HIV-1 GENOTYPING PIPELINE
 ================================================================================
 projectDir       : ${projectDir}
-ourdir           : ${params.outdir}
+outdir           : ${params.outdir}
 mark_fasta       : ${params.marking}
 comet            : ${params.comet_rest}
 json_to_csv      : ${params.json_parser}
