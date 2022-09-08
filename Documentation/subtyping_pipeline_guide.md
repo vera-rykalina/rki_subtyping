@@ -122,16 +122,14 @@ ManualRega/
 Repeat the previous command with `--fullpipeline` parameter and `-resume` flag. The latter allows for generating an output up to `12_mafft` folder. The complete processes are cached.
 
 ```sh
-$ nextflow Scripts/subtyping_pipeline.nf --outdir Results
---fullpipeline -resume
+$ nextflow Scripts/subtyping_pipeline.nf --outdir Result --fullpipeline -resume
 ```
 ---
 ## Pipeline with **--iqtree** parameter
 Parameter `--iqtree` allows for running the iqtree process that produces `13_iqtree` folder within `Results`. The folder contains `.iqtree`, `.treefile`, and `.log` files. The parameter can be added at this point, as the last command with report and plot outputs being produced or not added at all (no `13_iqtree` folder then).
 
 ```sh
-$ nextflow Scripts/subtyping_pipeline.nf --outdir Results 
---fullpipeline --iqtree -resume
+$ nextflow Scripts/subtyping_pipeline.nf --outdir Results --fullpipeline --iqtree -resume
 ``` 
 ---
 ## Decision
@@ -173,18 +171,18 @@ $ rm -rf .nextflow work .nextflow.log .nextflow.log.*
 [1b/f2f10a] process > mark_fasta (2)        [100%] 3 of 3, cached: 3 ✔
 [a9/dd644a] process > get_tags (3)          [100%] 3 of 3, cached: 3 ✔
 [97/70bbdd] process > comet (3)             [100%] 3 of 3, cached: 3 ✔
-[73/a28f41] process > stanford (3)          [100%] 3 of 3, cached: 3 ✔
-[e6/e4af1d] process > json_to_csv (3)       [100%] 3 of 3, cached: 3 ✔
+[73/a28f41] process > stanford (3)          [100%] 2 of 2, cached: 3 ✔
+[e6/e4af1d] process > json_to_csv (3)       [100%] 2 of 2, cached: 3 ✔
 [65/e0eb90] process > clean_rega (3)        [100%] 3 of 3, cached: 3 ✔
-[62/e59285] process > join_prrt (1)         [100%] 1 of 1, cached: 1 ✔
 [87/4d2fcf] process > join_env (1)          [100%] 1 of 1, cached: 1 ✔
 [34/36991e] process > join_int (1)          [100%] 1 of 1, cached: 1 ✔
+[62/e59285] process > join_prrt (1)         [100%] 1 of 1, cached: 1 ✔
 [8d/dad394] process > make_decision (1)     [100%] 1 of 1, cached: 1 ✔
 [d8/983216] process > join_with_tags        [100%] 1 of 1, cached: 1 ✔
 [e6/ceaa42] process > fasta_for_mafft (2)   [100%] 3 of 3, cached: 3 ✔
-[f7/9e1ccf] process > prrt_concat_panel (1) [100%] 1 of 1, cached: 1 ✔
-[a4/b7aaee] process > int_concat_panel (1)  [100%] 1 of 1, cached: 1 ✔
 [54/89322b] process > env_concat_panel (1)  [100%] 1 of 1  cached: 1 ✔
+[a4/b7aaee] process > int_concat_panel (1)  [100%] 1 of 1, cached: 1 ✔
+[f7/9e1ccf] process > prrt_concat_panel (1) [100%] 1 of 1, cached: 1 ✔
 [c0/786bcd] process > mafft (3)             [100%] 3 of 3, cached: 2 ✔
 [68/72f0eb] process > iqtree (3)            [100%] 3 of 3, cached: 3 ✔
 [3c/0fb71f] process > report                [100%] 1 of 1, cached: 1 ✔
