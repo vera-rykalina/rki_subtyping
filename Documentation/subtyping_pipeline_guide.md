@@ -308,7 +308,7 @@ projectDir = "/home/beast2/rki_subtyping/Pipeline"
 
 - The pipeline does not take into account subsubtypes. If there are subsubtypes they are converted to subtypes. For instance, A1 is converted to A, F2 is converted to F etc.
 
-- The pipeline does not perform any quality check of `.fasta` sequences. Any illegal characters should be excluded e.g "_" (see ENV `.fasta`). Sequences with such characters are not accepted by Rega online tool. 
+- The pipeline does not perform a full quality check of `.fasta` sequences. Illegal characters should be excluded (the pipeline takes care only of underscores so far). Sequences with illegal characters are not accepted by Rega online tool. 
 
 ---
 ## Keep in Mind (2)
