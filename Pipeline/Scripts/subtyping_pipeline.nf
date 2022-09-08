@@ -18,12 +18,12 @@ params.countplot = "${projectDir}/Scripts/plot.py"
 params.outdir = null
 if (!params.outdir) {
   println "outdir: $params.outdir"
-  error "Missing output directory"
+  error "Missing output directory!"
 }
 
 
 log.info """
-VERA RYKALINA - HIV-1 GENOTYPING PIPELINE
+VERA RYKALINA - HIV-1 SUBTYPING PIPELINE
 ================================================================================
 projectDir       : ${projectDir}
 outdir           : ${params.outdir}
