@@ -64,11 +64,6 @@ col3 = df_full_int.pop("SeqLength")
 df_full_int.insert(2, "SeqLength", col3)
 
 
-# Remove non-relevant content
-df_full_env["Stanford_ENV_Subtype"] = None
-df_full_env["Stanford_ENV_Comment"] = None
-
-
 # Create 'Scount' column in dfs
 df_full_prrt["Scount"] = df_full_prrt["SequenceName"].str.extract("(^\d+-\d+)_\w{2,4}_\d+_?\w+?$", expand=True)
 
