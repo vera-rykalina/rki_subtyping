@@ -7,7 +7,7 @@ HivTrace/
 
 Documentation/mock_fasta_list.txt
 
-Pipeline/Results/
+Pipeline/*Results*/
 Pipeline/work/
 Pipeline/.nextflow/
 Pipeline/.nextflow.log*
