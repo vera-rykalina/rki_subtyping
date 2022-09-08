@@ -42,4 +42,4 @@ for container in ax.containers:
 
 # Save figure
 plt.savefig(name2 + "_subtype_counts.png", dpi = 300, bbox_inches="tight") 
-plt.show()
+# plt.show()
