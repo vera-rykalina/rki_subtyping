@@ -1,8 +1,10 @@
 # Import libraries
 import sys
+import re
 from Bio import SeqIO
 from collections import Counter
 from textwrap import wrap
+
 
 infilename = sys.argv[1]
 outfilename = sys.argv[2]
@@ -13,7 +15,8 @@ sequences = []
 fasta_sequences = SeqIO.parse(open(infilename),'fasta')
 for fasta in fasta_sequences:
     names.append(fasta.id.split("_badAlign")[0].split("_lowTrust")[0])
-    sequences.append(str(fasta.seq))
+    sequences.append(str(fasta.seq).replace("_", ""))
+
 
 # Mark repeats
 counts = Counter(names)
