@@ -107,8 +107,10 @@ These `.fasta` files have M at the end of the file name:
 └── MS95_PRRT_20M.fasta
 ```
 ---
+
 ## ManualRega Folder (2)
-Name Rega-produced files, using the pattern as in the example below:
+Rega online tool always generates files with the same name **results**, e.g. `results.csv`. 
+Rename these files accordingly, using the pattern as in the example below:
 
 ```sh
 ManualRega/
@@ -116,6 +118,7 @@ ManualRega/
 ├── Manual_Rega_MS95_INT_20M.csv
 └── Manual_Rega_MS95_PRRT_20M.csv
 ```
+Refer to Supplementary part of the guide, if you need more information (Page 21).
 
 ---
 ## Pipeline with **--fullpipeline** parameter
@@ -215,6 +218,26 @@ Scount	        Fragment    Cutoff  Header	        Lauf   NGS-ID	Index GenBank-ID
 20-02949	PRRT	    20	    20-02949_PRRT_20	95	        4	         CCCCT...
 20-02950	PRRT	    20	    20-02950_PRRT_20	95	   	5	         CCCCT...
 ```
+---
+
+## Example of .csv within ManualRega
+An example of a `.csv` file produced by Rega online tool (names of columns and only one sample for demonstration)
+
+```
+"name","length","assignment","rule","support","begin","end","type","pure",
+"pure_support","pure_inner","pure_outer","scan_best_support","scan_assigned_support",
+"scan_assigned_nosupport","scan_best_profile","scan_assigned_profile","crf",
+"crf_support","crf_inner","crf_outer","crfscan_best_support",
+"crfscan_assigned_support","crfscan_assigned_nosupport","crfscan_best_profile",
+"crfscan_assigned_profile","major_id","minor_id"
+"20-02944_PRRT_20","1026.0","HIV-1 CRF 06_CPX","4","98.0","1823.0","2848.0","Human
+immunodeficiency virus 1","HIV-1 Subtype G","93.0","0.0","93.0","0.5","0.357","0.643",
+"G K A1 A1 A1 A1 G A1 A1 G G G G G","G - - - - - - - - G G G G -","HIV-1 CRF 06_CPX",
+"98.0","0.0","98.0","1.0","1.0","0.0","06_CPX 06_CPX 06_CPX 06_CPX 06_CPX 06_CPX 
+06_CPX 06_CPX 06_CPX 06_CPX 06_CPX 06_CPX 06_CPX 06_CPX","06_CPX 06_CPX 06_CPX 06_CPX 
+06_CPX 06_CPX 06_CPX 06_CPX 06_CPX 06_CPX 06_CPX 06_CPX 06_CPX 06_CPX","",""
+```
+
 ---
 ## References Folder
 This folder contains reference panels and does not need any change unless reference panels should be replaced.   
