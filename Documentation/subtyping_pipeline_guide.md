@@ -45,6 +45,7 @@ $ tree  -d
 ```
 
 ```sh
+Pipeline/
 ├── AllSeqsCO20
 ├── InputFasta
 ├── ManualRega
@@ -61,6 +62,7 @@ AllSeqsCO20/
 ├── MS95_Seqs_INT_CO20_V5.xlsx
 └── MS95_Seqs_PRRT_CO20_V5.xlsx
 ```
+Refer to Supplementary part of the guide, if you need more information (Page 20).
 
 ---
 ## InputFasta Folder
@@ -71,6 +73,8 @@ InputFasta/
 ├── MS95_INT_20.fasta
 └── MS95_PRRT_20.fasta
 ```
+Refer to Supplementary part of the guide, if you need more information (Page 19).
+
 ---
 
 
