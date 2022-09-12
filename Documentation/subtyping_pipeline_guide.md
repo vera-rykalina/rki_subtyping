@@ -138,7 +138,7 @@ Repeat the previous command with `--fullpipeline` parameter and `-resume` flag. 
 $ nextflow Scripts/subtyping_pipeline.nf --outdir Result --fullpipeline -resume
 ```
 
-Check Mafft output before you run iqtree analysis! 
+Check the output of `12_mafft` folder before you run iqtree analysis (msa files - multiple sequence alignments)! 
 
 ---
 ## Pipeline with **--iqtree** parameter
@@ -147,7 +147,7 @@ Parameter `--iqtree` allows for running the iqtree process that produces `13_iqt
 ```sh
 $ nextflow Scripts/subtyping_pipeline.nf --outdir Results --fullpipeline --iqtree -resume
 ``` 
-You can monitor the `.log` file while running iqtree within `work` folder using respective processe id (68), e.g [68/72f0eb]. 
+You can monitor the `.log` file while running iqtree within `work` folder using respective process ID (68), e.g [68/72f0eb]. 
 
 ---
 
