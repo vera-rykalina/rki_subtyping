@@ -176,8 +176,5 @@ title: "Subtype Names"
 |Check the report| ChkRep|
 |Unassigned| Unassigned|
 ||_Seq. nicht auswertbar|
-||_Seq. nicht auswertbar|
 ||_Seq. nicht klassifizierbar|
 ||_zu wenig PCR-Produkt|
-||_Mat. ungenügend|
-||_PCR negativ|
