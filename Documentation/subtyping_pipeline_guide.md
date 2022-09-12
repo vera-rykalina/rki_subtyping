@@ -27,12 +27,18 @@ footer: Vera Rykalina | September 2022
 # Quick Guide
 ---
 
+# Important!
+
+> Before you start the pipeline, make absolutely sure that all file names, sequence names, structure of input tables are correct and **follow exactly the patterns** as described in examples.
+
+---
+
 ## Pipeline Directory
 Locate to `Pipeline` directory:
 ```sh
 $ cd ~/rki_subtyping/Pipeline
 ```
-Open IDE
+Open IDE (Visual Code Studio)
 ```sh
 $ code ../
 ```
@@ -62,7 +68,7 @@ AllSeqsCO20/
 ├── MS95_Seqs_INT_CO20_V5.xlsx
 └── MS95_Seqs_PRRT_CO20_V5.xlsx
 ```
-Refer to Supplementary part of the guide, if you need more information (Page 20).
+Refer to Supplementary part of the guide, if you need more information (Page 21).
 
 ---
 ## InputFasta Folder
@@ -73,7 +79,7 @@ InputFasta/
 ├── MS95_INT_20.fasta
 └── MS95_PRRT_20.fasta
 ```
-Refer to Supplementary part of the guide, if you need more information (Page 19).
+Refer to Supplementary part of the guide, if you need more information (Page 22).
 
 ---
 
@@ -122,7 +128,7 @@ ManualRega/
 ├── Manual_Rega_MS95_INT_20M.csv
 └── Manual_Rega_MS95_PRRT_20M.csv
 ```
-Refer to Supplementary part of the guide, if you need more information (Page 21).
+Refer to Supplementary part of the guide, if you need more information (Page 23).
 
 ---
 ## Pipeline with **--fullpipeline** parameter
@@ -131,6 +137,9 @@ Repeat the previous command with `--fullpipeline` parameter and `-resume` flag. 
 ```sh
 $ nextflow Scripts/subtyping_pipeline.nf --outdir Result --fullpipeline -resume
 ```
+
+Check Mafft output before you run iqtree analysis! 
+
 ---
 ## Pipeline with **--iqtree** parameter
 Parameter `--iqtree` allows for running the iqtree process that produces `13_iqtree` folder within `Results`. The folder contains `.iqtree`, `.treefile`, and `.log` files. The parameter can be added at this point, as the last command with report and plot outputs being produced or not added at all (no `13_iqtree` folder then).
@@ -138,7 +147,10 @@ Parameter `--iqtree` allows for running the iqtree process that produces `13_iqt
 ```sh
 $ nextflow Scripts/subtyping_pipeline.nf --outdir Results --fullpipeline --iqtree -resume
 ``` 
+You can monitor the `.log` file while running iqtree within `work` folder using respective processe id (68), e.g [68/72f0eb]. 
+
 ---
+
 ## Decision
 Manually modify files (see below) which contain `Manual` tag in PRRT_Subpype, INT_Subtype, and ENV_Subtype columns. Save changes and close `.xlsx` files.
 
@@ -199,6 +211,17 @@ $ rm -rf .nextflow work .nextflow.log .nextflow.log.*
 # Supplementary
 ---
 
+## Example of .xlsx within AllSeqsCO20
+```
+Scount	        Fragment    Cutoff  Header	        Lauf   NGS-ID	Index GenBank-ID Sequenz
+20-02944	PRRT	    20	    20-02944_PRRT_20	95	   	1	         CCCCT...
+20-02945	PRRT	    20	    20-02945_PRRT_20	95	  	2	         CCCCT...
+20-02947	PRRT	    20	    20-02947_PRRT_20	95	        3	         CCCCT...
+20-02949	PRRT	    20	    20-02949_PRRT_20	95	        4	         CCCCT...
+20-02950	PRRT	    20	    20-02950_PRRT_20	95	   	5	         CCCCT...
+```
+---
+
 ## Example of .fasta within InputFasta
 ```sh
 >20-02955_ENV_20
@@ -211,16 +234,6 @@ AAACAATCCAACCTTACAACAGTAATCTTTAAGAACTCCTCAGGGGGGGACCCAGAAATT
 GTAATGCACAGTTTTAACTGTGGAGGGGAATTTTTCTATTGTAACACAACACAGTTGTTC
 AATAGTATTTGGAATGACACTACTAATAGTACTGACACAAATGAAACTATCACACTCCCA
 TGCAGAATAAAACAAATTATAAATAGATGGCAGGAAGCAGGAAGGG
-```
----
-## Example of .xlsx within AllSeqsCO20
-```
-Scount	        Fragment    Cutoff  Header	        Lauf   NGS-ID	Index GenBank-ID Sequenz
-20-02944	PRRT	    20	    20-02944_PRRT_20	95	   	1	         CCCCT...
-20-02945	PRRT	    20	    20-02945_PRRT_20	95	  	2	         CCCCT...
-20-02947	PRRT	    20	    20-02947_PRRT_20	95	        3	         CCCCT...
-20-02949	PRRT	    20	    20-02949_PRRT_20	95	        4	         CCCCT...
-20-02950	PRRT	    20	    20-02950_PRRT_20	95	   	5	         CCCCT...
 ```
 ---
 
@@ -339,3 +352,10 @@ projectDir = "/home/beast2/rki_subtyping/Pipeline"
 ---
 ## Keep in Mind (2)
 - Make sure that sample names do not exceed 30 characters in length. Long sample names get shorten by Rega online tool that can cause issues. E.g, this sequence name **PK105_F482_23_MiS84_S86_20consensus_PRRT_20** is too long and gets shortern by Rega to **PK105_F482_23_MiS84_S86_20cons**. In such cases a manual change is necessary. 
+
+---
+
+## Keep in Mind (3)
+- Be sure you are connected to the Internet
+
+- You can always delete the whole `Results` folder or individual subfolder/subfolders within `Results` and repeat the commnand with `-resume`.
