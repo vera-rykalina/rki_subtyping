@@ -15,3 +15,4 @@ Pipeline/test/*
 Pipeline/InputFasta/*.fasta
 Pipeline/AllSeqsCO20/*.xlsx
 Pipeline/ManualRega/*.csv
+snippets.*
