@@ -29,7 +29,7 @@ footer: Vera Rykalina | September 2022
 
 # Important!
 
-> Before you start the pipeline, make absolutely sure that all file names, sequence names, structure of input tables are correct and **follow exactly the patterns** as described in examples.
+> Before you start the pipeline, make absolutely sure that all file names, sequence names, structures of input tables are correct and **follow exactly the patterns** as described in examples.
 
 ---
 
