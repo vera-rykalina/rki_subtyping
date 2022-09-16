@@ -1,6 +1,6 @@
 # HIV-1 Subtyping
 
-An aim of the project was to automate a routine HIV-1 subtyping analysis, using Stanford (SierraPy), Comet (Rest API), and Rega (manually generated .csv files via click or drop file) tools. A pipeline is built with NextFlow with custom Python scripts. Inputs of the pipeline include:
+An aim of the project was to automate a routine HIV-1 subtyping analysis, using Stanford (SierraPy), Comet (Rest API), and Rega (manually generated .csv files via click or drop) tools. A pipeline is built with NextFlow and custom Python scripts. Inputs of the pipeline include:
 
 - .fasta files (fused PRRT, INT, and ENV)
 - .xlsx files (NGS pipeline, contain information for invalid sequences)
@@ -39,8 +39,8 @@ An aim of the project was to automate a routine HIV-1 subtyping analysis, using 
 │   └── tag_parser.py
 ```
 
-A decision is made based on combination of 3 subtyping tools. Records with unclear or ambiguous subtypes are sorted concatenated with the Stanford reference panels and subjected to multiple suquence alignment (msa) via Mafft. MSA samples are analysed using iQtree to make a final decision and update report table and plot.  
+A decision is made based on a combination of three publicly available subtyping tools. Records with unclear or ambiguous subtypes are sorted and concatenated with the Stanford reference panels followed by a multiple suquence alignment (msa) via Mafft. MSA samples are analysed, using IQTREE to make a final decision and respective updates.
 
-A final output of the pipeline .xlsx table for internal DB and a plot. The pipeline is supposed to be run for each sequencing ran of 96 samples, including control samples. 
+A final output of the pipeline is an .xlsx file formatted for an internal DB and a plot. The pipeline is supposed to be used for each sequencing run of 96 samples, including control samples. 
 
 ![Plot](Documentation/images/MS95_subtype_counts.png)
