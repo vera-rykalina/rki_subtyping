@@ -320,7 +320,7 @@ Be sure you have change in prompt:
 
 ---
 ## Repo Link 
-The project is hosted [here](https://github.com/vera-rykalina/rki_subtyping).  Use this link to clone the repo in case of data loss.
+The project is hosted [here](https://github.com/vera-rykalina/rki_subtyping.git).  Use this link to clone the repo in case of data loss.
 
 ---
 
@@ -331,7 +331,7 @@ $ cd
 ```
 Clone the repo 
 ```sh
-$ git clone https://github.com/vera-rykalina/rki_subtyping
+$ git clone https://github.com/vera-rykalina/rki_subtyping.git
 ```
 Modify path of `ProjectDir` within `subtyping_pipeline.nf`
 
