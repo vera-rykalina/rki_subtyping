@@ -135,7 +135,7 @@ Refer to Supplementary part of the guide, if you need more information (Page 23)
 Repeat the previous command with `--fullpipeline` parameter and `-resume` flag. The latter allows for generating an output up to `12_mafft` folder. The complete processes are cached.
 
 ```sh
-$ nextflow Scripts/subtyping_pipeline.nf --outdir Result --fullpipeline -resume
+$ nextflow Scripts/subtyping_pipeline.nf --outdir Results --fullpipeline -resume
 ```
 
 Check the output of `12_mafft` folder before you run iqtree analysis (msa files - multiple sequence alignments)! 
