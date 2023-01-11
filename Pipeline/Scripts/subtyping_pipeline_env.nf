@@ -454,8 +454,8 @@ workflow {
     //env_jointChannel = join_env(cometChannel.filter(~/.*_ENV_20M.csv$/), rega_csvChannel.filter(~/.*_ENV_20M.csv$/))
     //int_jointChannel = join_int(json_csvChannel.filter(~/.*_INT_20M.csv$/), cometChannel.filter(~/.*_INT_20M.csv$/), rega_csvChannel.filter(~/.*_INT_20M.csv$/))
     //prrt_jointChannel = join_prrt(json_csvChannel.filter(~/.*_PRRT_20M.csv$/), cometChannel.filter(~/.*_PRRT_20M.csv$/), rega_csvChannel.filter(~/.*_PRRT_20M.csv$/))
-    //decision_csvChannel = make_decision(prrt_jointChannel,int_jointChannel)
-    //all_dfs = tag_csvChannel.concat(decision_csvChannel).collect()
+    //decision_csvChannel = make_decision(prrt_jointChannel, env_jointChannel,int_jointChannel)
+    //all_dfs = tag_csvChannel.concat(decision_csvChannel).collect()s
     //fullChannel = join_with_tags(all_dfs)
     //fasta_mafftChannel = fasta_for_mafft(fullChannel.flatten())
     //fullFromPathChannel = channel.fromPath("${projectDir}/${params.outdir}/9_joint_with_tags/*.xlsx").collect()
