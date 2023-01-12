@@ -491,11 +491,8 @@ workflow {
     //iqtree(msaChannel)
     iqtree(mafftPathChannel)
     //REPORT
-    if (params.env) {
-      reportChannel = report_without_env(fullFromPathChannel)
-      } else {
-    reportChannel = report(fullFromPathChannel)
-    }
+    if (params.env) {reportChannel = report_without_env(fullFromPathChannel)
+      } else {reportChannel = report(fullFromPathChannel)}
     // PLOT
     plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/14_report/*.xlsx"))
 }
