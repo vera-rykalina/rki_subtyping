@@ -65,10 +65,10 @@ for i, row in final_report.iterrows():
          
     else:
         final_report.at[i, ["Subtyp_Summe"]] = "Manual"
-
+    
 
 # As there is mock ENV data replace mock subtypes for ENV with "nichtSequenziert"
-final_report["Subtyp_ENV"] = "nichtSequenziert"
+final_report["Subtyp_ENV"] = "_nichtSequenziert"
 
 # Sort df by SequenceName
 final_report.sort_values(by=["SCount"], inplace=True)
