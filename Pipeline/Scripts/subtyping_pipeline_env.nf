@@ -14,6 +14,7 @@ params.decision = "${projectDir}/Scripts/decision.py"
 params.marking = "${projectDir}/Scripts/repeat_marking.py"
 params.full_join = "${projectDir}/Scripts/full_join.py"
 params.report = "${projectDir}/Scripts/report.py"
+params.report_no_env = "${projectDir}/Scripts/report_without_env.py"
 params.fasta_for_mafft = "${projectDir}/Scripts/fasta_for_mafft.py"
 params.countplot = "${projectDir}/Scripts/plot.py"
 
@@ -39,6 +40,7 @@ make_decision    : ${params.decision}
 join_with_tags   : ${params.full_join}
 fasta_for_mafft  : ${params.fasta_for_mafft}
 report           : ${params.report}
+report_no_env    : ${params.report_no_env}
 countplot        : ${params.countplot}
 
 September 2022
@@ -109,6 +111,7 @@ process get_tags {
     
   output:
     path "tag_${xlsx.getSimpleName().split('_')[0]}_${xlsx.getSimpleName().split('_')[2]}_20M.csv"
+
   script:
    """
     python3 ${params.tag_parser} ${xlsx} tag_${xlsx.getSimpleName().split('_')[0]}_${xlsx.getSimpleName().split('_')[2]}_20M.csv
@@ -123,7 +126,7 @@ process comet {
 
   output:
     path "comet_${fasta.getSimpleName()}.csv"
-  
+
   script:
   
   """
@@ -142,6 +145,7 @@ process stanford {
   output:
     path "${fasta.getSimpleName()}.json"
   
+
   script:
     """
     sierrapy fasta ${fasta} -o ${fasta.getSimpleName()}.json
@@ -419,6 +423,23 @@ process report {
 }
 
 
+process report_without_env {
+  publishDir "${params.outdir}/14_report", mode: "copy", overwrite: false
+  input:
+    path xlsx
+    
+  output:
+    path "*.xlsx"
+  
+  when:
+    params.fullpipeline == true
+
+  script:
+   """
+    python3 ${params.report_no_env} ${xlsx} *.xlsx
+    """
+}
+
 process countplot {
   publishDir "${params.outdir}/14_report", mode: "copy", overwrite: true
   input:
@@ -449,28 +470,32 @@ workflow {
     cometChannel = comet(markedfasta)
     stanfordChannel = stanford(markedfasta.filter(~/.*_PRRT_20M.fasta$|.*_INT_20M.fasta$/))
     json_csvChannel = json_to_csv(stanfordChannel)
-    //inputregacsv = channel.fromPath("${projectDir}/ManualRega/*.csv")
-    //rega_csvChannel = clean_rega(inputregacsv)
-    //env_jointChannel = join_env(cometChannel.filter(~/.*_ENV_20M.csv$/), rega_csvChannel.filter(~/.*_ENV_20M.csv$/))
-    //int_jointChannel = join_int(json_csvChannel.filter(~/.*_INT_20M.csv$/), cometChannel.filter(~/.*_INT_20M.csv$/), rega_csvChannel.filter(~/.*_INT_20M.csv$/))
-    //prrt_jointChannel = join_prrt(json_csvChannel.filter(~/.*_PRRT_20M.csv$/), cometChannel.filter(~/.*_PRRT_20M.csv$/), rega_csvChannel.filter(~/.*_PRRT_20M.csv$/))
-    //decision_csvChannel = make_decision(prrt_jointChannel, env_jointChannel,int_jointChannel)
-    //all_dfs = tag_csvChannel.concat(decision_csvChannel).collect()s
-    //fullChannel = join_with_tags(all_dfs)
-    //fasta_mafftChannel = fasta_for_mafft(fullChannel.flatten())
-    //fullFromPathChannel = channel.fromPath("${projectDir}/${params.outdir}/9_joint_with_tags/*.xlsx").collect()
-    //panelChannel = channel.fromPath("${projectDir}/References/*.fas")
-    //envConcatChannel = env_concat_panel(fasta_mafftChannel.filter(~/.*_ENV_.*.fasta/), panelChannel.filter(~/.*_ENV_.*.fas/))
-    //intConcatChannel = int_concat_panel(fasta_mafftChannel.filter(~/.*_INT_.*.fasta/), panelChannel.filter(~/.*_INT_.*.fas/))
-    //prrtConcatChannel = prrt_concat_panel(fasta_mafftChannel.filter(~/.*_PRRT_.*.fasta/), panelChannel.filter(~/.*_PRRT_.*.fas/))
+    inputregacsv = channel.fromPath("${projectDir}/ManualRega/*.csv")
+    rega_csvChannel = clean_rega(inputregacsv)
+    env_jointChannel = join_env(cometChannel.filter(~/.*_ENV_20M.csv$/), rega_csvChannel.filter(~/.*_ENV_20M.csv$/))
+    int_jointChannel = join_int(json_csvChannel.filter(~/.*_INT_20M.csv$/), cometChannel.filter(~/.*_INT_20M.csv$/), rega_csvChannel.filter(~/.*_INT_20M.csv$/))
+    prrt_jointChannel = join_prrt(json_csvChannel.filter(~/.*_PRRT_20M.csv$/), cometChannel.filter(~/.*_PRRT_20M.csv$/), rega_csvChannel.filter(~/.*_PRRT_20M.csv$/))
+    decision_csvChannel = make_decision(prrt_jointChannel, env_jointChannel,int_jointChannel)
+    all_dfs = tag_csvChannel.concat(decision_csvChannel).collect()
+    fullChannel = join_with_tags(all_dfs)
+    fasta_mafftChannel = fasta_for_mafft(fullChannel.flatten())
+    fullFromPathChannel = channel.fromPath("${projectDir}/${params.outdir}/9_joint_with_tags/*.xlsx").collect()
+    panelChannel = channel.fromPath("${projectDir}/References/*.fas")
+    envConcatChannel = env_concat_panel(fasta_mafftChannel.filter(~/.*_ENV_.*.fasta/), panelChannel.filter(~/.*_ENV_.*.fas/))
+    intConcatChannel = int_concat_panel(fasta_mafftChannel.filter(~/.*_INT_.*.fasta/), panelChannel.filter(~/.*_INT_.*.fas/))
+    prrtConcatChannel = prrt_concat_panel(fasta_mafftChannel.filter(~/.*_PRRT_.*.fasta/), panelChannel.filter(~/.*_PRRT_.*.fas/))
     // MAFFT
-    //msaChannel = mafft(prrtConcatChannel.concat(intConcatChannel).concat(envConcatChannel))
+    msaChannel = mafft(prrtConcatChannel.concat(intConcatChannel).concat(envConcatChannel))
     // IQTREE (let iqtree get modified msa files)
-    //mafftPathChannel = channel.fromPath("${projectDir}/${params.outdir}/12_mafft/*.fasta")
+    mafftPathChannel = channel.fromPath("${projectDir}/${params.outdir}/12_mafft/*.fasta")
     //iqtree(msaChannel)
-    //iqtree(mafftPathChannel)
+    iqtree(mafftPathChannel)
     //REPORT
-    //reportChannel = report(fullFromPathChannel)
+    if (params.env) {
+      reportChannel = report_without_env(fullFromPathChannel)
+      } else {
+    reportChannel = report(fullFromPathChannel)
+    }
     // PLOT
-    //plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/14_report/*.xlsx"))
+    plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/14_report/*.xlsx"))
 }
