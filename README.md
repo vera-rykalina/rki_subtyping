@@ -43,4 +43,6 @@ A decision is made based on a combination of three publicly available subtyping 
 
 A final output of the pipeline is an .xlsx file formatted for an internal DB and a plot. The pipeline is supposed to be used for each sequencing run of 96 samples, including control samples. 
 
+An initial pipeline design was meant to process all three fragments (PRRT, INT, and ENV). The curresnt version of the pipeline can manage either 3 fragments or 2 (PRRT and INT), using a parameter --noenv.
+
 ![Plot](Documentation/images/MS95_subtype_counts.png)
