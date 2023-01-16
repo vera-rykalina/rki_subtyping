@@ -1,5 +1,5 @@
 ---
-marp: true
+marp: false
 paginate: true
 author: Vera Rykalina
 theme: default
@@ -136,6 +136,11 @@ Repeat the previous command with `--fullpipeline` parameter and `-resume` flag. 
 
 ```sh
 $ nextflow Scripts/subtyping_pipeline.nf --outdir Results --fullpipeline -resume
+```
+
+In the absence of the ENV-related files, also use the parameter **--noenv**
+```sh
+$ nextflow Scripts/subtyping_pipeline.nf --outdir Results --noenv --fullpipeline -resume
 ```
 
 Check the output of `12_mafft` folder before you run iqtree analysis (msa files - multiple sequence alignments)! 
@@ -359,3 +364,9 @@ projectDir = "/home/beast2/rki_subtyping/Pipeline"
 - Be sure you are connected to the Internet
 
 - You can always delete the whole `Results` folder or individual subfolder/subfolders within `Results` and repeat the commnand with `-resume`.
+
+---
+## Pipeline Updates
+- Created: September 2022
+- Updated: January 2023
+A parameter **--noenv** has been added; should be used for the cases when ENV fragment is not sequenced. This info is reflected in the final report table. 
