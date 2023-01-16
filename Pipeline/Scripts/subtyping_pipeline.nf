@@ -2,7 +2,7 @@ nextflow.enable.dsl = 2
 
 
 projectDir = "/home/beast2/rki_subtyping/Pipeline"
-params.env = false
+params.noenv = false
 params.fullpipeline = false
 params.iqtree = false
 params.mock_env = "${projectDir}/Scripts/mock_env.py"
@@ -469,7 +469,7 @@ workflow {
     inputregacsv = channel.fromPath("${projectDir}/ManualRega/*.csv")
     rega_csvChannel = clean_rega(inputregacsv)
 
-    if (params.env) {
+    if (params.noenv) {
     int_jointChannel = join_int(json_csvChannel.filter(~/.*_INT_20M.csv$/), cometChannel.filter(~/.*_INT_20M.csv$/), rega_csvChannel.filter(~/.*_INT_20M.csv$/))
     prrt_jointChannel = join_prrt(json_csvChannel.filter(~/.*_PRRT_20M.csv$/), cometChannel.filter(~/.*_PRRT_20M.csv$/), rega_csvChannel.filter(~/.*_PRRT_20M.csv$/))
     decision_csvChannel = make_decision_no_env(prrt_jointChannel, int_jointChannel)
