@@ -1,9 +1,3 @@
-"""
-To play with this parser outside of pipeline
-python3 stanford_parser.py Results/MS95_PRRT_20.json MS95_PRRT_20.csv
-"""
-
-
 # Import libraries
 import json
 import pandas as pd
@@ -53,7 +47,7 @@ for infilename in sys.argv[1:]:
         df = pd.DataFrame(columns)
 
 
-# Iterate over rows in df (some sequence may have NAs as a subtype)
+# Iterate over rows in df (some sequences may have NAs as a subtype)
 # Create new columns "Subtype" and "Comment"
 
 for i, row in df.iterrows():
