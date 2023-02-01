@@ -31,7 +31,7 @@ VERA RYKALINA - HIV-1 SUBTYPING PIPELINE
 ================================================================================
 projectDir            : ${projectDir}
 outdir                : ${params.outdir}
-env                   : ${params.env}
+noenv                 : ${params.noenv}
 mark_fasta            : ${params.marking}
 comet                 : ${params.comet_rest}
 json_to_csv           : ${params.json_parser}
