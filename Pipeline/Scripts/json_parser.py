@@ -14,7 +14,7 @@ f.close()
 
 name1 = infilename.rsplit("/")[-1]
 name2 = name1.split("_")[-2]
-name3 = name1.split(".")[-2]
+name3 = name1.split("20M")[-2]
 
 
 for infilename in sys.argv[1:]:
@@ -78,5 +78,5 @@ print(df.tail())
 df = df.sort_values(by=["SequenceName"])
 
 # Convert a pandas dataframe to a .csv file
-df.to_csv("stanford_" + name3 + ".csv", index=False, sep=",", encoding="utf-8")
+df.to_csv("stanford_" + name3 + "20M.csv", index=False, sep=",", encoding="utf-8")
 
