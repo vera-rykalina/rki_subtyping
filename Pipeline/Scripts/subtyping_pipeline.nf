@@ -105,12 +105,12 @@ process stanford {
     path fasta
 
   output:
-    path "${fasta.getSimpleName()}.json"
+    path "${fasta.getSimpleName()}.0.json"
   
 
   script:
     """
-    sierrapy fasta ${fasta} -o ${fasta.getSimpleName()}.json
+    sierrapy fasta ${fasta} --sharding 500 -o ${fasta.getSimpleName()}.json
   
     """
 }
@@ -122,11 +122,11 @@ process json_to_csv {
     path json
     
   output:
-    path "stanford_${json.getSimpleName()}.csv"
+    path "stanford_${json.getSimpleName().split('20M')[0]}20M.csv"
   
   script:
    """
-    python3 ${params.json_parser} ${json} stanford_${json.getSimpleName()}.csv
+    python3 ${params.json_parser} ${json} stanford_${json.getSimpleName().split('20M')}20M.csv
    """
 
 }
