@@ -1,5 +1,5 @@
 ---
-marp: false
+marp: true
 paginate: true
 author: Vera Rykalina
 theme: default
