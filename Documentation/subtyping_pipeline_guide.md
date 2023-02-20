@@ -147,7 +147,7 @@ Check the output of `12_mafft` folder before you run iqtree analysis (msa files 
 
 ---
 ## Pipeline with **--iqtree** parameter
-Parameter `--iqtree` allows for running the iqtree process that produces `13_iqtree` folder within `Results`. The folder contains `.iqtree`, `.treefile`, and `.log` files. The parameter can be added at this point, as the last command with report and plot outputs being produced or not added at all (no `13_iqtree` folder then).
+Parameter `--iqtree` allows for running the iqtree process that produces `13_iqtree` folder within `Results`. The folder contains `.iqtree`, `.treefile`, and `.log` files. The parameter can be added at this point, as the last command with report output being produced or not added at all (no `13_iqtree` folder then).
 
 ```sh
 $ nextflow Scripts/subtyping_pipeline.nf --outdir Results --fullpipeline --iqtree -resume
