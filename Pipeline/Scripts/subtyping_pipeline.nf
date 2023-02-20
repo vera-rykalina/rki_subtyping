@@ -387,6 +387,7 @@ process fasta_for_mafft {
   }
 
 process iqtree {
+  label "iqtree"
   publishDir "${params.outdir}/13_iqtree", mode: "copy", overwrite: true
   input:
       path fasta
@@ -401,7 +402,7 @@ process iqtree {
   script:
   
     """
-    iqtree -s ${fasta} -pre iqtree_${fasta.getSimpleName().split('msa_')[1]} -m TEST -bb 10000 -nt AUTO
+    iqtree -s ${fasta} -pre iqtree_${fasta.getSimpleName().split('msa_')[1]} -m TEST -bb 10000 -nt 4
     """
   }
 
