@@ -125,5 +125,5 @@ dependencies:
   - freetype==2.11.0=h70c0345_0
   - giflib==5.2.1=h7b6447c_0
   - charset-normalizer
-  - sierrapy=0.4.1
+  - sierrapy
 prefix: /home/beast2/anaconda3/envs/subtyping_pipeline
