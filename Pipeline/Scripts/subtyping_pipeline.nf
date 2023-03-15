@@ -5,7 +5,6 @@ projectDir = "/home/beast2/rki_subtyping/Pipeline"
 params.noenv = false
 params.fullpipeline = false
 params.iqtree = false
-params.mock_env = "${projectDir}/Scripts/mock_env.py"
 params.comet_rest = "${projectDir}/Scripts/comet_rest.py"
 params.json_parser = "${projectDir}/Scripts/json_parser.py"
 params.rega = "${projectDir}/Scripts/rega_cleanup.py"
@@ -105,12 +104,12 @@ process stanford {
     path fasta
 
   output:
-    path "${fasta.getSimpleName()}.0.json"
+    path "${fasta.getSimpleName()}.json"
   
 
   script:
     """
-    sierrapy fasta ${fasta} --sharding 500 -o ${fasta.getSimpleName()}.json
+    sierrapy fasta ${fasta} --no-sharding -o ${fasta.getSimpleName()}.json
   
     """
 }
@@ -122,11 +121,11 @@ process json_to_csv {
     path json
     
   output:
-    path "stanford_${json.getSimpleName().split('20M')[0]}20M.csv"
+    path "stanford_${json.getSimpleName()}.csv"
   
   script:
    """
-    python3 ${params.json_parser} ${json} stanford_${json.getSimpleName().split('20M')}20M.csv
+    python3 ${params.json_parser} ${json} stanford_${json.getSimpleName()}.csv
    """
 
 }
