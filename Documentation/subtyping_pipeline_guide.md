@@ -369,4 +369,8 @@ projectDir = "/home/beast2/rki_subtyping/Pipeline"
 ## Pipeline Updates
 - Created: September 2022
 - Updated: January 2023
-A parameter **--noenv** has been added; should be used for the cases when ENV fragment is not sequenced. This info is reflected in the final report table. 
+A parameter **--noenv** has been added; should be used for the cases when ENV fragment is not sequenced. This info is reflected in the final report table.
+- Updated: February 2023 
+Slurm congif file added. Sierrapy client -> v.0.4.1
+- Updated: March 2023
+Sierrapy client -> v.0.4.2 (--no-sharding)
