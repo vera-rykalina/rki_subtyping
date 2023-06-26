@@ -374,3 +374,5 @@ A parameter **--noenv** has been added; should be used for the cases when ENV fr
 Slurm congif file added. Sierrapy client -> v.0.4.1
 - Updated: March 2023
 Sierrapy client -> v.0.4.2 (--no-sharding)
+- Updated: June 2023
+Sierrapy client -> v.0.4.3
