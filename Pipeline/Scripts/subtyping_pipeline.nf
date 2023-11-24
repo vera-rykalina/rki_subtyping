@@ -1,7 +1,6 @@
 nextflow.enable.dsl = 2
 
-
-projectDir = "/home/beast2/rki_subtyping/Pipeline"
+projectDir = "/scratch/rykalinav/rki_subtyping/Pipeline"
 params.noenv = false
 params.fullpipeline = false
 params.iqtree = false
