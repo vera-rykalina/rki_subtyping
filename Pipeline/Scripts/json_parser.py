@@ -53,9 +53,9 @@ for infilename in sys.argv[1:]:
 df[["Stanford_" + name2 + "_Subtype", "Stanford_" + name2 + "_Comment"]] = df["Subtype%"].str.rsplit(" ", n=1, expand=True)
 df["Stanford_" + name2 + "_Comment"] = df["Stanford_" + name2 + "_Comment"].fillna("No_value")
 df["Stanford_" + name2 + "_Comment"] = df["Stanford_" + name2 + "_Comment"].replace("No_value", "(0.00%)")
-df["Stanford_" + name2 + "_Subtype"] = df["Stanford_" + name2 + "_Subtype"].replace("Unknown", "_Seq. nicht klassifizierbar")
-df["Stanford_" + name2 + "_Subtype"] = df["Stanford_" + name2 + "_Subtype"].replace("NA", "_Seq. nicht klassifizierbar")
-df["Stanford_" + name2 + "_Subtype"] = df["Stanford_" + name2 + "_Subtype"].replace("", "_Seq. nicht klassifizierbar")
+df["Stanford_" + name2 + "_Subtype"] = df["Stanford_" + name2 + "_Subtype"].replace("Unknown", "Unassigned")
+df["Stanford_" + name2 + "_Subtype"] = df["Stanford_" + name2 + "_Subtype"].replace("NA", "Unassigned")
+df["Stanford_" + name2 + "_Subtype"] = df["Stanford_" + name2 + "_Subtype"].replace("", "Unassigned")
 
 # Remove original subtype column as formatted: A (5.08%), it works in place
 df.drop("Subtype%", axis=1, inplace = True)
