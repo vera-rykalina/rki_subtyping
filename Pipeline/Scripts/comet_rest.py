@@ -76,21 +76,20 @@ df = pd.read_csv("comet_" + name3 + ".csv", sep="\t")
 # Rename some columns (as done for stanford df)
 df. rename(columns = {"name":"SequenceName", "subtype": "Comet_" + name2 + "_Subtype"}, inplace = True)
 
- # Add to the "Comment" column unnecessary info
-#df["Comet_" + name2 + "_Comment"] = df["virus"].astype(str) + " " + df["bootstrap support"].astype(str)
+ # Add to the "Comment" column bootstrap support info
 df["Comet_" + name2 + "_Comment"] = df["bootstrap support"].astype(str)
 
 # Delete undesired columns
 df.drop(columns=["virus", "bootstrap support"], axis = 1,  inplace = True)
 
-# Replace some patterns so they look Stanford-like
-df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"^(\w{1})\d{1}$", r"\1", regex=True)
-
+# Replace some patterns so they look Stanford-like (add CRF)
 df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"^(\w{2})_(\D)(\d?)(\w)(\w{0,1}?)(\d?)$", r"CRF\1_\2\4\5", regex=True)
 
-# Replace "unassigned_" group with "_Seq. nicht klassifizierbar"
-df.loc[df["Comet_" + name2 + "_Subtype"].str.contains("unassigned"), "Comet_" + name2 + "_Subtype"] = "_Seq. nicht klassifizierbar"
+df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"^(\d{2})_(\d{2})(\w)$", r"CRF\1_\2\3", regex=True)
 
+
+# Replace "unassigned_" group with "Unassigned"
+df.loc[df["Comet_" + name2 + "_Subtype"].str.contains("unassigned"), "Comet_" + name2 + "_Subtype"] = "Unassigned"
 
 # Replace "nan" with "0"
 df["Comet_" + name2 + "_Comment"] = df["Comet_" + name2 + "_Comment"].replace("nan", "0")
