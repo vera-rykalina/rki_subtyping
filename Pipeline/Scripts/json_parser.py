@@ -47,32 +47,18 @@ for infilename in sys.argv[1:]:
         df = pd.DataFrame(columns)
 
 
-# Iterate over rows in df (some sequences may have NAs as a subtype)
-# Create new columns "Subtype" and "Comment"
+# Create new columns "Stanford_Fragment_Subtype" and "Stanford_Fragment_Comment"
+# Split subtype and % components in Subtype%
 
-for i, row in df.iterrows():
-    if row["Subtype%"] == "NA":
-        df.at[i, ["Stanford_" + name2 + "_Subtype", "Stanford_" + name2 + "_Comment"]] = "NA"
-
-    else:
-        # split subtype and % components in the string
-        # str.rstrip - splits a string by a separator, starting from the right
-        df[["Stanford_" + name2 + "_Subtype", "Stanford_" + name2 + "_Comment"]] = df["Subtype%"].str.rsplit(" ", n=1, expand=True)
-
-
-df["Stanford_" + name2 + "_Comment"] = df["Stanford_" + name2 + "_Comment"].fillna("NA")
-
-
+df[["Stanford_" + name2 + "_Subtype", "Stanford_" + name2 + "_Comment"]] = df["Subtype%"].str.rsplit(" ", n=1, expand=True)
+df["Stanford_" + name2 + "_Comment"] = df["Stanford_" + name2 + "_Comment"].fillna("No_value")
+df["Stanford_" + name2 + "_Comment"] = df["Stanford_" + name2 + "_Comment"].replace("No_value", "(0.00%)")
+df["Stanford_" + name2 + "_Subtype"] = df["Stanford_" + name2 + "_Subtype"].replace("Unknown", "_Seq. nicht klassifizierbar")
+df["Stanford_" + name2 + "_Subtype"] = df["Stanford_" + name2 + "_Subtype"].replace("NA", "_Seq. nicht klassifizierbar")
+df["Stanford_" + name2 + "_Subtype"] = df["Stanford_" + name2 + "_Subtype"].replace("", "_Seq. nicht klassifizierbar")
 
 # Remove original subtype column as formatted: A (5.08%), it works in place
 df.drop("Subtype%", axis=1, inplace = True)
-
-# Replace subsubtypes (e.g. A2 -> A, F1 -> F)
-df["Stanford_" + name2 + "_Subtype"] = df["Stanford_" + name2 + "_Subtype"].replace(r"^(\w{1})\d{1}$", r"\1", regex=True)
-
-# Check output
-print(df.head())
-print(df.tail())
 
 # Sort df by SequenceName
 df = df.sort_values(by=["SequenceName"])
