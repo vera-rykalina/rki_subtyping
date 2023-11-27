@@ -12,9 +12,10 @@ Pipeline/work/
 Pipeline/.nextflow/
 Pipeline/.nextflow.log*
 Pipeline/test/*
-#Pipeline/InputFasta/*.fasta
-#Pipeline/AllSeqsCO20/*.xlsx
-#Pipeline/ManualRega/*.csv
+Pipeline/InputFasta/*.fasta
+Pipeline/AllSeqsCO20/*.xlsx
+Pipeline/ManualRega/*.csv
+Pipeline/ManualGeno2Pheno/*.csv
 snippets.*
 84/
 92/ 
