@@ -1,0 +1,1 @@
+Populate your xlsx files (RunName_Seqs_FragmentName_CO20_V5.xlsx) in this folder.
