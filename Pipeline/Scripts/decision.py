@@ -15,12 +15,15 @@ for infilename in sys.argv[1:]:
     df = pd.read_csv(infilename, sep = ",")
     
     # Change data type string -> float
-    df["Comet_" + name2 + "_Comment"] = pd.to_numeric(df["Comet_" + name2 + "_Comment"], downcast="float")   
-    
+    df["Comet_" + name2 + "_Comment"] = pd.to_numeric(df["Comet_" + name2 + "_Comment"], downcast="float")
+   
     if "PRRT" in list_of_substrings or "INT" in list_of_substrings:
         for i, row in df.iterrows():
-            if row["Stanford_" + name2 + "_Subtype"] == row["Comet_" + name2 + "_Subtype"] and row["Comet_" + name2 + "_Comment"] >= 50:
+
+            if row["Stanford_" + name2 + "_Subtype"] == row["Comet_" + name2 + "_Subtype"] and row["Comet_" + name2 + "_Comment"] >= 50 and len(row["Comet_" + name2 + "_Subtype"]) > 2 and len(row["Stanford_" + name2 + "_Subtype"]) > 2:
                 df.at[i, [name2 + "_Subtype"]] = row["Stanford_" + name2 + "_Subtype"]
+            elif row["Stanford_" + name2 + "_Subtype"][0] == row["Comet_" + name2 + "_Subtype"][0] and row["Comet_" + name2 + "_Comment"] >= 50 and len(row["Comet_" + name2 + "_Subtype"]) < 3 and len(row["Stanford_" + name2 + "_Subtype"]) < 3:
+                df.at[i, [name2 + "_Subtype"]] = row["Comet_" + name2 + "_Subtype"][0]
             else:
                 df.at[i, [name2 + "_Subtype"]] = "Manual" 
 
@@ -29,11 +32,14 @@ for infilename in sys.argv[1:]:
 
     if "ENV" in list_of_substrings:
         for i, row in df.iterrows():
-            if row["Rega_" + name2 + "_Subtype"][0] == row["Comet_" + name2 + "_Subtype"] and len(row["Rega_" + name2 + "_Subtype"]) < 3 and row["Comet_" + name2 + "_Comment"] >= 50:
+            if row["Rega_" + name2 + "_Subtype"] == row["Comet_" + name2 + "_Subtype"] and row["Comet_" + name2 + "_Comment"] >= 50 and len(row["Comet_" + name2 + "_Subtype"]) > 2:
                 df.at[i, [name2 + "_Subtype"]] = row["Comet_" + name2 + "_Subtype"]
 
-            elif row["Rega_" + name2 + "_Subtype"] != row["Comet_" + name2 + "_Subtype"] and row["Comet_" + name2 + "_Comment"] >= 70:
-                df.at[i, [name2 + "_Subtype"]] = row["Comet_" + name2 + "_Subtype"]
+            elif row["Rega_" + name2 + "_Subtype"][0] == row["Comet_" + name2 + "_Subtype"][0] and row["Comet_" + name2 + "_Comment"] >= 50 and len(row["Comet_" + name2 + "_Subtype"]) < 3:
+                df.at[i, [name2 + "_Subtype"]] = row["Comet_" + name2 + "_Subtype"][0]
+
+            elif row["Rega_" + name2 + "_Subtype"] != row["Comet_" + name2 + "_Subtype"] and row["Comet_" + name2 + "_Comment"] >= 70 and len(row["Comet_" + name2 + "_Subtype"]) < 3:
+                df.at[i, [name2 + "_Subtype"]] = row["Comet_" + name2 + "_Subtype"][0]
 
             else:
                 df.at[i, [name2 + "_Subtype"]] = "Manual"
