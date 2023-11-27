@@ -1,0 +1,1 @@
+Populate you fasta files (RunName_FragmentName_20.fasta) in this folder.
