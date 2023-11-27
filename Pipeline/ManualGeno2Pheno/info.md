@@ -1,1 +1,1 @@
-Populate your csv files (Manual_dbName_RunName_FragmentName_20M.csv) in this folder.
+Populate your Geno2Pheno csv files (Manual_g2p_RunName_FragmentName_20M.csv) in this folder.
