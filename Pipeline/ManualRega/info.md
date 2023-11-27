@@ -1,0 +1,1 @@
+Populate your REGA csv files (Manual_Rega_RunName_FragmentName_20M.csv) in this folder.
