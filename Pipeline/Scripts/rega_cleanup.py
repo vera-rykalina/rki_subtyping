@@ -107,13 +107,8 @@ df.drop(columns=["pure", "crf"], axis = 1,  inplace = True)
 
 # Double QC check (if missed in repeat_marking.py):
 
-# Remove _badAlign
-for i, row in df.iterrows():
-        df.at[i, ["SequenceName"]] = row["SequenceName"].split("_badAlign")[0]
-
-# Remove _lowTrust
-for i, row in df.iterrows():
-        df.at[i, ["SequenceName"]] = row["SequenceName"].split("_lowTrust")[0]
+# Remove tags from SequenceName column (_badAlign, _lowTrust, etc)
+df["SequenceName"]= df["SequenceName"].str.extract(r"(\d{2}-\d{5}_\w{2,4}_20)", expand=True)
 
 
 # Sort df by SequenceName
