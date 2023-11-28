@@ -110,6 +110,11 @@ df.drop(columns=["pure", "crf"], axis = 1,  inplace = True)
 # Remove tags from SequenceName column (_badAlign, _lowTrust, etc)
 df["SequenceName"]= df["SequenceName"].str.extract(r"(\d{2}-\d{5}_\w{2,4}_20)", expand=True)
 
+# Remove _badAlign _lowTrust
+#for i, row in df.iterrows():
+        #df.at[i, ["SequenceName"]] = row["SequenceName"].split("_badAlign")[0]
+        #df.at[i, ["SequenceName"]] = row["SequenceName"].split("_lowTrust")[0]
+
 
 # Sort df by SequenceName
 df.sort_values(by=["SequenceName"], inplace=True)
