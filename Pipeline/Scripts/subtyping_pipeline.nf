@@ -7,6 +7,7 @@ params.iqtree = false
 params.comet_rest = "${projectDir}/Scripts/comet_rest.py"
 params.json_parser = "${projectDir}/Scripts/json_parser.py"
 params.rega = "${projectDir}/Scripts/rega_cleanup.py"
+params.g2p = "${projectDir}/Scripts/geno2pheno.py"
 params.tag_parser = "${projectDir}/Scripts/tag_parser.py"
 params.decision = "${projectDir}/Scripts/decision.py"
 params.marking = "${projectDir}/Scripts/repeat_marking.py"
@@ -34,6 +35,7 @@ mark_fasta            : ${params.marking}
 comet                 : ${params.comet_rest}
 json_to_csv           : ${params.json_parser}
 clean_rega            : ${params.rega}
+g2p                   : ${params.g2p}
 get_tags              : ${params.tag_parser}
 make_decision         : ${params.decision}
 join_with_tags        : ${params.full_join}
@@ -149,6 +151,7 @@ process clean_rega {
    """
 
 }
+
 
 
 process join_prrt {
@@ -456,6 +459,86 @@ process countplot {
     """
 }
 
+process g2p {
+  publishDir "${params.outdir}/15_g2p", mode: "copy", overwrite: true
+  input:
+
+    path csv
+    
+  output:
+    path "g2p_${csv.getSimpleName().split('_g2p_')[1]}.csv"
+  
+  when:
+    params.fullpipeline == true
+
+  script:
+   """
+    python3 ${params.g2p} ${csv} g2p_${csv.getSimpleName().split('_g2p_')[1]}.csv
+   """
+
+}
+
+process g2p_join_prrt {
+  publishDir "${params.outdir}/16_g2p_joint_fragmentwise", mode: "copy", overwrite: true
+  
+  input:
+    path g2p
+    path comet
+    
+  output:
+    path "joint_${comet.getSimpleName().split('comet_')[1]}.csv"
+  
+  when:
+   params.fullpipeline == true
+  
+  script:
+    """
+     mlr --csv join -u --ul --ur -j SequenceName -f ${g2p} ${comet} > joint_${comet.getSimpleName().split('comet_')[1]}.csv
+    """
+
+}
+
+process g2p_join_env {
+  publishDir "${params.outdir}/16_g2p_joint_fragmentwise", mode: "copy", overwrite: true
+  
+  input:
+    path g2p
+    path comet
+
+    
+  output:
+    path "joint_${comet.getSimpleName().split('comet_')[1]}.csv"
+  
+  when:
+   params.fullpipeline == true
+  
+  script:
+    """
+     mlr --csv join -u --ul --ur -j SequenceName -f ${g2p} ${comet} > joint_${comet.getSimpleName().split('comet_')[1]}.csv
+    """
+
+}
+
+process g2p_join_int {
+  publishDir "${params.outdir}/16_g2p_joint_fragmentwise", mode: "copy", overwrite: true
+  
+  input:
+    path g2p
+    path comet
+ 
+  output:
+    path "joint_${comet.getSimpleName().split('comet_')[1]}.csv"
+  
+  when:
+   params.fullpipeline == true
+  
+  script:
+    """
+     mlr --csv join -u --ul --ur -j SequenceName -f ${g2p} ${comet} > joint_${comet.getSimpleName().split('comet_')[1]}.csv
+    """
+
+}
+
 
 workflow {
     inputfasta = channel.fromPath("${projectDir}/InputFasta/*.fasta")
@@ -467,6 +550,10 @@ workflow {
     json_csvChannel = json_to_csv(stanfordChannel)
     inputregacsv = channel.fromPath("${projectDir}/ManualRega/*.csv")
     rega_csvChannel = clean_rega(inputregacsv)
+    inputg2pcsv = channel.fromPath("${projectDir}/ManualGeno2Pheno/*.csv")
+    g2p_csvChannel = g2p(inputg2pcsv)
+    g2p_int_jointChannel = g2p_join_int(g2p_csvChannel.filter(~/.*_INT_20M.csv$/), cometChannel.filter(~/.*_INT_20M.csv$/))
+    g2p_prrt_jointChannel = g2p_join_prrt(g2p_csvChannel.filter(~/.*_PRRT_20M.csv$/), cometChannel.filter(~/.*_PRRT_20M.csv$/))
 
     if (params.noenv) {
     int_jointChannel = join_int(json_csvChannel.filter(~/.*_INT_20M.csv$/), cometChannel.filter(~/.*_INT_20M.csv$/), rega_csvChannel.filter(~/.*_INT_20M.csv$/))
@@ -490,6 +577,8 @@ workflow {
     // PLOT
     plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/14_report/*.xlsx"))
     } else {
+    g2p_env_jointChannel = g2p_join_env(g2p_csvChannel.filter(~/.*_ENV_20M.csv$/), cometChannel.filter(~/.*_ENV_20M.csv$/))
+
     env_jointChannel = join_env(cometChannel.filter(~/.*_ENV_20M.csv$/), rega_csvChannel.filter(~/.*_ENV_20M.csv$/))
     int_jointChannel = join_int(json_csvChannel.filter(~/.*_INT_20M.csv$/), cometChannel.filter(~/.*_INT_20M.csv$/), rega_csvChannel.filter(~/.*_INT_20M.csv$/))
     prrt_jointChannel = join_prrt(json_csvChannel.filter(~/.*_PRRT_20M.csv$/), cometChannel.filter(~/.*_PRRT_20M.csv$/), rega_csvChannel.filter(~/.*_PRRT_20M.csv$/))
