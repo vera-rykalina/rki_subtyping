@@ -132,9 +132,27 @@ process json_to_csv {
 }
 
 
+process g2p {
+  publishDir "${params.outdir}/6_g2p", mode: "copy", overwrite: true
+  input:
+
+    path csv
+    
+  output:
+    path "g2p_${csv.getSimpleName().split('_g2p_')[1]}.csv"
+  
+  when:
+    params.fullpipeline == true
+
+  script:
+   """
+    python3 ${params.g2p} ${csv} g2p_${csv.getSimpleName().split('_g2p_')[1]}.csv
+   """
+
+}
 
 process clean_rega {
-  publishDir "${params.outdir}/6_rega", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/7_rega", mode: "copy", overwrite: true
   input:
 
     path csv
@@ -149,17 +167,16 @@ process clean_rega {
    """
     python3 ${params.rega} ${csv} rega_${csv.getSimpleName().split('_Rega_')[1]}.csv
    """
-
 }
 
 
-
 process join_prrt {
-  publishDir "${params.outdir}/7_joint_fragmentwise", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/8_joint_fragmentwise", mode: "copy", overwrite: true
   input:
  
     path stanford
     path comet
+    path g2p
     path rega
     
   output:
@@ -170,16 +187,25 @@ process join_prrt {
 
   script:
     """
-     mlr --csv join -u --ul --ur -j SequenceName -f ${stanford} ${comet} |  mlr --csv join -u --ul --ur -j SequenceName -f ${rega} > joint_${comet.getSimpleName().split('comet_')[1]}.csv
+     mlr \
+      --csv join \
+      -u \
+      --ul \
+      --ur \
+      -j SequenceName \
+      -f ${stanford} ${comet} |\
+      mlr --csv join -u --ul --ur -j SequenceName -f ${g2p} |\
+      mlr --csv join -u --ul --ur -j SequenceName -f ${rega} > joint_${comet.getSimpleName().split('comet_')[1]}.csv
     """
 
 }
 
 process join_env {
-  publishDir "${params.outdir}/7_joint_fragmentwise", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/8_joint_fragmentwise", mode: "copy", overwrite: true
   input:
  
     path comet
+    path g2p
     path rega
     
   output:
@@ -190,17 +216,24 @@ process join_env {
   
   script:
     """
-     mlr --csv join -u --ul --ur -j SequenceName -f ${rega} ${comet} > joint_${comet.getSimpleName().split('comet_')[1]}.csv
+     mlr \
+      --csv join \
+      -u \
+      --ul \
+      --ur \
+      -j SequenceName -f ${g2p} ${comet} |\
+      mlr --csv join -u --ul --ur -j SequenceName -f ${rega} > joint_${comet.getSimpleName().split('comet_')[1]}.csv
     """
 
 }
 
 process join_int {
-  publishDir "${params.outdir}/7_joint_fragmentwise", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/8_joint_fragmentwise", mode: "copy", overwrite: true
   input:
  
     path stanford
     path comet
+    path g2p
     path rega
     
   output:
@@ -211,14 +244,22 @@ process join_int {
 
   script:
     """
-     mlr --csv join -u --ul --ur -j SequenceName -f ${stanford} ${comet} | mlr --csv join -u --ul --ur -j SequenceName -f ${rega} > joint_${comet.getSimpleName().split('comet_')[1]}.csv
+     mlr \
+      --csv join \
+      -u \
+      --ul \
+      --ur \
+      -j SequenceName \
+      -f ${stanford} ${comet} |\
+      mlr --csv join -u --ul --ur -j SequenceName -f ${g2p} |\
+      mlr --csv join -u --ul --ur -j SequenceName -f ${rega} > joint_${comet.getSimpleName().split('comet_')[1]}.csv
     """
 
 }
 
 
 process make_decision {
-  publishDir "${params.outdir}/8_with_decision", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/9_with_decision", mode: "copy", overwrite: true
   input:
 
     path csv_prrt
@@ -242,7 +283,7 @@ process make_decision {
 }
 
 process make_decision_no_env {
-  publishDir "${params.outdir}/8_with_decision", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/9_with_decision", mode: "copy", overwrite: true
   input:
 
     path csv_prrt
@@ -264,7 +305,7 @@ process make_decision_no_env {
 
 
 process join_with_tags {
-  publishDir "${params.outdir}/9_joint_with_tags", mode: "copy", overwrite: false
+  publishDir "${params.outdir}/10_joint_with_tags", mode: "copy", overwrite: false
   input:
     path csv
     
@@ -281,7 +322,7 @@ process join_with_tags {
 }
 
 process join_with_tags_no_env {
-  publishDir "${params.outdir}/9_joint_with_tags", mode: "copy", overwrite: false
+  publishDir "${params.outdir}/10_joint_with_tags", mode: "copy", overwrite: false
   input:
     path csv
     
@@ -298,7 +339,7 @@ process join_with_tags_no_env {
 }
 
 process fasta_for_mafft {
-  publishDir "${params.outdir}/10_fasta_for_mafft", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/11_fasta_for_mafft", mode: "copy", overwrite: true
   input:
     
     path xlsx
@@ -318,7 +359,7 @@ process fasta_for_mafft {
 
 
   process prrt_concat_panel {
-  publishDir "${params.outdir}/11_concat_with_panel", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/12_concat_with_panel", mode: "copy", overwrite: true
   input:
     path fragment
     path ref
@@ -336,7 +377,7 @@ process fasta_for_mafft {
   } 
 
   process int_concat_panel {
-  publishDir "${params.outdir}/11_concat_with_panel", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/12_concat_with_panel", mode: "copy", overwrite: true
   input:
     path fragment
     path ref
@@ -354,7 +395,7 @@ process fasta_for_mafft {
   } 
 
   process env_concat_panel {
-  publishDir "${params.outdir}/11_concat_with_panel", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/12_concat_with_panel", mode: "copy", overwrite: true
   input:
     path fragment
     path ref
@@ -371,7 +412,7 @@ process fasta_for_mafft {
   } 
 
   process mafft {
-  publishDir "${params.outdir}/12_mafft", mode: "copy", overwrite: false
+  publishDir "${params.outdir}/13_mafft", mode: "copy", overwrite: false
   input:
       path fasta
   output:
@@ -389,7 +430,7 @@ process fasta_for_mafft {
 
 process iqtree {
   label "iqtree"
-  publishDir "${params.outdir}/13_iqtree", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/14_iqtree", mode: "copy", overwrite: true
   input:
       path fasta
   output:
@@ -403,12 +444,21 @@ process iqtree {
   script:
   
     """
-    iqtree -s ${fasta} -pre iqtree_${fasta.getSimpleName().split('msa_')[1]} -m TEST -bb 10000 -nt 4
+    iqtree \
+      -s ${fasta} \
+      -m GTR+I+G4 \
+      -B 10000 \
+      -nm 10000 \
+      -T 2 \
+      --bnni \
+      --seed 0 \
+      --safe \
+      --prefix iqtree_${fasta.getSimpleName().split('msa_')[1]}
     """
   }
 
 process report {
-  publishDir "${params.outdir}/14_report", mode: "copy", overwrite: false
+  publishDir "${params.outdir}/15_report", mode: "copy", overwrite: false
   input:
     path xlsx
     
@@ -426,7 +476,7 @@ process report {
 
 
 process report_no_env {
-  publishDir "${params.outdir}/14_report", mode: "copy", overwrite: false
+  publishDir "${params.outdir}/15_report", mode: "copy", overwrite: false
   input:
     path xlsx
     
@@ -443,7 +493,7 @@ process report_no_env {
 }
 
 process countplot {
-  publishDir "${params.outdir}/14_report", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/15_report", mode: "copy", overwrite: true
   input:
     path xlsx
     
@@ -459,86 +509,6 @@ process countplot {
     """
 }
 
-process g2p {
-  publishDir "${params.outdir}/15_g2p", mode: "copy", overwrite: true
-  input:
-
-    path csv
-    
-  output:
-    path "g2p_${csv.getSimpleName().split('_g2p_')[1]}.csv"
-  
-  when:
-    params.fullpipeline == true
-
-  script:
-   """
-    python3 ${params.g2p} ${csv} g2p_${csv.getSimpleName().split('_g2p_')[1]}.csv
-   """
-
-}
-
-process g2p_join_prrt {
-  publishDir "${params.outdir}/16_g2p_joint_fragmentwise", mode: "copy", overwrite: true
-  
-  input:
-    path g2p
-    path comet
-    
-  output:
-    path "joint_${comet.getSimpleName().split('comet_')[1]}.csv"
-  
-  when:
-   params.fullpipeline == true
-  
-  script:
-    """
-     mlr --csv join -u --ul --ur -j SequenceName -f ${g2p} ${comet} > joint_${comet.getSimpleName().split('comet_')[1]}.csv
-    """
-
-}
-
-process g2p_join_env {
-  publishDir "${params.outdir}/16_g2p_joint_fragmentwise", mode: "copy", overwrite: true
-  
-  input:
-    path g2p
-    path comet
-
-    
-  output:
-    path "joint_${comet.getSimpleName().split('comet_')[1]}.csv"
-  
-  when:
-   params.fullpipeline == true
-  
-  script:
-    """
-     mlr --csv join -u --ul --ur -j SequenceName -f ${g2p} ${comet} > joint_${comet.getSimpleName().split('comet_')[1]}.csv
-    """
-
-}
-
-process g2p_join_int {
-  publishDir "${params.outdir}/16_g2p_joint_fragmentwise", mode: "copy", overwrite: true
-  
-  input:
-    path g2p
-    path comet
- 
-  output:
-    path "joint_${comet.getSimpleName().split('comet_')[1]}.csv"
-  
-  when:
-   params.fullpipeline == true
-  
-  script:
-    """
-     mlr --csv join -u --ul --ur -j SequenceName -f ${g2p} ${comet} > joint_${comet.getSimpleName().split('comet_')[1]}.csv
-    """
-
-}
-
 
 workflow {
     inputfasta = channel.fromPath("${projectDir}/InputFasta/*.fasta")
@@ -548,16 +518,14 @@ workflow {
     cometChannel = comet(markedfasta)
     stanfordChannel = stanford(markedfasta.filter(~/.*_PRRT_20M.fasta$|.*_INT_20M.fasta$/))
     json_csvChannel = json_to_csv(stanfordChannel)
-    inputregacsv = channel.fromPath("${projectDir}/ManualRega/*.csv")
-    rega_csvChannel = clean_rega(inputregacsv)
     inputg2pcsv = channel.fromPath("${projectDir}/ManualGeno2Pheno/*.csv")
     g2p_csvChannel = g2p(inputg2pcsv)
-    g2p_int_jointChannel = g2p_join_int(g2p_csvChannel.filter(~/.*_INT_20M.csv$/), cometChannel.filter(~/.*_INT_20M.csv$/))
-    g2p_prrt_jointChannel = g2p_join_prrt(g2p_csvChannel.filter(~/.*_PRRT_20M.csv$/), cometChannel.filter(~/.*_PRRT_20M.csv$/))
-
+    inputregacsv = channel.fromPath("${projectDir}/ManualRega/*.csv")
+    rega_csvChannel = clean_rega(inputregacsv)
+    int_jointChannel = join_int(json_csvChannel.filter(~/.*_INT_20M.csv$/), cometChannel.filter(~/.*_INT_20M.csv$/), g2p_csvChannel.filter(~/.*_INT_20M.csv$/), rega_csvChannel.filter(~/.*_INT_20M.csv$/))
+    prrt_jointChannel = join_prrt(json_csvChannel.filter(~/.*_PRRT_20M.csv$/), cometChannel.filter(~/.*_PRRT_20M.csv$/), g2p_csvChannel.filter(~/.*_PRRT_20M.csv$/), rega_csvChannel.filter(~/.*_PRRT_20M.csv$/))
+   
     if (params.noenv) {
-    int_jointChannel = join_int(json_csvChannel.filter(~/.*_INT_20M.csv$/), cometChannel.filter(~/.*_INT_20M.csv$/), rega_csvChannel.filter(~/.*_INT_20M.csv$/))
-    prrt_jointChannel = join_prrt(json_csvChannel.filter(~/.*_PRRT_20M.csv$/), cometChannel.filter(~/.*_PRRT_20M.csv$/), rega_csvChannel.filter(~/.*_PRRT_20M.csv$/))
     decision_csvChannel = make_decision_no_env(prrt_jointChannel, int_jointChannel)
     all_dfs = tag_csvChannel.concat(decision_csvChannel).collect()
     fullChannel = join_with_tags_no_env(all_dfs)
@@ -569,24 +537,21 @@ workflow {
     // MAFFT
     msaChannel = mafft(prrtConcatChannel.concat(intConcatChannel))
     // IQTREE (let iqtree get modified msa files)
-    mafftPathChannel = channel.fromPath("${projectDir}/${params.outdir}/12_mafft/*.fasta")
+    mafftPathChannel = channel.fromPath("${projectDir}/${params.outdir}/13_mafft/*.fasta")
     //iqtree(msaChannel)
     iqtree(mafftPathChannel)
     //REPORT
     reportChannel = report_no_env(fullFromPathChannel)
     // PLOT
-    plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/14_report/*.xlsx"))
+    plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/15_report/*.xlsx"))
     } else {
-    g2p_env_jointChannel = g2p_join_env(g2p_csvChannel.filter(~/.*_ENV_20M.csv$/), cometChannel.filter(~/.*_ENV_20M.csv$/))
-
-    env_jointChannel = join_env(cometChannel.filter(~/.*_ENV_20M.csv$/), rega_csvChannel.filter(~/.*_ENV_20M.csv$/))
-    int_jointChannel = join_int(json_csvChannel.filter(~/.*_INT_20M.csv$/), cometChannel.filter(~/.*_INT_20M.csv$/), rega_csvChannel.filter(~/.*_INT_20M.csv$/))
-    prrt_jointChannel = join_prrt(json_csvChannel.filter(~/.*_PRRT_20M.csv$/), cometChannel.filter(~/.*_PRRT_20M.csv$/), rega_csvChannel.filter(~/.*_PRRT_20M.csv$/))
-    decision_csvChannel = make_decision(prrt_jointChannel, env_jointChannel,int_jointChannel)
+  
+    env_jointChannel = join_env(cometChannel.filter(~/.*_ENV_20M.csv$/), g2p_csvChannel.filter(~/.*_ENV_20M.csv$/), rega_csvChannel.filter(~/.*_ENV_20M.csv$/))
+    decision_csvChannel = make_decision(prrt_jointChannel, env_jointChannel, int_jointChannel)
     all_dfs = tag_csvChannel.concat(decision_csvChannel).collect()
     fullChannel = join_with_tags(all_dfs)
     fasta_mafftChannel = fasta_for_mafft(fullChannel.flatten())
-    fullFromPathChannel = channel.fromPath("${projectDir}/${params.outdir}/9_joint_with_tags/*.xlsx").collect()
+    fullFromPathChannel = channel.fromPath("${projectDir}/${params.outdir}/10_joint_with_tags/*.xlsx").collect()
     panelChannel = channel.fromPath("${projectDir}/References/*.fas")
     envConcatChannel = env_concat_panel(fasta_mafftChannel.filter(~/.*_ENV_.*.fasta/), panelChannel.filter(~/.*_ENV_.*.fas/))
     intConcatChannel = int_concat_panel(fasta_mafftChannel.filter(~/.*_INT_.*.fasta/), panelChannel.filter(~/.*_INT_.*.fas/))
@@ -594,12 +559,11 @@ workflow {
     // MAFFT
     msaChannel = mafft(prrtConcatChannel.concat(intConcatChannel).concat(envConcatChannel))
     // IQTREE (let iqtree get modified msa files)
-    mafftPathChannel = channel.fromPath("${projectDir}/${params.outdir}/12_mafft/*.fasta")
-    //iqtree(msaChannel)
+    mafftPathChannel = channel.fromPath("${projectDir}/${params.outdir}/13_mafft/*.fasta")
     iqtree(mafftPathChannel)
     //REPORT
     reportChannel = report(fullFromPathChannel)
     // PLOT
-    plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/14_report/*.xlsx"))
+    plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/15_report/*.xlsx"))
     }
 }
