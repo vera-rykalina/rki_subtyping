@@ -32,15 +32,17 @@ for infilename in sys.argv[1:]:
 
     if "ENV" in list_of_substrings:
         for i, row in df.iterrows():
-            if row["Rega_" + name2 + "_Subtype"] == row["Comet_" + name2 + "_Subtype"] and row["Comet_" + name2 + "_Comment"] >= 50 and len(row["Comet_" + name2 + "_Subtype"]) > 2:
+            if row["Geno2Pheno_" + name2 + "_Subtype"] == row["Comet_" + name2 + "_Subtype"] and len(row["Comet_" + name2 + "_Subtype"]) == 1:
                 df.at[i, [name2 + "_Subtype"]] = row["Comet_" + name2 + "_Subtype"]
 
-            elif row["Rega_" + name2 + "_Subtype"][0] == row["Comet_" + name2 + "_Subtype"][0] and row["Comet_" + name2 + "_Comment"] >= 50 and len(row["Comet_" + name2 + "_Subtype"]) < 3:
+            elif row["Geno2Pheno_" + name2 + "_Subtype"][0] == row["Comet_" + name2 + "_Subtype"][0] and len(row["Comet_" + name2 + "_Subtype"]) < 3:
                 df.at[i, [name2 + "_Subtype"]] = row["Comet_" + name2 + "_Subtype"][0]
 
-            elif row["Rega_" + name2 + "_Subtype"] != row["Comet_" + name2 + "_Subtype"] and row["Comet_" + name2 + "_Comment"] >= 70 and len(row["Comet_" + name2 + "_Subtype"]) < 3:
+            elif row["Geno2Pheno_" + name2 + "_Subtype"] != row["Comet_" + name2 + "_Subtype"] and row["Comet_" + name2 + "_Comment"] >= 70 and len(row["Comet_" + name2 + "_Subtype"]) < 3:
                 df.at[i, [name2 + "_Subtype"]] = row["Comet_" + name2 + "_Subtype"][0]
-
+            
+            elif row["Geno2Pheno_" + name2 + "_Subtype"] != row["Comet_" + name2 + "_Subtype"] and row["Comet_" + name2 + "_Comment"] >= 70 and len(row["Comet_" + name2 + "_Subtype"]) > 3:
+                df.at[i, [name2 + "_Subtype"]] = row["Comet_" + name2 + "_Subtype"]
             else:
                 df.at[i, [name2 + "_Subtype"]] = "Manual"
     
