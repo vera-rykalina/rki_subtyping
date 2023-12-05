@@ -103,7 +103,7 @@ process iqtree {
       -m GTR+I+G4 \
       -B 10000 \
       -nm 10000 \
-      -T ${task.cpus} \
+      -T 2 \
       --prefix iqtree_${fasta.getSimpleName().split('msa_')[1]} 
     """
   }
