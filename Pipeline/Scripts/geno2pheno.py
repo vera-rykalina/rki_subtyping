@@ -38,7 +38,7 @@ df["Geno2Pheno_" + name2 + "_Info"] = df["Geno2Pheno_" + name2 + "_Info"].replac
 df["Geno2Pheno_" + name2 + "_Info"] = df["Geno2Pheno_" + name2 + "_Info"].replace(r"\w+\((.*)\),\w+\((.*)\)$", r"\1, \2", regex=True)
 
 # Replace AE to CRF01_AE
-df["Geno2Pheno_" + name2 + "_Subtype"] = df["Geno2Pheno_" + name2 + "_Subtype"].replace("AE", "CRF01_AE")
+df["Geno2Pheno_" + name2 + "_Subtype"] = df["Geno2Pheno_" + name2 + "_Subtype"].replace(r"(.*)?(AE)(.*)?", r"\1CRF01_\2\3", regex = True)
 
 # Rename Sample column (as done for stanford df)
 df. rename(columns = {"Sample":"SequenceName"}, inplace = True)
