@@ -23,7 +23,7 @@ df = df.loc[:,["name", "assignment", "pure", "crf"]]
 
 
 # Simple replacements
-df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"^Check the report$", r"ChkRep", regex=True)
+df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"^Check the report$", r"Check report", regex=True)
 
 df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"^HIV2 subtype A$", r"HIV2-A", regex=True)
 
