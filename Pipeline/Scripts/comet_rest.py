@@ -85,8 +85,9 @@ df.drop(columns=["virus", "bootstrap support"], axis = 1,  inplace = True)
 # Replace some patterns so they look Stanford-like (add CRF)
 df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"^(\w{2})_(\D)(\d?)(\w)(\w{0,1}?)(\d?)$", r"CRF\1_\2\4\5", regex=True)
 
-df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"^(\d{2})_(\d{2})(\w)$", r"CRF\1_\2\3", regex=True)
+df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"^(\d{2,3})_(\w{2,4})$", r"CRF\1_\2", regex=True)
 
+df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"^(\d{2,3}_\w{2,4})(\s\(check for\s)(\d{2,4}_\w{2,4}\))$", r"CRF\1\2CRF\3", regex=True)
 
 # Replace "unassigned_" group with "Unassigned"
 df.loc[df["Comet_" + name2 + "_Subtype"].str.contains("unassigned"), "Comet_" + name2 + "_Subtype"] = "Unassigned"
