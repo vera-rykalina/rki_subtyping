@@ -107,21 +107,3 @@ process iqtree {
       --prefix iqtree_${fasta.getSimpleName().split('msa_')[1]} 
     """
   }
-
-/*
- What is suggested:
- iqtree -s ${fasta} -pre iqtree_${fasta.getSimpleName().split('msa_')[1]} -m GTR+I+G4 -bb 10000 -nt 4 -nm 10000
- Suggestions from Vera:
- -T AUTO instead of -nt 4 to check the threads  (the best is 2 cores)
- --seed 0 (good for publications)
- --bnni (Optimize UFBoot trees by NNI on bootstrap alignment)
- --safe (Turn on safe numerical mode to avoid numerical underflow for large data sets with 
- many sequences (typically in the order of thousands). 
- This mode is automatically turned on when having more than 2000 sequences.)
-
- Discuss 
- http://www.iqtree.org/doc/Tutorial#reducing-impact-of-severe-model-violations-with-ufboot
- -B (--ufboot -bb - previeios version)
- -n 10000 (norammlly set to 0)
- -n 0 (Skip subsequent tree search, useful when you only want to assess the phylogenetic information of the alignment.)
-*/
