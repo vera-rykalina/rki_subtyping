@@ -11,7 +11,7 @@ Pipeline/*Results*/
 Pipeline/work/
 Pipeline/.nextflow/
 Pipeline/.nextflow.log*
-Pipeline/test/*
+Pipeline/Test/*
 Pipeline/InputFasta/*.fasta
 Pipeline/AllSeqsCO20/*.xlsx
 Pipeline/ManualRega/*.csv
