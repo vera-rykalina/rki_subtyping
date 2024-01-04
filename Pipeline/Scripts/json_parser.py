@@ -56,6 +56,8 @@ df["Stanford_" + name2 + "_Comment"] = df["Stanford_" + name2 + "_Comment"].repl
 df["Stanford_" + name2 + "_Subtype"] = df["Stanford_" + name2 + "_Subtype"].replace("Unknown", "Unassigned")
 df["Stanford_" + name2 + "_Subtype"] = df["Stanford_" + name2 + "_Subtype"].replace("NA", "Unassigned")
 df["Stanford_" + name2 + "_Subtype"] = df["Stanford_" + name2 + "_Subtype"].replace("", "Unassigned")
+df["Stanford_" + name2 + "_Subtype"] = df["Stanford_" + name2 + "_Subtype"].replace(r"^(\w+)\s\+\s(\w+)\s\+\s(\w+)$", r"\1, \2, \3", regex=True)
+df["Stanford_" + name2 + "_Subtype"] = df["Stanford_" + name2 + "_Subtype"].replace(r"^(\w+)\s\+\s(\w+)$", r"\1, \2", regex=True)
 
 # Remove original subtype column as formatted: A (5.08%), it works in place
 df.drop("Subtype%", axis=1, inplace = True)
