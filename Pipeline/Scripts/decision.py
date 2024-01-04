@@ -27,10 +27,16 @@ for infilename in sys.argv[1:]:
         for i, row in df.iterrows():
             if row["Geno2Pheno_" + name2 + "_Subtype"] == row["Comet_" + name2 + "_Subtype"] and row["Comet_" + name2 + "_Comment"] >= 50 and row["Comet_" + name2 + "_Subtype"] in rare_subtypes_groups:
                 df.at[i, [name2 + "_Subtype"]] = row["Comet_" + name2 + "_Subtype"]
+
             elif row["Stanford_" + name2 + "_Subtype"] == row["Comet_" + name2 + "_Subtype"] and row["Comet_" + name2 + "_Comment"] >= 50 and row["Comet_" + name2 + "_Subtype"] not in subsubtypes:
                 df.at[i, [name2 + "_Subtype"]] = row["Stanford_" + name2 + "_Subtype"]
+
+            elif row["Stanford_" + name2 + "_Subtype"] == row["Comet_" + name2 + "_Subtype"].split(")")[0].split(" ")[-1] and row["Comet_" + name2 + "_Comment"] == 0 and row["Comet_" + name2 + "_Subtype"] not in subsubtypes:
+                df.at[i, [name2 + "_Subtype"]] = row["Stanford_" + name2 + "_Subtype"]
+
             elif row["Stanford_" + name2 + "_Subtype"][0] == row["Comet_" + name2 + "_Subtype"][0] and row["Comet_" + name2 + "_Comment"] >= 50 and row["Comet_" + name2 + "_Subtype"] in subsubtypes:
                 df.at[i, [name2 + "_Subtype"]] = row["Comet_" + name2 + "_Subtype"][0]
+
             else:
                 df.at[i, [name2 + "_Subtype"]] = "Manual" 
         
@@ -55,17 +61,18 @@ for infilename in sys.argv[1:]:
             if row["Geno2Pheno_" + name2 + "_Subtype"] == row["Comet_" + name2 + "_Subtype"] and row["Comet_" + name2 + "_Comment"] >= 50 and row["Comet_" + name2 + "_Subtype"] in rare_subtypes_groups:
                 df.at[i, [name2 + "_Subtype"]] = row["Comet_" + name2 + "_Subtype"]
 
-            if row["Geno2Pheno_" + name2 + "_Subtype"] == row["Comet_" + name2 + "_Subtype"] and len(row["Comet_" + name2 + "_Subtype"]) == 1:
-                df.at[i, [name2 + "_Subtype"]] = row["Comet_" + name2 + "_Subtype"]
-
-            elif row["Geno2Pheno_" + name2 + "_Subtype"] == row["Comet_" + name2 + "_Subtype"] and row["Comet_" + name2 + "_Subtype"] in subsubtypes:
+            elif row["Geno2Pheno_" + name2 + "_Subtype"] == row["Comet_" + name2 + "_Subtype"] and row["Comet_" + name2 + "_Comment"] >= 50 and row["Comet_" + name2 + "_Subtype"] in subsubtypes:
                 df.at[i, [name2 + "_Subtype"]] = row["Comet_" + name2 + "_Subtype"][0]
+
+            if row["Geno2Pheno_" + name2 + "_Subtype"] == row["Comet_" + name2 + "_Subtype"] and row["Comet_" + name2 + "_Comment"] >= 50:
+                df.at[i, [name2 + "_Subtype"]] = row["Comet_" + name2 + "_Subtype"]
 
             elif row["Geno2Pheno_" + name2 + "_Subtype"] != row["Comet_" + name2 + "_Subtype"] and row["Comet_" + name2 + "_Comment"] >= 70 and row["Comet_" + name2 + "_Subtype"] in subsubtypes:
                 df.at[i, [name2 + "_Subtype"]] = row["Comet_" + name2 + "_Subtype"][0]
             
-            elif row["Geno2Pheno_" + name2 + "_Subtype"] != row["Comet_" + name2 + "_Subtype"] and row["Comet_" + name2 + "_Comment"] >= 70 and row["Comet_" + name2 + "_Subtype"] not in subsubtypes:
+            elif row["Geno2Pheno_" + name2 + "_Subtype"] != row["Comet_" + name2 + "_Subtype"] and row["Comet_" + name2 + "_Comment"] >= 70:
                 df.at[i, [name2 + "_Subtype"]] = row["Comet_" + name2 + "_Subtype"]
+            
             else:
                 df.at[i, [name2 + "_Subtype"]] = "Manual"
     
