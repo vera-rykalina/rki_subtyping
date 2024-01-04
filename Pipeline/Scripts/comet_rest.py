@@ -87,6 +87,8 @@ df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"
 
 df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"^(\d{2,3})_(\w{2,4})$", r"CRF\1_\2", regex=True)
 
+df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"^(\w{1,2})(\s\(check for\s)(\d{2,4}_\w{2,4}\))$", r"\1\2CRF\3", regex=True)
+
 df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"^(\d{2,3}_\w{2,4})(\s\(check for\s)(\d{2,4}_\w{2,4}\))$", r"CRF\1\2CRF\3", regex=True)
 
 # Replace "unassigned_" group with "Unassigned"
