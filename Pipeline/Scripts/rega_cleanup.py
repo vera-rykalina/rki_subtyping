@@ -45,17 +45,17 @@ df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"
 # HIV-1 Subtype A (A1) -> A1
 df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"^HIV-1\sSubtype\s\w\s\((\w\d)\)$", r"\1", regex=True)
 
-# HIV-1 Subtype A (01_AE) -> A (01_AE)
-df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"^HIV-1\sSubtype\s(\w\s\(\d{2}_\w{2}\))$", r"\1", regex=True)
+# HIV-1 Subtype A (01_AE) -> A (CRF01_AE)
+df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"^HIV-1\sSubtype\s(\w\s)\((\d{2}_\w{2})\)$", r"\1(CRF\2)", regex=True)
 
-# HIV-1 Subtype A (06_CPX) -> A (06_cpx)
-df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"^HIV-1\sSubtype\s(\w\s\(\d{2}_CPX\))$", r"\1", regex=True)
+# HIV-1 Subtype A (06_CPX) -> A (CRF06_cpx)
+df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"^HIV-1\sSubtype\s(\w\s)\((\d{2}_CPX)\)$", r"\1(CRF\2)", regex=True)
 
-# HIV-1 Subtype D (19_cpx) -> D (19_cpx)
-df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"^HIV-1\sSubtype\s(\w\s\(\d{2}_cpx\))$", r"\1", regex=True)
+# HIV-1 Subtype D (19_cpx) -> D (CRF19_cpx)
+df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"^HIV-1\sSubtype\s(\w\s)\((\d{2}_cpx)\)$", r"\1(CRF\2)", regex=True)
 
-# HIV-1 Subtype G (43_02G) -> G (43_02G)
-df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"^HIV-1\sSubtype\s(\w\s\(\d{2}_\w{3}\))$", r"\1", regex=True)
+# HIV-1 Subtype G (43_02G) -> G (CRF43_02G)
+df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"^HIV-1\sSubtype\s(\w\s)\((\d{2}_\w{3})\)$", r"\1(CRF\2)", regex=True)
 
 # "HIV-1 CRF" group
 # HIV-1 CRF 14_BG -> CRF14_BG
