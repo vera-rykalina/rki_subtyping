@@ -2,7 +2,7 @@ import pandas as pd
 import sys
 from textwrap import wrap
 
-# Open .json file
+# Open .xlsx file
 infilename = sys.argv[1]
 outfilename = sys.argv[2]
 
