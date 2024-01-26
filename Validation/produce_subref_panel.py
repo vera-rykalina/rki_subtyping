@@ -2,6 +2,7 @@
 This script produces an organized subtype reference panel using LANL dowloaded fasta file and creates an accession list as txt file 
 '''
 
+# Use reges to remove sequences containing Ns: ^>.*\n[^>]*n[^>]* (to work within Visual Code Studio)
 # To procudece tsv from LANL multifasta use:
 # seqkit seq -u subref_any_genome_filtered.fasta | seqkit fx2tab -l -Q -H -o subref_any_genome_filtered.tsv
 
