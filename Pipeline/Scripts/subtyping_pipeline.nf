@@ -447,10 +447,9 @@ process iqtree {
     iqtree \
       -s ${fasta} \
       -m GTR+I+G4 \
-      -B 10000 \
-      -nm 10000 \
+      -B 1000 \
+      -nm 1000 \
       -T 2 \
-      --bnni \
       --seed 0 \
       --safe \
       --prefix iqtree_${fasta.getSimpleName().split('msa_')[1]}
