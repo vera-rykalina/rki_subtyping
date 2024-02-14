@@ -1,6 +1,8 @@
 nextflow.enable.dsl = 2
 
-projectDir = "/scratch/rykalinav/rki_subtyping/Pipeline"
+//projectDir = "/scratch/rykalinav/rki_subtyping/Pipeline"
+// When $PWD is set, the pipeline should be run from Pipeline/
+projectDir = "$PWD"
 params.noenv = false
 params.fullpipeline = false
 params.iqtree = false
@@ -139,14 +141,14 @@ process g2p {
     path csv
     
   output:
-    path "g2p_${csv.getSimpleName().split('_g2p_')[1]}.csv"
+    path "g2p_${csv.getSimpleName().split('_Geno2Pheno_')[1]}.csv"
   
   when:
     params.fullpipeline == true
 
   script:
    """
-    python3 ${params.g2p} ${csv} g2p_${csv.getSimpleName().split('_g2p_')[1]}.csv
+    python3 ${params.g2p} ${csv} g2p_${csv.getSimpleName().split('_Geno2Pheno_')[1]}.csv
    """
 
 }
