@@ -45,10 +45,24 @@ def create_excels(args):
     prrt_df = pd.DataFrame(prrt_dict)
     int_df = pd.DataFrame(int_dict)
     env_df = pd.DataFrame(env_dict)
-        
-    # Look up for PRRT's Scount, if it is not present in INT and ENV: add tag _nichtSequenziert and empty string for "Sequenz" column
+    
+    # Create a master list for all scounts
+    all_scounts = prrt_scounts + int_scounts + env_scounts
+
+    # Remove duplicates from master list of scounts
+    scounts = list(set(all_scounts))
+
+    # Look up for scount in scounts, if it is not present in PRRT, INT, and ENV: add tag _nichtSequenziert and empty string for "Sequenz" column
     # _nichtSequenziert (Translation: _notSequenced) 
-    for scount in prrt_scounts:
+
+    for scount in scounts:
+        if scount not in prrt_scounts:
+            # Creating a new row
+            new_row = {"Scount": scount, "Header": scount + "_PRRT_20" + "_nichtSequenziert", "Sequenz": ""}
+            # Inserting the new row
+            int_df.loc[len(int_df)] = new_row
+            # Reset the index
+            int_df = int_df.reset_index(drop=True)
         if scount not in int_scounts:
             # Creating a new row
             new_row = {"Scount": scount, "Header": scount + "_INT_20" + "_nichtSequenziert", "Sequenz": ""}
