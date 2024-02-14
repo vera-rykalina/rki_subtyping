@@ -15,7 +15,7 @@ f.close()
 
 name1 = infilename.rsplit("/")[-1] # gives a file name.csv
 name2 = name1.split("_")[-2] # gives a middle part after splitting by "_"
-name3 = name1.split("_Geno2Pheno_")[-1].split(".")[-2] # {run_index}_{framgment}_20M
+name3 = name1.split("_Geno2Pheno_")[-1].split(".")[-2] # {run_index}_{fragment}_20M
 
 # Select only what is needed
 df = df.loc[:,["Sample", "Subtypes(Probability)"]]
