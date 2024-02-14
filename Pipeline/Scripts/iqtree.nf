@@ -1,6 +1,7 @@
 nextflow.enable.dsl = 2
 
-projectDir = "/scratch/rykalinav/rki_subtyping/Pipeline"
+//projectDir = "/scratch/rykalinav/rki_subtyping/Pipeline"
+projectDir = params.projectdir
 
 params.outdir = null
 if (!params.outdir) {
@@ -104,6 +105,7 @@ process iqtree {
       -B 5000 \
       -nm 5000 \
       -T 2 \
+      -cptime 3600 \
       --prefix iqtree_${fasta.getSimpleName().split('msa_')[1]} 
     """
   }
