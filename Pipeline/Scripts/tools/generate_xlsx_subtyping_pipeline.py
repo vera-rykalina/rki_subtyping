@@ -49,7 +49,7 @@ def create_excels(args):
     # Create a master list for all scounts
     all_scounts = prrt_scounts + int_scounts + env_scounts
 
-    # Remove duplicates from master list of scounts
+    # Remove duplicates from the master list of scounts
     scounts = list(set(all_scounts))
 
     # Look up for scount in scounts, if it is not present in PRRT, INT, and ENV: add tag _nichtSequenziert and empty string for "Sequenz" column
@@ -60,9 +60,9 @@ def create_excels(args):
             # Creating a new row
             new_row = {"Scount": scount, "Header": scount + "_PRRT_20" + "_nichtSequenziert", "Sequenz": ""}
             # Inserting the new row
-            int_df.loc[len(int_df)] = new_row
+            prrt_df.loc[len(prrt_df)] = new_row
             # Reset the index
-            int_df = int_df.reset_index(drop=True)
+            prrt_df = prrt_df.reset_index(drop=True)
         if scount not in int_scounts:
             # Creating a new row
             new_row = {"Scount": scount, "Header": scount + "_INT_20" + "_nichtSequenziert", "Sequenz": ""}
