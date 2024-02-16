@@ -77,7 +77,7 @@ df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"
 df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"^HIV-1\sSubtype\s(\w{1,}\s?\(?\w?\d?\)?-like)$", r"\1", regex=True)
 
 # HIV-1 CRF 01_AE-like -> 01_AE-like
-df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"^HIV-1\sCRF\s(\w{1,}-like)$", r"\1", regex=True)
+df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"^HIV-1\sCRF\s(\w{1,}-like)$", r"CRF\1", regex=True)
 
 # POTENTIAL RECOMBINANT group (below are some examples)
 # HIV-1 Subtype B, potential recombinant -> potReCo(B)
