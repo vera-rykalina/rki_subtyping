@@ -15,7 +15,7 @@ sequences = []
 fasta_sequences = SeqIO.parse(open(infilename),'fasta')
 for fasta in fasta_sequences:
     #names.append(fasta.id.split("_badAlign")[0].split("_lowTrust")[0])
-    names.append(fasta.id.rsplit("_", 1)[0])
+    names.append(fasta.id.split("_20")[0] + "_20")
     sequences.append(str(fasta.seq).replace("_", ""))
 
 
