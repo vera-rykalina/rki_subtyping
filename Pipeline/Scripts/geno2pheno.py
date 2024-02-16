@@ -24,21 +24,19 @@ df = df.loc[:,["Sample", "Subtypes(Probability)"]]
 df["Geno2Pheno_" + name2 + "_Subtype"] = df["Subtypes(Probability)"]
 df["Geno2Pheno_" + name2 + "_Comment"] = df["Subtypes(Probability)"]
 
+# Prepate a Subtype column
+df["Geno2Pheno_" + name2 + "_Subtype"] = df["Geno2Pheno_" + name2 + "_Subtype"].str.replace(r"\(\d+[.,]?\d+\)|\(1\)", "", regex=True)
+df["Geno2Pheno_" + name2 + "_Subtype"] = df["Geno2Pheno_" + name2 + "_Subtype"].str.replace(r",", ", ", regex=True)
 
-# Prepate a subtype column
-df["Geno2Pheno_" + name2 + "_Subtype"]= df["Geno2Pheno_" + name2 + "_Subtype"].str.replace(r"^(\w+)\(1\)$", r"\1", regex=True)
-df["Geno2Pheno_" + name2 + "_Subtype"]= df["Geno2Pheno_" + name2 + "_Subtype"].str.replace(r"^(\w+)\(.*\),(\w+)\(.*\),(\w+)\(.*\)$", r"\1, \2, \3", regex=True)
-df["Geno2Pheno_" + name2 + "_Subtype"]= df["Geno2Pheno_" + name2 + "_Subtype"].str.replace(r"^(\w+)\(.*\),(\w+)\(.*\)$", r"\1, \2", regex=True)
+                                                                        
+# Prepate an Comment column
+df["Geno2Pheno_" + name2 + "_Comment"] = df["Geno2Pheno_" + name2 + "_Comment"].str.replace(r"[A-Z]+\d+|[A-Z]+", r"", regex=True)
+df["Geno2Pheno_" + name2 + "_Comment"] = df["Geno2Pheno_" + name2 + "_Comment"].str.replace(r",", r", ", regex=True)
 
-                                                                                
-
-# Prepate an info column
-df["Geno2Pheno_" + name2 + "_Comment"] = df["Geno2Pheno_" + name2 + "_Comment"].replace(r"\w+\((1)\)$", r"\1", regex=True)
-df["Geno2Pheno_" + name2 + "_Comment"] = df["Geno2Pheno_" + name2 + "_Comment"].replace(r"\w+\((.*)\),\w+\((.*)\),\w+\((.*)\)$", r"\1, \2, \3", regex=True)
-df["Geno2Pheno_" + name2 + "_Comment"] = df["Geno2Pheno_" + name2 + "_Comment"].replace(r"\w+\((.*)\),\w+\((.*)\)$", r"\1, \2", regex=True)
 
 # Replace AE to CRF01_AE
-df["Geno2Pheno_" + name2 + "_Subtype"] = df["Geno2Pheno_" + name2 + "_Subtype"].replace(r"(.*)?(AE)(.*)?", r"\1CRF01_\2\3", regex = True)
+df["Geno2Pheno_" + name2 + "_Subtype"] = df["Geno2Pheno_" + name2 + "_Subtype"].str.replace(r"(.*)?(AE)(.*)?", r"\1CRF01_\2\3", regex = True)
+#df["Geno2Pheno_" + name2 + "_Comment"] = df["Geno2Pheno_" + name2 + "_Comment"].str.replace(r"(.*)?(AE)(.*)?", r"\1CRF01_\2\3", regex = True)
 
 # Rename Sample column (as done for stanford df)
 df. rename(columns = {"Sample":"SequenceName"}, inplace = True)
