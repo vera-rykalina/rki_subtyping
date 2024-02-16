@@ -36,8 +36,8 @@ df_full_int["INT_Subtype"] = df_full_int["INT_Subtype"].fillna(df_full_int["INT_
 
 
 # Add a columns with sequence length
-df_full_prrt["SeqLength"] = df_full_prrt["Sequenz"].str.len()
-df_full_int["SeqLength"] = df_full_int["Sequenz"].str.len()
+df_full_prrt["SeqLength"] = df_full_prrt["Sequence"].str.len()
+df_full_int["SeqLength"] = df_full_int["Sequence"].str.len()
 
 
 # Change the position of SeqLength column from last to next to last in all dfs

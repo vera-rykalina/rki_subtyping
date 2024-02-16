@@ -20,7 +20,7 @@ sequences = []
 for i, row in df.iterrows():
     if row[name2 + "_Subtype"] == "Manual":
         names.append(row["SequenceName"])
-        sequences.append(row["Sequenz"])
+        sequences.append(row["Sequence"])
 
 
 
