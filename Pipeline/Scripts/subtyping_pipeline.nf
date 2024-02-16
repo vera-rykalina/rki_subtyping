@@ -104,15 +104,17 @@ process stanford {
   publishDir "${params.outdir}/4_json_files", mode: "copy", overwrite: true
   
   input:
-    path fasta
+    path fasta_gql
+    //fasta_gql[0] fasta
+    //fasta_gql[1] gql
 
   output:
-    path "${fasta.getSimpleName()}.json"
+    path "${fasta_gql[0].getSimpleName()}.json"
   
 
   script:
     """
-    sierrapy fasta ${fasta} --no-sharding -o ${fasta.getSimpleName()}.json
+    sierrapy fasta ${fasta_gql[0]} --no-sharding -q ${fasta_gql[1]} -o ${fasta_gql[0].getSimpleName()}.json
   
     """
 }
@@ -517,7 +519,9 @@ workflow {
     inputtagxlsx = channel.fromPath("${projectDir}/AllSeqsCO20/*.xlsx")
     tag_csvChannel = get_tags(inputtagxlsx)
     cometChannel = comet(markedfasta)
-    stanfordChannel = stanford(markedfasta.filter(~/.*_PRRT_20M.fasta$|.*_INT_20M.fasta$/))
+    graphqlChannel = channel.fromPath("${projectDir}/Scripts/*.gql")
+    input_stanfordChannel = markedfasta.filter(~/.*_PRRT_20M.fasta$|.*_INT_20M.fasta$/).combine(graphqlChannel)
+    stanfordChannel = stanford(input_stanfordChannel)
     json_csvChannel = json_to_csv(stanfordChannel)
     inputg2pcsv = channel.fromPath("${projectDir}/ManualGeno2Pheno/*.csv")
     g2p_csvChannel = g2p(inputg2pcsv)
