@@ -31,7 +31,7 @@ for infilename in sys.argv[1:]:
             elif row["Stanford_" + name2 + "_Subtype"] == row["Comet_" + name2 + "_Subtype"] and row["Comet_" + name2 + "_Comment"] >= 50 and row["Comet_" + name2 + "_Subtype"] not in subsubtypes:
                 df.at[i, [name2 + "_Subtype"]] = row["Stanford_" + name2 + "_Subtype"]
 
-            elif row["Stanford_" + name2 + "_Subtype"] == row["Comet_" + name2 + "_Subtype"].split(")")[0].split(" ")[-1] and row["Comet_" + name2 + "_Comment"] == 0 and row["Comet_" + name2 + "_Subtype"] not in subsubtypes:
+            elif row["Stanford_" + name2 + "_Subtype"] == row["Comet_" + name2 + "_Subtype"].split(")")[0].split(" ")[-1] and row["Comet_" + name2 + "_Comment"] == 0 and row["Comet_" + name2 + "_Subtype"] not in subsubtypes and row["Comet_" + name2 + "_Subtype"] != "Unassigned":
                 df.at[i, [name2 + "_Subtype"]] = row["Stanford_" + name2 + "_Subtype"]
 
             elif row["Stanford_" + name2 + "_Subtype"][0] == row["Comet_" + name2 + "_Subtype"][0] and row["Comet_" + name2 + "_Comment"] >= 50 and row["Comet_" + name2 + "_Subtype"] in subsubtypes:
