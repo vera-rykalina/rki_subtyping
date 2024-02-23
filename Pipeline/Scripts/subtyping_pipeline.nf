@@ -6,6 +6,9 @@ projectDir = "$PWD"
 params.noenv = false
 params.fullpipeline = false
 params.iqtree = false
+params.withxlsx = false
+params.xlsx3fragments = "${projectDir}/Scripts/xlsx3fragments.py"
+params.xlsx2fragments = "${projectDir}/Scripts/xlsx2fragments.py"
 params.comet_rest = "${projectDir}/Scripts/comet_rest.py"
 params.json_parser = "${projectDir}/Scripts/json_parser.py"
 params.rega = "${projectDir}/Scripts/rega_cleanup.py"
@@ -32,6 +35,9 @@ VERA RYKALINA - HIV-1 SUBTYPING PIPELINE
 ================================================================================
 projectDir            : ${projectDir}
 outdir                : ${params.outdir}
+xlsx3fragments        : ${params.xlsx3fragments}
+xlsx2fragments        : ${params.xlsx2fragments}
+withxlsx              : ${params.withxlsx}
 noenv                 : ${params.noenv}
 mark_fasta            : ${params.marking}
 comet                 : ${params.comet_rest}
@@ -47,8 +53,56 @@ report                : ${params.report}
 report_no_env         : ${params.report_no_env}
 countplot             : ${params.countplot}
 
-September 2022
+Created: September 2022
+Last update: February 2024
 """
+
+
+process xlsx3fragments {
+  publishDir "${params.outdir}/0_xlsx", mode: "copy", overwrite: true
+  
+  input:
+    path fasta_prrt
+    path fasta_int
+    path fasta_env
+    
+  output:
+    path "*.xlsx"
+  
+  when: 
+    params.fullpipeline == true
+  
+  script:
+    """
+    python3 ${params.xlsx3fragments} \
+      -p ${fasta_prrt} \
+      -i ${fasta_int} \
+      -e ${fasta_env} \
+      -n ${fasta_prrt.getSimpleName().split('_')[0]}
+   """
+}
+
+process xlsx2fragments {
+  publishDir "${params.outdir}/0_xlsx", mode: "copy", overwrite: true
+  
+  input:
+    path fasta_prrt
+    path fasta_int
+    
+  output:
+    path "*.xlsx"
+  
+  when: 
+    params.fullpipeline == true
+
+  script:
+    """
+    python3 ${params.xlsx2fragments} \
+      -p ${fasta_prrt} \
+      -i ${fasta_int} \
+      -n ${fasta_prrt.getSimpleName().split('_')[0]}
+     """
+}
 
 
 process mark_fasta {
@@ -512,31 +566,37 @@ process countplot {
     """
 }
 
+// Inputs
+inputfasta = channel.fromPath("${projectDir}/InputFasta/*.fasta")
+panelChannel = channel.fromPath("${projectDir}/References/*.fas")
+graphqlChannel = channel.fromPath("${projectDir}/Scripts/*.gql")
+inputg2pcsv = channel.fromPath("${projectDir}/ManualGeno2Pheno/*.csv")
+inputregacsv = channel.fromPath("${projectDir}/ManualRega/*.csv")
 
 workflow {
-    inputfasta = channel.fromPath("${projectDir}/InputFasta/*.fasta")
     markedfasta = mark_fasta(inputfasta)
-    inputtagxlsx = channel.fromPath("${projectDir}/AllSeqsCO20/*.xlsx")
-    tag_csvChannel = get_tags(inputtagxlsx)
     cometChannel = comet(markedfasta)
-    graphqlChannel = channel.fromPath("${projectDir}/Scripts/*.gql")
     input_stanfordChannel = markedfasta.filter(~/.*_PRRT_20M.fasta$|.*_INT_20M.fasta$/).combine(graphqlChannel)
     stanfordChannel = stanford(input_stanfordChannel)
-    json_csvChannel = json_to_csv(stanfordChannel)
-    inputg2pcsv = channel.fromPath("${projectDir}/ManualGeno2Pheno/*.csv")
+    json_csvChannel = json_to_csv(stanfordChannel)  
     g2p_csvChannel = g2p(inputg2pcsv)
-    inputregacsv = channel.fromPath("${projectDir}/ManualRega/*.csv")
     rega_csvChannel = clean_rega(inputregacsv)
     int_jointChannel = join_int(json_csvChannel.filter(~/.*_INT_20M.csv$/), cometChannel.filter(~/.*_INT_20M.csv$/), g2p_csvChannel.filter(~/.*_INT_20M.csv$/), rega_csvChannel.filter(~/.*_INT_20M.csv$/))
     prrt_jointChannel = join_prrt(json_csvChannel.filter(~/.*_PRRT_20M.csv$/), cometChannel.filter(~/.*_PRRT_20M.csv$/), g2p_csvChannel.filter(~/.*_PRRT_20M.csv$/), rega_csvChannel.filter(~/.*_PRRT_20M.csv$/))
-   
+
     if (params.noenv) {
+      if (params.withxlsx == true) {
+         inputtagxlsx = channel.fromPath("${projectDir}/AllSeqsCO20/*.xlsx")
+         tag_csvChannel = get_tags(inputtagxlsx)
+    } else {
+         inputtagxlsx = xlsx2fragments(inputfasta.filter(~/.*_PRRT_20.fasta/), inputfasta.filter(~/.*_INT_20.fasta/))
+         tag_csvChannel = get_tags(inputtagxlsx.flatten())
+    }
     decision_csvChannel = make_decision_no_env(prrt_jointChannel, int_jointChannel)
     all_dfs = tag_csvChannel.concat(decision_csvChannel).collect()
     fullChannel = join_with_tags_no_env(all_dfs)
     fasta_mafftChannel = fasta_for_mafft(fullChannel.flatten())
-    fullFromPathChannel = channel.fromPath("${projectDir}/${params.outdir}/9_joint_with_tags/*.xlsx").collect()
-    panelChannel = channel.fromPath("${projectDir}/References/*.fas")
+    fullFromPathChannel = channel.fromPath("${projectDir}/${params.outdir}/10_joint_with_tags/*.xlsx").collect()
     intConcatChannel = int_concat_panel(fasta_mafftChannel.filter(~/.*_INT_.*.fasta/), panelChannel.filter(~/.*_INT_.*.fas/))
     prrtConcatChannel = prrt_concat_panel(fasta_mafftChannel.filter(~/.*_PRRT_.*.fasta/), panelChannel.filter(~/.*_PRRT_.*.fas/))
     // MAFFT
@@ -550,14 +610,19 @@ workflow {
     // PLOT
     plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/15_report/*.xlsx"))
     } else {
-  
+        if (params.withxlsx == true) {
+          inputtagxlsx = channel.fromPath("${projectDir}/AllSeqsCO20/*.xlsx")
+          tag_csvChannel = get_tags(inputtagxlsx)
+    } else {
+          inputtagxlsx = xlsx3fragments(inputfasta.filter(~/.*_PRRT_20.fasta/), inputfasta.filter(~/.*_INT_20.fasta/), inputfasta.filter(~/.*_ENV_20.fasta/))
+          tag_csvChannel = get_tags(inputtagxlsx.flatten())
+    }
     env_jointChannel = join_env(cometChannel.filter(~/.*_ENV_20M.csv$/), g2p_csvChannel.filter(~/.*_ENV_20M.csv$/), rega_csvChannel.filter(~/.*_ENV_20M.csv$/))
     decision_csvChannel = make_decision(prrt_jointChannel, env_jointChannel, int_jointChannel)
     all_dfs = tag_csvChannel.concat(decision_csvChannel).collect()
     fullChannel = join_with_tags(all_dfs)
     fasta_mafftChannel = fasta_for_mafft(fullChannel.flatten())
     fullFromPathChannel = channel.fromPath("${projectDir}/${params.outdir}/10_joint_with_tags/*.xlsx").collect()
-    panelChannel = channel.fromPath("${projectDir}/References/*.fas")
     envConcatChannel = env_concat_panel(fasta_mafftChannel.filter(~/.*_ENV_.*.fasta/), panelChannel.filter(~/.*_ENV_.*.fas/))
     intConcatChannel = int_concat_panel(fasta_mafftChannel.filter(~/.*_INT_.*.fasta/), panelChannel.filter(~/.*_INT_.*.fas/))
     prrtConcatChannel = prrt_concat_panel(fasta_mafftChannel.filter(~/.*_PRRT_.*.fasta/), panelChannel.filter(~/.*_PRRT_.*.fas/))
