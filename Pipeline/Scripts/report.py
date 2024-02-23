@@ -68,9 +68,6 @@ for i, row in final_report.iterrows():
 
     elif row["Subtyp_INT"] in special_cases and row["Subtyp_ENV"] in special_cases and row["Subtyp_PRRT"] not in special_cases:
         final_report.at[i, ["Subtyp_Summe"]] = row["Subtyp_PRRT"]
-
-    elif row["Subtyp_INT"] in special_cases and row["Subtyp_ENV"] in special_cases and row["Subtyp_PRRT"] not in special_cases:
-        final_report.at[i, ["Subtyp_Summe"]] = row["Subtyp_PRRT"]
     
     elif row["Subtyp_PRRT"] in special_cases and row["Subtyp_ENV"] in special_cases and row["Subtyp_INT"] not in special_cases:
         final_report.at[i, ["Subtyp_Summe"]] = row["Subtyp_INT"]
