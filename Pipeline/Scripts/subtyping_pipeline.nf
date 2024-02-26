@@ -7,6 +7,7 @@ params.noenv = false
 params.fullpipeline = false
 params.iqtree = false
 params.withxlsx = false
+params.rkireport = false
 params.xlsx3fragments = "${projectDir}/Scripts/xlsx3fragments.py"
 params.xlsx2fragments = "${projectDir}/Scripts/xlsx2fragments.py"
 params.comet_rest = "${projectDir}/Scripts/comet_rest.py"
@@ -19,7 +20,9 @@ params.marking = "${projectDir}/Scripts/repeat_marking.py"
 params.full_join = "${projectDir}/Scripts/full_join.py"
 params.full_join_no_env = "${projectDir}/Scripts/full_join_no_env.py"
 params.report = "${projectDir}/Scripts/report.py"
-params.report_no_env = "${projectDir}/Scripts/report_no_env.py"
+params.report_noenv = "${projectDir}/Scripts/report_noenv.py"
+params.report_rki = "${projectDir}/Scripts/report_rki.py"
+params.report_noenv_rki = "${projectDir}/Scripts/report_noenv_rki.py"
 params.fasta_for_mafft = "${projectDir}/Scripts/fasta_for_mafft.py"
 params.countplot = "${projectDir}/Scripts/plot.py"
 
@@ -50,59 +53,14 @@ join_with_tags        : ${params.full_join}
 join_with_tags_no_env : ${params.full_join_no_env}
 fasta_for_mafft       : ${params.fasta_for_mafft}
 report                : ${params.report}
-report_no_env         : ${params.report_no_env}
+report_noenv          : ${params.report_noenv}
+report_rki            : ${params.report_rki}
+report_noenv_rki      : ${params.report_noenv_rki}
 countplot             : ${params.countplot}
 
 Created: September 2022
 Last update: February 2024
 """
-
-
-process xlsx3fragments {
-  publishDir "${params.outdir}/0_xlsx", mode: "copy", overwrite: true
-  
-  input:
-    path fasta_prrt
-    path fasta_int
-    path fasta_env
-    
-  output:
-    path "*.xlsx"
-  
-  when: 
-    params.fullpipeline == true
-  
-  script:
-    """
-    python3 ${params.xlsx3fragments} \
-      -p ${fasta_prrt} \
-      -i ${fasta_int} \
-      -e ${fasta_env} \
-      -n ${fasta_prrt.getSimpleName().split('_')[0]}
-   """
-}
-
-process xlsx2fragments {
-  publishDir "${params.outdir}/0_xlsx", mode: "copy", overwrite: true
-  
-  input:
-    path fasta_prrt
-    path fasta_int
-    
-  output:
-    path "*.xlsx"
-  
-  when: 
-    params.fullpipeline == true
-
-  script:
-    """
-    python3 ${params.xlsx2fragments} \
-      -p ${fasta_prrt} \
-      -i ${fasta_int} \
-      -n ${fasta_prrt.getSimpleName().split('_')[0]}
-     """
-}
 
 
 process mark_fasta {
@@ -362,6 +320,53 @@ process make_decision_no_env {
 }
 
 
+
+process xlsx2fragments {
+  publishDir "${params.outdir}/0_xlsx", mode: "copy", overwrite: true
+  
+  input:
+    path fasta_prrt
+    path fasta_int
+    
+  output:
+    path "*.xlsx"
+  
+  when: 
+    params.fullpipeline == true
+
+  script:
+    """
+    python3 ${params.xlsx2fragments} \
+      -p ${fasta_prrt} \
+      -i ${fasta_int} \
+      -n ${fasta_prrt.getSimpleName().split('_')[0]}
+     """
+}
+
+process xlsx3fragments {
+  publishDir "${params.outdir}/0_xlsx", mode: "copy", overwrite: true
+  
+  input:
+    path fasta_prrt
+    path fasta_int
+    path fasta_env
+    
+  output:
+    path "*.xlsx"
+  
+  when: 
+    params.fullpipeline == true
+  
+  script:
+    """
+    python3 ${params.xlsx3fragments} \
+      -p ${fasta_prrt} \
+      -i ${fasta_int} \
+      -e ${fasta_env} \
+      -n ${fasta_prrt.getSimpleName().split('_')[0]}
+   """
+}
+
 process join_with_tags {
   publishDir "${params.outdir}/10_joint_with_tags", mode: "copy", overwrite: false
   input:
@@ -514,6 +519,7 @@ process iqtree {
     """
   }
 
+
 process report {
   publishDir "${params.outdir}/15_report", mode: "copy", overwrite: false
   input:
@@ -531,8 +537,7 @@ process report {
     """
 }
 
-
-process report_no_env {
+process report_noenv {
   publishDir "${params.outdir}/15_report", mode: "copy", overwrite: false
   input:
     path xlsx
@@ -545,7 +550,42 @@ process report_no_env {
 
   script:
    """
-    python3 ${params.report_no_env} ${xlsx} *.xlsx
+    python3 ${params.report_noenv} ${xlsx} *.xlsx
+    """
+}
+
+process report_rki {
+  publishDir "${params.outdir}/15_report", mode: "copy", overwrite: false
+  input:
+    path xlsx
+    
+  output:
+    path "*.xlsx"
+  
+  when:
+    params.fullpipeline == true && params.rkireport == true
+
+  script:
+   """
+    python3 ${params.report_rki} ${xlsx} *.xlsx
+    """
+}
+
+
+process report_noenv_rki {
+  publishDir "${params.outdir}/15_report", mode: "copy", overwrite: false
+  input:
+    path xlsx
+    
+  output:
+    path "*.xlsx"
+  
+  when:
+    params.fullpipeline == true && params.rkireport == true
+
+  script:
+   """
+    python3 ${params.report_noenv_rki} ${xlsx} *.xlsx
     """
 }
 
@@ -605,10 +645,19 @@ workflow {
     mafftPathChannel = channel.fromPath("${projectDir}/${params.outdir}/13_mafft/*.fasta")
     //iqtree(msaChannel)
     iqtree(mafftPathChannel)
-    //REPORT
-    reportChannel = report_no_env(fullFromPathChannel)
-    // PLOT
-    plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/15_report/*.xlsx"))
+    
+      if (params.rkireport == true) {
+        //REPORT
+        reportChannel = report_noenv_rki(fullFromPathChannel)
+        // PLOT
+        plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/15_report/*.xlsx"))
+    } else {
+        //REPORT
+        reportChannel = report_noenv(fullFromPathChannel)
+        // PLOT
+        plotChannel = countplot(reportChannel)
+    }
+  
     } else {
         if (params.withxlsx == true) {
           inputtagxlsx = channel.fromPath("${projectDir}/AllSeqsCO20/*.xlsx")
@@ -631,9 +680,16 @@ workflow {
     // IQTREE (let iqtree get modified msa files)
     mafftPathChannel = channel.fromPath("${projectDir}/${params.outdir}/13_mafft/*.fasta")
     iqtree(mafftPathChannel)
-    //REPORT
-    reportChannel = report(fullFromPathChannel)
-    // PLOT
-    plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/15_report/*.xlsx"))
+      if (params.rkireport == true) {
+        //REPORT
+        reportChannel = report_rki(fullFromPathChannel)
+        // PLOT
+        plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/15_report/*.xlsx"))
+    } else {
+       //REPORT
+       reportChannel = report(fullFromPathChannel)
+       // PLOT
+       plotChannel = countplot(reportChannel)
     }
+  }
 }
