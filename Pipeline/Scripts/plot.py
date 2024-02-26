@@ -17,24 +17,27 @@ name1 = infilename.rsplit("/")[-1]
 name2 = name1.split("_")[0]
 name3 = name1.split(".")[-2]
 
+if "Subtype" not in df.columns:
+    df.rename(columns = {"Subtyp_Summe":"Subtype"}, inplace = True)
+
 sns.set_style("darkgrid")
 #sns.set_context("poster")
 #fig, ax = plt.subplots(figsize=(16, 8))
 fig, ax = plt.subplots(figsize=(22, 12))
 
 
-count_plot = sns.countplot(y="Subtyp_Summe", data=df, 
+count_plot = sns.countplot(y="Subtype", data=df, 
                            #palette="twilight",
                            palette = "GnBu_d",
                            #palette="viridis",
-                           order = df["Subtyp_Summe"].value_counts().index)
+                           order = df["Subtype"].value_counts().index)
 
 
 # Create a legend with RUN_NUMBER (e.g. MS95)
 ax.legend(title=name2, fontsize=12, title_fontsize=20, loc="lower right")
 
 # Add lebels
-ax.set(xlabel="Count", ylabel="Subtype Sum", title = "HIV-1 Subtyping (Stanford, Comet, Rega)")
+ax.set(xlabel="Count", ylabel="Subtype", title = "HIV-1 Subtyping (Stanford, Comet, Rega, Geno2Pheno)")
 
 # Add values to bars
 for container in ax.containers:
