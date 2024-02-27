@@ -4,7 +4,7 @@ nextflow.enable.dsl = 2
 // When $PWD is set, the pipeline should be run from Pipeline/
 projectDir = "$PWD"
 params.noenv = false
-params.fullpipeline = false
+params.full = false
 params.iqtree = false
 params.withxlsx = false
 params.rkireport = false
@@ -158,7 +158,7 @@ process g2p {
     path "g2p_${csv.getSimpleName().split('_Geno2Pheno_')[1]}.csv"
   
   when:
-    params.fullpipeline == true
+    params.full == true
 
   script:
    """
@@ -177,7 +177,7 @@ process clean_rega {
     path "rega_${csv.getSimpleName().split('_Rega_')[1]}.csv"
   
   when:
-    params.fullpipeline == true
+    params.full == true
 
   script:
    """
@@ -199,7 +199,7 @@ process join_prrt {
     path "joint_${comet.getSimpleName().split('comet_')[1]}.csv"
   
    when:
-    params.fullpipeline == true
+    params.full == true
 
   script:
     """
@@ -228,7 +228,7 @@ process join_env {
     path "joint_${comet.getSimpleName().split('comet_')[1]}.csv"
   
   when:
-   params.fullpipeline == true
+   params.full == true
   
   script:
     """
@@ -256,7 +256,7 @@ process join_int {
     path "joint_${comet.getSimpleName().split('comet_')[1]}.csv"
   
   when:
-    params.fullpipeline == true
+    params.full == true
 
   script:
     """
@@ -288,7 +288,7 @@ process make_decision {
     path "decision_${csv_int.getSimpleName().split('joint_')[1]}.csv"
   
   when:
-    params.fullpipeline == true
+    params.full == true
 
   script:
    """
@@ -310,7 +310,7 @@ process make_decision_no_env {
     path "decision_${csv_int.getSimpleName().split('joint_')[1]}.csv"
   
   when:
-    params.fullpipeline == true
+    params.full == true
 
   script:
    """
@@ -332,7 +332,7 @@ process xlsx2fragments {
     path "*.xlsx"
   
   when: 
-    params.fullpipeline == true
+    params.full == true
 
   script:
     """
@@ -355,7 +355,7 @@ process xlsx3fragments {
     path "*.xlsx"
   
   when: 
-    params.fullpipeline == true
+    params.full == true
   
   script:
     """
@@ -376,7 +376,7 @@ process join_with_tags {
     path "full_*.xlsx"
   
   when:
-    params.fullpipeline == true
+    params.full == true
 
   script:
    """
@@ -393,7 +393,7 @@ process join_with_tags_no_env {
     path "full_*.xlsx"
   
   when:
-    params.fullpipeline == true
+    params.full == true
 
   script:
    """
@@ -412,7 +412,7 @@ process fasta_for_mafft {
     path "*.fasta"
 
   when:
-    params.fullpipeline == true
+    params.full == true
 
   script:
    """
@@ -430,7 +430,7 @@ process fasta_for_mafft {
   output:
     path "concat_${fragment.getSimpleName().split('mafft_')[1]}.fasta"
   when:
-    params.fullpipeline == true
+    params.full == true
 
   script:
     """
@@ -448,7 +448,7 @@ process fasta_for_mafft {
   output:
       path "concat_${fragment.getSimpleName().split('mafft_')[1]}.fasta"
   when:
-    params.fullpipeline == true
+    params.full == true
 
   script:
     """
@@ -466,7 +466,7 @@ process fasta_for_mafft {
   output:
     path "concat_${fragment.getSimpleName().split('mafft_')[1]}.fasta"
   when:
-    params.fullpipeline == true
+    params.full == true
 
   script:
     """
@@ -482,7 +482,7 @@ process fasta_for_mafft {
       path  "msa_${fasta.getSimpleName().split('concat_')[1]}.fasta"
 
   when:
-    params.fullpipeline == true
+    params.full == true
 
   script:
   
@@ -529,7 +529,7 @@ process report {
     path "*.xlsx"
   
   when:
-    params.fullpipeline == true
+    params.full == true
 
   script:
    """
@@ -546,7 +546,7 @@ process report_noenv {
     path "*.xlsx"
   
   when:
-    params.fullpipeline == true
+    params.full == true
 
   script:
    """
@@ -563,7 +563,7 @@ process report_rki {
     path "*.xlsx"
   
   when:
-    params.fullpipeline == true && params.rkireport == true
+    params.full == true && params.rkireport == true
 
   script:
    """
@@ -581,7 +581,7 @@ process report_noenv_rki {
     path "*.xlsx"
   
   when:
-    params.fullpipeline == true && params.rkireport == true
+    params.full == true && params.rkireport == true
 
   script:
    """
@@ -598,7 +598,7 @@ process countplot {
     path "*.png"
   
   when:
-    params.fullpipeline == true
+    params.full == true
 
   script:
    """
