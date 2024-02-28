@@ -1,9 +1,3 @@
-.DS_Store
-COMET/
-nf_core/
-IQ-TREE/
-AnnualReport/
-HivTrace/
 
 Documentation/mock_fasta_list.txt
 
@@ -14,13 +8,15 @@ Pipeline/.nextflow.log*
 Pipeline/Test/*
 Pipeline/InputFasta/*.fasta
 Pipeline/AllSeqsCO20/*.xlsx
-Pipeline/ManualRega/*.csv
-Pipeline/ManualGeno2Pheno/*.csv
+Pipeline/Rega/*.csv
+Pipeline/Geno2Pheno/*.csv
 snippets.*
 84/
 92/ 
 94/ 
 95/
 Pipeline/iqtree1
+Pipeline/iqtree2
+Pipeline/iqtree3
 Validation/HIV_FL_LANL*.fasta
 
