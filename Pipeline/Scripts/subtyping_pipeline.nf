@@ -10,13 +10,10 @@ params.withxlsx = false
 params.rkireport = false
 params.xlsx3fragments = "${projectDir}/Scripts/xlsx3fragments.py"
 params.xlsx2fragments = "${projectDir}/Scripts/xlsx2fragments.py"
-params.comet_rest = "${projectDir}/Scripts/comet_rest.py"
 params.json_parser = "${projectDir}/Scripts/json_parser.py"
 params.rega = "${projectDir}/Scripts/rega_cleanup.py"
-params.g2p = "${projectDir}/Scripts/geno2pheno.py"
 params.tag_parser = "${projectDir}/Scripts/tag_parser.py"
 params.decision = "${projectDir}/Scripts/decision.py"
-params.marking = "${projectDir}/Scripts/repeat_marking.py"
 params.full_join = "${projectDir}/Scripts/full_join.py"
 params.full_join_no_env = "${projectDir}/Scripts/full_join_no_env.py"
 params.report = "${projectDir}/Scripts/report.py"
@@ -38,25 +35,12 @@ VERA RYKALINA - HIV-1 SUBTYPING PIPELINE
 ================================================================================
 projectDir            : ${projectDir}
 outdir                : ${params.outdir}
-xlsx3fragments        : ${params.xlsx3fragments}
-xlsx2fragments        : ${params.xlsx2fragments}
 withxlsx              : ${params.withxlsx}
+full                  : ${params.full}
+iqtree                : ${params.iqtree}
 noenv                 : ${params.noenv}
-mark_fasta            : ${params.marking}
-comet                 : ${params.comet_rest}
-json_to_csv           : ${params.json_parser}
-clean_rega            : ${params.rega}
-g2p                   : ${params.g2p}
-get_tags              : ${params.tag_parser}
-make_decision         : ${params.decision}
-join_with_tags        : ${params.full_join}
-join_with_tags_no_env : ${params.full_join_no_env}
-fasta_for_mafft       : ${params.fasta_for_mafft}
-report                : ${params.report}
-report_noenv          : ${params.report_noenv}
-report_rki            : ${params.report_rki}
-report_noenv_rki      : ${params.report_noenv_rki}
-countplot             : ${params.countplot}
+rkireport             : ${params.rkireport}
+
 
 Created: September 2022
 Last update: February 2024
@@ -74,7 +58,7 @@ process mark_fasta {
   
   script:
    """
-    python3 ${params.marking} ${fasta} ${fasta.getSimpleName()}M.fasta
+    repeat_marking.py ${fasta} ${fasta.getSimpleName()}M.fasta
 
    """
 
@@ -90,8 +74,7 @@ process get_tags {
 
   script:
    """
-    python3 ${params.tag_parser} ${xlsx} tag_${xlsx.getSimpleName().split('_')[0]}_${xlsx.getSimpleName().split('_')[2]}_20M.csv
-    
+   tag_parser.py ${xlsx} tag_${xlsx.getSimpleName().split('_')[0]}_${xlsx.getSimpleName().split('_')[2]}_20M.csv
    """
 }
 process comet {
@@ -106,7 +89,7 @@ process comet {
   script:
   
   """
-    python3 ${params.comet_rest} ${fasta} comet_${fasta.getSimpleName()}.csv
+  comet_rest.py ${fasta} comet_${fasta.getSimpleName()}.csv
   """
   
 }
@@ -142,7 +125,7 @@ process json_to_csv {
   
   script:
    """
-    python3 ${params.json_parser} ${json} stanford_${json.getSimpleName()}.csv
+   json_parser.py ${json} stanford_${json.getSimpleName()}.csv
    """
 
 }
@@ -162,7 +145,7 @@ process g2p {
 
   script:
    """
-    python3 ${params.g2p} ${csv} g2p_${csv.getSimpleName().split('_Geno2Pheno_')[1]}.csv
+   geno2pheno.py ${csv} g2p_${csv.getSimpleName().split('_Geno2Pheno_')[1]}.csv
    """
 
 }
@@ -181,7 +164,7 @@ process clean_rega {
 
   script:
    """
-    python3 ${params.rega} ${csv} rega_${csv.getSimpleName().split('_Rega_')[1]}.csv
+   rega_cleanup.py ${csv} rega_${csv.getSimpleName().split('_Rega_')[1]}.csv
    """
 }
 
@@ -292,9 +275,9 @@ process make_decision {
 
   script:
    """
-    python3 ${params.decision} ${csv_prrt} decision_${csv_prrt.getSimpleName().split('joint_')[1]}.csv
-    python3 ${params.decision} ${csv_env} decision_${csv_env.getSimpleName().split('joint_')[1]}.csv
-    python3 ${params.decision} ${csv_int} decision_${csv_int.getSimpleName().split('joint_')[1]}.csv
+    decision.py ${csv_prrt} decision_${csv_prrt.getSimpleName().split('joint_')[1]}.csv
+    decision.py ${csv_env} decision_${csv_env.getSimpleName().split('joint_')[1]}.csv
+    decision.py ${csv_int} decision_${csv_int.getSimpleName().split('joint_')[1]}.csv
    """
 }
 
@@ -314,8 +297,8 @@ process make_decision_no_env {
 
   script:
    """
-    python3 ${params.decision} ${csv_prrt} decision_${csv_prrt.getSimpleName().split('joint_')[1]}.csv
-    python3 ${params.decision} ${csv_int} decision_${csv_int.getSimpleName().split('joint_')[1]}.csv
+    decision.py ${csv_prrt} decision_${csv_prrt.getSimpleName().split('joint_')[1]}.csv
+    decision.py ${csv_int} decision_${csv_int.getSimpleName().split('joint_')[1]}.csv
    """
 }
 
@@ -336,7 +319,7 @@ process xlsx2fragments {
 
   script:
     """
-    python3 ${params.xlsx2fragments} \
+    xlsx2fragments.py \
       -p ${fasta_prrt} \
       -i ${fasta_int} \
       -n ${fasta_prrt.getSimpleName().split('_')[0]}
@@ -359,7 +342,7 @@ process xlsx3fragments {
   
   script:
     """
-    python3 ${params.xlsx3fragments} \
+    xlsx3fragments.py \
       -p ${fasta_prrt} \
       -i ${fasta_int} \
       -e ${fasta_env} \
@@ -380,7 +363,7 @@ process join_with_tags {
 
   script:
    """
-    python3 ${params.full_join} ${csv} full_*.xlsx
+    full_join.py ${csv} full_*.xlsx
    """
 }
 
@@ -397,7 +380,7 @@ process join_with_tags_no_env {
 
   script:
    """
-    python3 ${params.full_join_no_env} ${csv} full_*.xlsx
+    full_join_no_env.py ${csv} full_*.xlsx
    """
 }
 
@@ -415,8 +398,8 @@ process fasta_for_mafft {
     params.full == true
 
   script:
-   """
-    python3 ${params.fasta_for_mafft} ${xlsx} *.fasta
+    """
+    fasta_for_mafft.py ${xlsx} *.fasta
     """
 }
 
@@ -533,7 +516,7 @@ process report {
 
   script:
    """
-    python3 ${params.report} ${xlsx} *.xlsx
+    report.py ${xlsx} *.xlsx
     """
 }
 
@@ -550,7 +533,7 @@ process report_noenv {
 
   script:
    """
-    python3 ${params.report_noenv} ${xlsx} *.xlsx
+    report_noenv.py ${xlsx} *.xlsx
     """
 }
 
@@ -567,7 +550,7 @@ process report_rki {
 
   script:
    """
-    python3 ${params.report_rki} ${xlsx} *.xlsx
+    report_rki.py ${xlsx} *.xlsx
     """
 }
 
@@ -585,7 +568,7 @@ process report_noenv_rki {
 
   script:
    """
-    python3 ${params.report_noenv_rki} ${xlsx} *.xlsx
+    report_noenv_rki.py ${xlsx} *.xlsx
     """
 }
 
@@ -601,8 +584,8 @@ process countplot {
     params.full == true
 
   script:
-   """
-    python3 ${params.countplot} ${xlsx} *.png
+    """
+    countplot.py ${xlsx} *.png
     """
 }
 
