@@ -8,20 +8,8 @@ params.full = false
 params.iqtree = false
 params.withxlsx = false
 params.rkireport = false
-params.xlsx3fragments = "${projectDir}/Scripts/xlsx3fragments.py"
-params.xlsx2fragments = "${projectDir}/Scripts/xlsx2fragments.py"
-params.json_parser = "${projectDir}/Scripts/json_parser.py"
-params.rega = "${projectDir}/Scripts/rega_cleanup.py"
-params.tag_parser = "${projectDir}/Scripts/tag_parser.py"
-params.decision = "${projectDir}/Scripts/decision.py"
-params.full_join = "${projectDir}/Scripts/full_join.py"
-params.full_join_no_env = "${projectDir}/Scripts/full_join_no_env.py"
-params.report = "${projectDir}/Scripts/report.py"
-params.report_noenv = "${projectDir}/Scripts/report_noenv.py"
-params.report_rki = "${projectDir}/Scripts/report_rki.py"
-params.report_noenv_rki = "${projectDir}/Scripts/report_noenv_rki.py"
-params.fasta_for_mafft = "${projectDir}/Scripts/fasta_for_mafft.py"
-params.countplot = "${projectDir}/Scripts/plot.py"
+
+
 
 params.outdir = null
 if (!params.outdir) {
@@ -593,8 +581,8 @@ process countplot {
 inputfasta = channel.fromPath("${projectDir}/InputFasta/*.fasta")
 panelChannel = channel.fromPath("${projectDir}/References/*.fas")
 graphqlChannel = channel.fromPath("${projectDir}/Scripts/*.gql")
-inputg2pcsv = channel.fromPath("${projectDir}/ManualGeno2Pheno/*.csv")
-inputregacsv = channel.fromPath("${projectDir}/ManualRega/*.csv")
+inputg2pcsv = channel.fromPath("${projectDir}/Geno2Pheno/*.csv")
+inputregacsv = channel.fromPath("${projectDir}/Rega/*.csv")
 
 workflow {
     markedfasta = mark_fasta(inputfasta)
