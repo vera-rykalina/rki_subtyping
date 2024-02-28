@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # Import libraries
 import sys
 import re
