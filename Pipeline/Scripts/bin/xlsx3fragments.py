@@ -52,27 +52,27 @@ def create_excels(args):
     # Remove duplicates from the master list of scounts
     scounts = list(set(all_scounts))
 
-    # Look up for scount in scounts, if it is not present in PRRT, INT, and ENV: add tag _notSequenced and empty string for "Sequenz" column
+    # Look up for scount in scounts, if it is not present in PRRT, INT, and ENV: add tag notSequenced and empty string for "Sequenz" column
 
 
     for scount in scounts:
         if scount not in prrt_scounts:
             # Creating a new row
-            new_row = {"Scount": scount, "Header": scount + "_PRRT_20" + "_notSequenced", "Sequenz": ""}
+            new_row = {"Scount": scount, "Header": scount + "_PRRT_20" + "notSequenced", "Sequenz": ""}
             # Inserting the new row
             prrt_df.loc[len(prrt_df)] = new_row
             # Reset the index
             prrt_df = prrt_df.reset_index(drop=True)
         if scount not in int_scounts:
             # Creating a new row
-            new_row = {"Scount": scount, "Header": scount + "_INT_20" + "_notSequenced", "Sequenz": ""}
+            new_row = {"Scount": scount, "Header": scount + "_INT_20" + "notSequenced", "Sequenz": ""}
             # Inserting the new row
             int_df.loc[len(int_df)] = new_row
             # Reset the index
             int_df = int_df.reset_index(drop=True)
         if scount not in env_scounts:
             # Creating a new row
-            new_row = {"Scount": scount, "Header": scount + "_ENV_20" + "_notSequenced", "Sequenz": ""}
+            new_row = {"Scount": scount, "Header": scount + "_ENV_20" + "notSequenced", "Sequenz": ""}
             # Inserting the new row
             env_df.loc[len(env_df)] = new_row
             # Reset the index
