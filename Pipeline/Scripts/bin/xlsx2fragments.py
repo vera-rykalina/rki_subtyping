@@ -47,14 +47,14 @@ def create_excels(args):
     for scount in scounts:
         if scount not in prrt_scounts:
             # Creating a new row
-            new_row = {"Scount": scount, "Header": scount + "_PRRT_20" + "notSequenced", "Sequenz": ""}
+            new_row = {"Scount": scount, "Header": scount + "_PRRT_20" + "_notSequenced", "Sequenz": ""}
             # Inserting the new row
             prrt_df.loc[len(prrt_df)] = new_row
             # Reset the index
             prrt_df = prrt_df.reset_index(drop=True)
         if scount not in int_scounts:
             # Creating a new row
-            new_row = {"Scount": scount, "Header": scount + "_INT_20" + "notSequenced", "Sequenz": ""}
+            new_row = {"Scount": scount, "Header": scount + "_INT_20" + "_notSequenced", "Sequenz": ""}
             # Inserting the new row
             int_df.loc[len(int_df)] = new_row
             # Reset the index
