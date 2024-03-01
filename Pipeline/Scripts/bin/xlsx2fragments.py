@@ -42,8 +42,7 @@ def create_excels(args):
     # Remove duplicates from the master list of scounts
     scounts = list(set(all_scounts))
 
-    # Look up for scount in scounts, if it is not present in PRRT, INT, and ENV: add tag _nichtSequenziert and empty string for "Sequenz" column
-    # _nichtSequenziert (Translation: _notSequenced) 
+    # Look up for scount in scounts, if it is not present in PRRT, INT: add tag _notSequenced and empty string for "Sequenz" column
 
     for scount in scounts:
         if scount not in prrt_scounts:
