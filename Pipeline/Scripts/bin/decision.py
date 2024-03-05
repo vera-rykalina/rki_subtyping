@@ -51,7 +51,7 @@ for infilename in sys.argv[1:]:
             elif row["Geno2Pheno_" + name2 + "_Subtype"] != row["Comet_" + name2 + "_Subtype"] and row["Comet_" + name2 + "_Comment"] >= 50 and row["Comet_" + name2 + "_Subtype"] in subsubtypes:
                 df.at[i, [name2 + "_Subsubtype"]] = "Manual"
             
-            else:
+            else: 
                 df.at[i, [name2 + "_Subsubtype"]] = row[name2 + "_Subtype"]
         
 
@@ -86,8 +86,8 @@ for infilename in sys.argv[1:]:
             
             elif row["Geno2Pheno_" + name2 + "_Subtype"] != row["Comet_" + name2 + "_Subtype"] and row["Comet_" + name2 + "_Comment"] >= 50 and row["Comet_" + name2 + "_Subtype"] in subsubtypes:
                 df.at[i, [name2 + "_Subsubtype"]] = "Manual"
-            
-            else:
+                       
+            else: 
                 df.at[i, [name2 + "_Subsubtype"]] = row[name2 + "_Subtype"]
         
         df.to_csv("decision_" + name3 + ".csv", sep=",", index=False, encoding="utf-8")
