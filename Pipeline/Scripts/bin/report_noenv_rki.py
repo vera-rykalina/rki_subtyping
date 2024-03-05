@@ -35,9 +35,11 @@ final_report["Subtyp_Summe"] = None
 final_report["Env_FPR"] = None
 
 
-special_cases = ["_Seq. nicht klassifizierbar", "_Seq. nicht auswertbar", "_zu wenig PCR-Produkt", "Manual", "notSequenced", "notClassified"]
+special_cases = ["_Seq. nicht klassifizierbar", "_Seq. nicht auswertbar", "_zu wenig PCR-Produkt", "Manual"]
 
 # Replacements
+final_report[["Subtyp_PRRT", "Subtyp_INT", "Subtyp_ENV"]] = final_report[["Subtyp_PRRT", "Subtyp_INT", "Subtyp_ENV"]].replace(r"^_notSequenced$", r"_zu wenig PCR-Produkt", regex=True)
+
 final_report[["Subtyp_PRRT", "Subtyp_INT"]] = final_report[["Subtyp_PRRT", "Subtyp_INT"]].replace(r"^_SeqNichtAuswertbar$", r"_Seq. nicht auswertbar", regex=True)
 
 final_report[["Subtyp_PRRT", "Subtyp_INT"]] = final_report[["Subtyp_PRRT", "Subtyp_INT"]].replace(r"^_nichtSequenziert$", r"_zu wenig PCR-Produkt", regex=True)
@@ -54,6 +56,12 @@ for i, row in final_report.iterrows():
     elif row["Subtyp_INT"] not in special_cases and row["Subtyp_PRRT"] in special_cases:
         final_report.at[i, ["Subtyp_Summe"]] = row["Subtyp_INT"]     
     
+    elif row["Subtyp_INT"] != row["Subtyp_PRRT"] and len(row["Subtyp_INT"]) <=2 and len(row["Subtyp_PRRT"]) > 2 and row["Subtyp_PRRT"] not in special_cases:
+        final_report.at[i, ["Subtyp_Summe"]] = row["Subtyp_PRRT"]
+    
+    elif row["Subtyp_INT"] != row["Subtyp_PRRT"] and len(row["Subtyp_PRRT"]) <=2 and len(row["Subtyp_INT"]) > 2 and row["Subtyp_INT"] not in special_cases:
+        final_report.at[i, ["Subtyp_Summe"]] = row["Subtyp_PRRT"]
+
     else:
         final_report.at[i, ["Subtyp_Summe"]] = "Manual"
 
