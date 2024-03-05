@@ -21,7 +21,7 @@ names = []
 sequences = []
 
 for i, row in df.iterrows():
-    if row[name2 + "_Subtype"] == "Manual":
+    if row[name2 + "_Subtype"] == "Manual" or row[name2 + "_Subsubtype"] == "Manual":
         names.append(row["SequenceName"])
         sequences.append(row["Sequence"])
 
