@@ -32,10 +32,14 @@ df_full_int = pd.merge(df_tag_int, df_int, on = "SequenceName", how = "left")
 df_full_prrt = df_full_prrt.sort_values(by=["SequenceName"])
 df_full_prrt["PRRT_Subtype"] = df_full_prrt["PRRT_Subtype"].fillna(df_full_prrt["PRRT_Info"])
 
+if "PRRT_Subsubtype" in df_full_prrt.columns:
+    df_full_prrt["PRRT_Subsubtype"] = df_full_prrt["PRRT_Subsubtype"].fillna(df_full_prrt["PRRT_Info"])
 
 df_full_int = df_full_int.sort_values(by=["SequenceName"])
 df_full_int["INT_Subtype"] = df_full_int["INT_Subtype"].fillna(df_full_int["INT_Info"])
 
+if "INT_Subsubtype" in df_full_int.columns:
+    df_full_int["INT_Subsubtype"] = df_full_int["INT_Subsubtype"].fillna(df_full_int["INT_Info"])
 
 # Add a columns with sequence length
 df_full_prrt["SeqLength"] = df_full_prrt["Sequence"].str.len()
