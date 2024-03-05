@@ -36,7 +36,7 @@ final_report.rename(columns = {"Scount":"SCount", "PRRT_Subsubtype": "Subtype_PR
 final_report["Subtype"] = None
 
 # Initiate special cases
-special_cases = ["noClassified",  "Manual", "notSequenced"]
+special_cases = ["_notClassified",  "Manual", "_notSequenced"]
 
 
 # Make a decision

@@ -34,7 +34,7 @@ final_report["Subtype_ENV"] = "_notSequenced"
 final_report["Subtype"] = None
 
 # Initiate special cases
-special_cases = ["noClassified",  "Manual", "notSequenced"]
+special_cases = ["_noClassified",  "Manual", "_notSequenced"]
 
 
 # Make a decision
