@@ -41,8 +41,23 @@ special_cases = ["_notClassified",  "Manual", "_notSequenced"]
 
 # Make a decision
 for i, row in final_report.iterrows():
-    if row["Subtype_PRRT"] == row["Subtype_INT"] and row["Subtype_PRRT"] == row["Subtype_ENV"]:
+    if row["Subtype_PRRT"] == row["Subtype_INT"] and row["Subtype_PRRT"] == row["Subtype_ENV"] and row["Subtype_PRRT"] not in special_cases:
         final_report.at[i, ["Subtype"]] = row["Subtype_PRRT"]
+
+    elif row["Subtype_PRRT"] == row["Subtype_INT"] and row["Subtype_PRRT"] == row["Subtype_ENV"] and row["Subtype_PRRT"] == "_notSequenced":
+        final_report.at[i, ["Subtype"]] = "_notSequenced"
+    
+    elif row["Subtype_PRRT"] == row["Subtype_INT"] and row["Subtype_ENV"] == "_notClassified" and row["Subtype_PRRT"] == "_notSequenced":
+        final_report.at[i, ["Subtype"]] = "_notClassified"
+    
+    elif row["Subtype_ENV"] == row["Subtype_INT"] and row["Subtype_PRRT"] == "_notClassified" and row["Subtype_ENV"] == "_notSequenced":
+        final_report.at[i, ["Subtype"]] = "_notClassified"
+    
+    elif row["Subtype_PRRT"] == row["Subtype_ENV"] and row["Subtype_INT"] == "_notClassified" and row["Subtype_PRRT"] == "_notSequenced":
+        final_report.at[i, ["Subtype"]] = "_notClassified"
+    
+    elif row["Subtype_PRRT"] == row["Subtype_INT"] and row["Subtype_PRRT"] == row["Subtype_ENV"] and row["Subtype_PRRT"] in special_cases:
+        final_report.at[i, ["Subtype"]] = "Manual"
     
     elif row["Subtype_PRRT"] == row["Subtype_INT"] and len(row["Subtype_PRRT"]) <=2 and len(row["Subtype_ENV"]) > 2 and row["Subtype_ENV"] not in special_cases:
         final_report.at[i, ["Subtype"]] = row["Subtype_ENV"]
