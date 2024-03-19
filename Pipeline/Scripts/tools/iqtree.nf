@@ -2,6 +2,8 @@ nextflow.enable.dsl = 2
 
 //projectDir = "/scratch/rykalinav/rki_subtyping/Pipeline"
 projectDir = params.projectdir
+//inputfasta = params.fasta
+//references = params.ref
 
 params.outdir = null
 if (!params.outdir) {
@@ -11,6 +13,9 @@ if (!params.outdir) {
 
 fastaChannel = channel.fromPath("${projectDir}/InputFasta/*.fasta")
 panelChannel = channel.fromPath("${projectDir}/References/*.fas")
+
+//fastaChannel = channel.fromPath(inputfasta)
+//panelChannel = channel.fromPath(references)
 
 workflow {
     // CAT
