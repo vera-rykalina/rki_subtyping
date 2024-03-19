@@ -626,7 +626,7 @@ workflow {
         //REPORT
         reportChannel = report_noenv(fullFromPathChannel)
         // PLOT
-        plotChannel = countplot(reportChannel)
+        plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/15_report/*.xlsx"))
     }
   
     } else {
@@ -660,7 +660,7 @@ workflow {
        //REPORT
        reportChannel = report(fullFromPathChannel)
        // PLOT
-       plotChannel = countplot(reportChannel)
+       plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/15_report/*.xlsx"))
     }
   }
 }
