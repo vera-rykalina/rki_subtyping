@@ -70,7 +70,7 @@ df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"
 df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"^HIV-1\sCRF\s(\d{2})_cpx$", r"CRF\1_cpx", regex=True)
 
 # HIV-1 CRF 43_02G or HIV-1 CRF 22_02A1 -> CRF43_02G or CRF22_01A1
-df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"^HIV-1\sCRF\s(\d{2}_\d{2}\w\d?)$", r"CRF\1_cpx", regex=True)
+df[["pure", "assignment", "crf"]] = df[["pure", "assignment", "crf"]].replace(r"^HIV-1\sCRF\s(\d{2}_\d{2}\w\d?)$", r"CRF\1", regex=True)
 
 # "LIKE" group (below are some examples)
 
