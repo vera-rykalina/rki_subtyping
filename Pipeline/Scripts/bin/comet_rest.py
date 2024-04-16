@@ -99,7 +99,7 @@ df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"
 df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"CRF35_AD", r"CRF35_A1D", regex=True)
 df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"CRF50_AD", r"CRF50_A1D", regex=True)
 df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"CRF72_BF", r"CRF72_BF1", regex=True)
-
+df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"CRF89_BF", r"CRF89_BF1", regex=True)
 
 # Replace "unassigned_" group with "Unassigned"
 df.loc[df["Comet_" + name2 + "_Subtype"].str.contains("unassigned"), "Comet_" + name2 + "_Subtype"] = "Unassigned"
