@@ -20,10 +20,10 @@ dependencies:
   - miller = 6.4.0
   - openpyxl
   - python = 3.10.4
-  - scipy
+  - scipy = 1.8.1
   - openpyxl
   - numpy = 1.23.5
-  - pillow
+  - pillow = 9.2.0
   - pip
   - sierrapy = 0.4.3
   - regex
