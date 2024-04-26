@@ -303,7 +303,7 @@ process xlsx2fragments {
     path "*.xlsx"
   
   when: 
-    params.full == true
+   // params.full == true
 
   script:
     """
@@ -326,7 +326,7 @@ process xlsx3fragments {
     path "*.xlsx"
   
   when: 
-    params.full == true
+   // params.full == true
   
   script:
     """
