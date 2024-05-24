@@ -70,13 +70,13 @@ for i, row in final_report.iterrows():
     elif row["Subtype_INT"] == row["Subtype_ENV"] and len(row["Subtype_INT"]) <=2 and len(row["Subtype_PRRT"]) > 2 and row["Subtype_PRRT"] not in special_cases:
         final_report.at[i, ["Subtype"]] = row["Subtype_PRRT"]
     
-    elif row["Subtype_PRRT"] == row["Subtype_INT"] and row["Subtype_ENV"] in special_cases and row["Subtype_ENV"] != "Manual":
+    elif row["Subtype_PRRT"] == row["Subtype_INT"] and row["Subtype_ENV"] in special_cases:
         final_report.at[i, ["Subtype"]] = row["Subtype_PRRT"]
     
-    elif row["Subtype_INT"] == row["Subtype_ENV"] and row["Subtype_PRRT"] in special_cases and row["Subtype_PRRT"] != "Manual":
+    elif row["Subtype_INT"] == row["Subtype_ENV"] and row["Subtype_PRRT"] in special_cases:
         final_report.at[i, ["Subtype"]] = row["Subtype_INT"]
     
-    elif row["Subtype_PRRT"] == row["Subtype_ENV"] and row["Subtype_INT"] in special_cases and row["Subtype_INT"] != "Manual":
+    elif row["Subtype_PRRT"] == row["Subtype_ENV"] and row["Subtype_INT"] in special_cases:
         final_report.at[i, ["Subtype"]] = row["Subtype_PRRT"]
 
     elif row["Subtype_INT"] in special_cases and row["Subtype_ENV"] in special_cases and row["Subtype_PRRT"] not in special_cases:
