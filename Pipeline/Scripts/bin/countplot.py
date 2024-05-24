@@ -23,6 +23,9 @@ name3 = name1.split(".")[-2]
 if "Subtype" not in df.columns:
     df.rename(columns = {"Subtyp_Summe":"Subtype"}, inplace = True)
 
+# Strip white space
+df = df.applymap(lambda x: x.strip() if isinstance(x, str) else x)
+
 sns.set_style("darkgrid")
 #sns.set_context("poster")
 #fig, ax = plt.subplots(figsize=(16, 8))

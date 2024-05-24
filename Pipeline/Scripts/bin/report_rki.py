@@ -47,6 +47,9 @@ final_report[["Subtyp_PRRT", "Subtyp_INT", "Subtyp_ENV"]] = final_report[["Subty
 final_report[["Subtyp_PRRT", "Subtyp_INT", "Subtyp_ENV"]] = final_report[["Subtyp_PRRT", "Subtyp_INT", "Subtyp_ENV"]].replace(r"^_nichtSequenziert$", r"_zu wenig PCR-Produkt", regex=True)
 
 
+# Strip white space
+final_report = final_report.applymap(lambda x: x.strip() if isinstance(x, str) else x)
+
 # Make a decision
 for i, row in final_report.iterrows():
     if row["Subtyp_PRRT"] == row["Subtyp_INT"] and row["Subtyp_PRRT"] == row["Subtyp_ENV"]:

@@ -38,6 +38,8 @@ final_report["Subtype"] = None
 # Initiate special cases
 special_cases = ["_notClassified",  "Manual", "_notSequenced"]
 
+# Strip white space
+final_report = final_report.applymap(lambda x: x.strip() if isinstance(x, str) else x)
 
 # Make a decision
 for i, row in final_report.iterrows():

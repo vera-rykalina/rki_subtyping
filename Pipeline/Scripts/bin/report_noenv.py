@@ -37,6 +37,9 @@ final_report["Subtype"] = None
 special_cases = ["_noClassified",  "Manual", "_notSequenced"]
 
 
+# Strip white space
+final_report = final_report.applymap(lambda x: x.strip() if isinstance(x, str) else x)
+
 # Make a decision
 for i, row in final_report.iterrows():
     if row["Subtype_PRRT"] == row["Subtype_INT"]:
