@@ -3,7 +3,7 @@ marp: true
 author: Vera Rykalina
 theme: default
 size: 4:3
-footer: Vera Rykalina | September 2022
+footer: Vera Rykalina | September 2024
 ---
 
 # LINKS TO SUBTYPING TOOLS
@@ -26,3 +26,6 @@ COntext-based Modeling for Expeditious Typing | LIH
 Rega HIV Subtyping Tool | Genome Detective
 [https://www.genomedetective.com/app/typingtool/hiv](https://www.genomedetective.com/app/typingtool/hiv)
 
+# Geno2Pheno 
+Geno2Pheno Virus Detection and Subtyping Tool | MPI for Informatics
+[https://subtyping.geno2pheno.org/](https://subtyping.geno2pheno.org/)
