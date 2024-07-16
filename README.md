@@ -73,9 +73,8 @@ Populate **InputFasta** with FASTA files for PRRT, INT, and ENV.
 Populate **Rega** and **Geno2Pheno** folders with respective csv files.
 
 
-
 Run the pipeline: 
 
 ```sh
-nextflow Scripts/hiv_type.nf -c Script/rki_profile.config -profile rki_slurm --full --iqtree --outdir Results --resume
+nextflow Scripts/hiv_type.nf -c Script/rki_profile.config -profile rki_slurm --full --iqtree --outdir 2024 -resume
 ```
