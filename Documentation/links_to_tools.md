@@ -3,7 +3,7 @@ marp: true
 author: Vera Rykalina
 theme: default
 size: 4:3
-footer: Vera Rykalina | September 2024
+footer: Vera Rykalina | July 2024
 ---
 
 # LINKS TO SUBTYPING TOOLS
@@ -28,5 +28,5 @@ Rega HIV Subtyping Tool | Genome Detective
 
 ---
 # Geno2Pheno 
-Geno2Pheno Virus Detection and Subtyping Tool | MPI for Informatics
+Virus Detection and Subtyping Tool | MPI for Informatics
 [https://subtyping.geno2pheno.org/](https://subtyping.geno2pheno.org/)
