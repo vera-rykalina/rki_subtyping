@@ -17,11 +17,7 @@ https://hivdb.stanford.edu/page/webservice/#sierra.web.service.2.2016.present
 # SIERRA CLIENT
 https://github.com/hivdb/sierra-client/tree/master/python
 
-# HIV-TRACE (research article)
-https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5995201/
-
-## HIVClustering
-https://github.com/veg/hivclustering
-
+# Geno2Pheno Virus Detection and Subtyping Tool
+https://subtyping.geno2pheno.org/
 
 
