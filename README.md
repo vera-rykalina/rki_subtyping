@@ -18,22 +18,21 @@ Inputs of the pipeline include the following files:
   
 ```sh
 ├── InputFasta
-│   ├── MS95_ENV_20.fasta
-│   ├── MS95_INT_20.fasta
-│   └── MS95_PRRT_20.fasta
+│   ├── 2024_ENV_20.fasta
+│   ├── 2024_INT_20.fasta
+│   └── 2024_PRRT_20.fasta
 ├── Rega
-│   ├── Manual_Rega_MS95_ENV_20M.csv
-│   ├── Manual_Rega_MS95_INT_20M.csv
-│   └── Manual_Rega_MS95_PRRT_20M.csv
+│   ├── Manual_Rega_2024_ENV_20M.csv
+│   ├── Manual_Rega_2024_INT_20M.csv
+│   └── Manual_Rega_2024_PRRT_20M.csv
 ├── Geno2Pheno
-│   ├── Manual_Geno2Pheno_MS95_ENV_20M.csv
-│   ├── Manual_Geno2Pheno_INT_20M.csv
-│   └── Manual_Geno2Pheno_PRRT_20M.csv
+│   ├── Manual_Geno2Pheno_2024_ENV_20M.csv
+│   ├── Manual_Geno2Pheno_2024_INT_20M.csv
+│   └── Manual_Geno2Pheno_2024_PRRT_20M.csv
 ├── References
-│   ├── Reference_ENV_Panel_Stanford.fas
-│   ├── Reference_INT_Panel_Stanford.fas
-│   └── Reference_PRRT_Panel_Stanford.fas
-├──
+│   ├── Reference_ENV_Panel.fas
+│   ├── Reference_INT_Panel.fas
+│   └── Reference_PRRT_Panel.fas
 ```
 
 ## Output
