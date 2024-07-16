@@ -39,11 +39,9 @@ Inputs of the pipeline include the following files:
 ## Output
 A decision is made based on a combination of three publicly available subtyping tools. Records with unclear or ambiguous subtypes are sorted and concatenated with the Stanford reference panels followed by a multiple suquence alignment (msa) via MAFFT. MSA samples are analysed, using IQTREE to make a final decision and respective updates.
 
-A final output of the pipeline is an .xlsx file formatted for an internal DB and a plot. The pipeline is supposed to be used for each sequencing run of 96 samples, including control samples. 
+A final output of the pipeline is an .xlsx file and a barplot. The pipeline is supposed to be used for each sequencing run of 96 samples, including control samples, but can handle up 2000 sequences. 
 
-![Plot](Documentation/images/MS95_subtype_counts.png)
-
-An initial pipeline design was meant to process all three fragments (PRRT, INT, and ENV). The curresnt version of the pipeline can manage either 3 fragments or 2 (PRRT and INT), using a parameter --noenv.
+An initial pipeline design was meant to process all three fragments (PRRT, INT, and ENV). The curresnt version of the pipeline can manage either 3 fragments or 2 (PRRT and INT), using a parameter **--noenv**.
 
 ## Istallation
 
