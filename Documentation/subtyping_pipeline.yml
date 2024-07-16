@@ -1,4 +1,4 @@
-name: subtyping_pipeline
+name: hivtype
 channels:
   - conda-forge
   - bioconda
