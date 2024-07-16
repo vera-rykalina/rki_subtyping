@@ -1,11 +1,18 @@
-# HIV-1 Subtyping
+# HiVtype: A Semi-Automated Workflow for HIV-1 Subtyping
 
-The aim of a pipeline is to automate a routine HIV-1 subtyping analysis, using Stanford (SierraPy), Comet (Rest API), and Rega (manually generated .csv files via click or drop) tools. The pipeline is built with Nextflow and custom Python scripts. Inputs of the pipeline include:
+The aim of a pipeline is to automate a routine HIV-1 subtyping analysis, using Stanford (SierraPy), Comet (Rest API), Rega (manually generated .csv files via click or drop) and Geno2Pheno (manually generated .csv files via click or drop) tools. The pipeline is built with Nextflow and custom Python scripts. 
 
-- .fasta files (fused PRRT, INT, and ENV)
-- .xlsx files (NGS pipeline, contain information for invalid sequences)
-- .csv files (manually generated, using Rega online tool; input: marked .fasta files)
+## Pipeline workflow
+![Plot](Documentation/images/subtyping_pipeline.png)
+
+Inputs of the pipeline include:
+
+- .fasta files (fused PRRT, INT, ENV or fused PRRT and INT )
+- .csv files (manually generated, using Rega online tool)
+- .csv files (manually generated, using Geno2Pheno online tool)
 - .fasta files of reference panels (subtype_origin_year_accession)
+- (optional) .xlsx files (HIVpipe, contain information for invalid sequences)
+
   
 ```sh
 ├── AllSeqsCO20
@@ -20,23 +27,15 @@ The aim of a pipeline is to automate a routine HIV-1 subtyping analysis, using S
 │   ├── Manual_Rega_MS95_ENV_20M.csv
 │   ├── Manual_Rega_MS95_INT_20M.csv
 │   └── Manual_Rega_MS95_PRRT_20M.csv
+├── ManualRega
+│   ├── Manual_Geno2Pheno_MS95_ENV_20M.csv
+│   ├── Manual_Geno2Pheno_INT_20M.csv
+│   └── Manual_Geno2Pheno_PRRT_20M.csv
 ├── References
 │   ├── Reference_ENV_Panel_Stanford.fas
 │   ├── Reference_INT_Panel_Stanford.fas
 │   └── Reference_PRRT_Panel_Stanford.fas
-├── Scripts
-│   ├── comet_rest.py
-│   ├── decision.py
-│   ├── fasta_for_mafft.py
-│   ├── full_join.py
-│   ├── json_parser.py
-│   ├── nexflow.config
-│   ├── plot.py
-│   ├── rega_cleanup.py
-│   ├── repeat_marking.py
-│   ├── report.py
-│   ├── subtyping_pipeline.nf
-│   └── tag_parser.py
+
 ```
 
 A decision is made based on a combination of three publicly available subtyping tools. Records with unclear or ambiguous subtypes are sorted and concatenated with the Stanford reference panels followed by a multiple suquence alignment (msa) via Mafft. MSA samples are analysed, using IQTREE to make a final decision and respective updates.
