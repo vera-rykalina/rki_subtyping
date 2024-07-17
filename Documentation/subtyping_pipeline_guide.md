@@ -4,7 +4,7 @@ paginate: true
 author: Vera Rykalina
 theme: default
 size: 4:3
-footer: Vera Rykalina | September 2022
+footer: Vera Rykalina | July 2024
 
 ---
 
@@ -94,7 +94,7 @@ $ conda activate subtyping_pipeline
 Be sure you have change in prompt:
 
 ```sh
-(hivtype) beast2@Beast2:~/rki_sybtyping/Pipeline$
+(hivtype) ~/rki_sybtyping/Pipeline$
 ```
 ---
 ## Pipeline with **--outdir** parameter
