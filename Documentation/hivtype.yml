@@ -5,7 +5,6 @@ channels:
   - defaults
 dependencies:
   - bottleneck
-  - regex
   - pandas = 1.4.2
   - matplotlib = 3.5.3
   - requests
@@ -17,11 +16,9 @@ dependencies:
   - bzip2
   - nextflow = 22.04.5
   - textwrap3 = 0.9.2
-  - miller = 6.4.0
   - openpyxl
   - python = 3.10.4
   - scipy = 1.8.1
-  - openpyxl
   - numpy = 1.23.5
   - pillow = 9.2.0
   - pip
