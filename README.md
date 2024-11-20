@@ -44,7 +44,7 @@ An initial pipeline design was meant to process all three fragments (PRRT, INT, 
 
 ## Istallation
 
-Clone **HiVtype** repo
+Clone a repo with **HiVtype** pipeline
 
 ```sh
 git clone https://github.com/vera-rykalina/rki_subtyping.git
@@ -76,5 +76,5 @@ Populate **Rega** and **Geno2Pheno** folders with respective csv files.
 Run the pipeline: 
 
 ```sh
-nextflow Scripts/hiv_type.nf -c Script/rki_profile.config -profile rki_slurm --full --iqtree --outdir 2024 -resume
+nextflow Scripts/hivtype.nf -c Script/rki_profile.config -profile rki_slurm --full --iqtree --outdir 2024 -resume
 ```
