@@ -76,9 +76,9 @@ with open("comet_" + name3 + ".csv", "w") as f:
 df = pd.read_csv("comet_" + name3 + ".csv", sep="\t")
 
 # Rename some columns (as done for stanford df)
-df. rename(columns = {"name":"SequenceName", "subtype": "Comet_" + name2 + "_Subtype"}, inplace = True)
+df.rename(columns = {"name":"SequenceName", "subtype": "Comet_" + name2 + "_Subtype"}, inplace = True)
 
- # Add to the "Comment" column bootstrap support info
+# Add to the "Comment" column bootstrap support info
 df["Comet_" + name2 + "_Comment"] = df["bootstrap support"].astype(str)
 
 # Delete undesired columns
