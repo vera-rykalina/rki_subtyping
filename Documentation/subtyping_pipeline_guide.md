@@ -101,7 +101,7 @@ Be sure you have change in prompt:
 ## Pipeline with **--outdir** parameter
 Parameter `--outdir` determines a name of an ouput folder. The command will generate four enumerated output folders within `Results` folder. Without specifying an output folder you can get a warning message.
 ```sh
-$ nextflow Scripts/hiv_type.nf --outdir Results
+$ nextflow Scripts/hivtype.nf --outdir Results
 ``` 
 
 ---
@@ -164,12 +164,12 @@ Repeat the previous command with `--full` parameter and
 `-resume` flag. The latter allows for generating an output up to `13_mafft` folder. The complete processes are cached.
 
 ```sh
-$ nextflow Scripts/hiv_type.nf --outdir Results --full -resume
+$ nextflow Scripts/hivtype.nf --outdir Results --full -resume
 ```
 
 In the absence of the ENV-related files, also use the parameter **--noenv**
 ```sh
-$ nextflow Scripts/hiv_type.nf --outdir Results --noenv --full -resume
+$ nextflow Scripts/hivtype.nf --outdir Results --noenv --full -resume
 ```
 
 Check the output of `13_mafft` folder before you run iqtree analysis (msa files - multiple sequence alignments)! 
@@ -179,7 +179,7 @@ Check the output of `13_mafft` folder before you run iqtree analysis (msa files 
 Parameter `--iqtree` allows for running the iqtree process that produces `14_iqtree` folder within `Results`. The folder contains `.iqtree`, `.treefile`, and `.log` files. The parameter can be added at this point, as the last command with report output being produced or not added at all (no `14_iqtree` folder then).
 
 ```sh
-$ nextflow Scripts/hiv_type.nf --outdir Results --full --iqtree -resume
+$ nextflow Scripts/hivtype.nf --outdir Results --full --iqtree -resume
 ``` 
 You can monitor the `.log` file while running iqtree within `work` folder using respective process ID (68), e.g [68/72f0eb]. 
 
@@ -198,7 +198,7 @@ Manually modify files (see below) which contain `Manual` tag in PRRT_Subpype, IN
 ## Report and Plot
 
 ```sh
-$ nextflow Scripts/hiv_type.nf --outdir Results --full --iqtree -resume
+$ nextflow Scripts/hivtype.nf --outdir Results --full --iqtree -resume
 ``` 
 
 Repeating the command above generates `15_report` folder with `MS95_uploads.xlsx` report file.
@@ -305,7 +305,7 @@ $ conda info --envs
 # conda environments:
 #
 base               * /opt/miniconda
-hiv_type             /home/rykalinav/.conda/env/hivtype
+hivtype              /home/username/.conda/env/hivtype
 ```
 ---
 ## Conda Version
@@ -344,7 +344,7 @@ Clone the repo
 ```sh
 $ git clone https://github.com/vera-rykalina/rki_subtyping.git
 ```
-Modify path of `ProjectDir` within `hiv_type.nf`
+Modify path of `ProjectDir` within `hivtype.nf`
 Default option: projectDir = "$PWD"
 
 ---
