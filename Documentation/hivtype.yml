@@ -1,25 +1,23 @@
 channels:
   - conda-forge
   - bioconda
-  - pypi
 dependencies:
-  - bottleneck
+  - bottleneck = 1.4.2
   - pandas = 1.4.2
   - matplotlib = 3.5.3
-  - requests
+  - requests = 2.32.3
   - seaborn = 0.12.2
   - iqtree = 2.0.3
   - mafft = 7.407
   - miller = 6.4.0
   - biopython = 1.79
-  - bzip2
+  - bzip2 = 1.0.8
   - nextflow = 22.04.5
   - textwrap3 = 0.9.2
-  - openpyxl
+  - openpyxl = 3.1.5
   - python = 3.10.4
   - scipy = 1.8.1
   - numpy = 1.23.5
   - pillow = 9.2.0
-  - pip
   - sierrapy = 0.4.3
-  - regex
+  - regex = 2024.11.6
