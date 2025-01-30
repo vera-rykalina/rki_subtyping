@@ -53,7 +53,7 @@ git clone https://github.com/vera-rykalina/rki_subtyping.git
 Create a hivtype environment, using **hivtype.yml** file:
 
 ```sh
-conda env create -n hivtype -f Environmets/hivtype.yml
+conda env create -n hivtype -f Documentation/hivtype.yml
 ```
 
 Activate the *hivtype* environment:
