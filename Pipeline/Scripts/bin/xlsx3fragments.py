@@ -96,7 +96,7 @@ def create_excels(args):
 
 
 def main():
-    parser=argparse.ArgumentParser(description = "Generate .xlsx for PRRT, INT, and ENV multyfastas")
+    parser=argparse.ArgumentParser(description = "Generate .xlsx for PRRT, INT, and ENV multifastas")
     parser.add_argument("-p", "--prrt", help="PRRT fasta input file", dest = "prrt", type = str, required=True)
     parser.add_argument("-i", "--int", help="INT fasta input file", dest="int", type = str, required=True)
     parser.add_argument("-e", "--env", help="ENV fasta input file", dest = "env", type = str, required=True)
