@@ -7,6 +7,7 @@ params.noenv = false
 params.full = false
 params.iqtree = false
 params.withxlsx = false
+params.report = false
 params.rkireport = false
 
 
@@ -27,6 +28,7 @@ withxlsx              : ${params.withxlsx}
 full                  : ${params.full}
 iqtree                : ${params.iqtree}
 noenv                 : ${params.noenv}
+report                : ${params.rkireport}
 rkireport             : ${params.rkireport}
 
 
@@ -500,7 +502,7 @@ process report {
     path "*.xlsx"
   
   when:
-    params.full == true
+    params.full == true && params.report == true
 
   script:
    """
@@ -517,7 +519,7 @@ process report_noenv {
     path "*.xlsx"
   
   when:
-    params.full == true
+    params.full == true && params.report == true
 
   script:
    """
@@ -622,7 +624,7 @@ workflow {
         reportChannel = report_noenv_rki(fullFromPathChannel)
         // PLOT
         plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/15_report/*.xlsx"))
-    } else {
+    } else if (params.report == true) {
         //REPORT
         reportChannel = report_noenv(fullFromPathChannel)
         // PLOT
@@ -656,7 +658,7 @@ workflow {
         reportChannel = report_rki(fullFromPathChannel)
         // PLOT
         plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/15_report/*.xlsx"))
-    } else {
+    } else if (params.report == true) {
        //REPORT
        reportChannel = report(fullFromPathChannel)
        // PLOT
