@@ -76,5 +76,5 @@ Populate **Rega** and **Geno2Pheno** folders with respective csv files.
 Run the pipeline: 
 
 ```sh
-nextflow Scripts/hivtype.nf -c Script/rki_profile.config -profile rki_slurm --full --iqtree --outdir 2024 -resume
+nextflow Scripts/hivtype.nf -c Scripts/rki_profile.config -profile rki_slurm --full --iqtree --outdir 2024 -resume
 ```
