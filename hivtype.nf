@@ -1,8 +1,6 @@
 nextflow.enable.dsl = 2
 
-//projectDir = "/scratch/rykalinav/rki_subtyping/Pipeline"
-// When $PWD is set, the pipeline should be run from Pipeline/
-projectDir = "$PWD"
+
 params.noenv = false
 params.full = false
 params.iqtree = false
@@ -28,7 +26,7 @@ withxlsx              : ${params.withxlsx}
 full                  : ${params.full}
 iqtree                : ${params.iqtree}
 noenv                 : ${params.noenv}
-report                : ${params.rkireport}
+report                : ${params.report}
 rkireport             : ${params.rkireport}
 
 
@@ -580,11 +578,11 @@ process countplot {
 }
 
 // Inputs
-inputfasta = channel.fromPath("${projectDir}/InputFasta/*.fasta")
-panelChannel = channel.fromPath("${projectDir}/References/*.fas")
-graphqlChannel = channel.fromPath("${projectDir}/Scripts/*.gql")
-inputg2pcsv = channel.fromPath("${projectDir}/Geno2Pheno/*.csv")
-inputregacsv = channel.fromPath("${projectDir}/Rega/*.csv")
+inputfasta = channel.fromPath("${projectDir}/inputs/InputFasta/*.fasta")
+panelChannel = channel.fromPath("${projectDir}/inputs/References/*.fas")
+graphqlChannel = channel.fromPath("${projectDir}/scripts/*.gql")
+inputg2pcsv = channel.fromPath("${projectDir}/inputs/Geno2Pheno/*.csv")
+inputregacsv = channel.fromPath("${projectDir}/inputs/Rega/*.csv")
 
 workflow {
     markedfasta = mark_fasta(inputfasta)
