@@ -11,12 +11,11 @@ Pipeline/AllSeqsCO20/*.xlsx
 Pipeline/Rega/*.csv
 Pipeline/Geno2Pheno/*.csv
 snippets.*
-84/
-92/ 
-94/ 
-95/
-Pipeline/iqtree1
-Pipeline/iqtree2
-Pipeline/iqtree3
+
+inputs/iqtree1
+inputs/iqtree2
+inputs/iqtree3
+inputs/Paper
+.gitignore
 Validation/HIV_FL_LANL*.fasta
 
