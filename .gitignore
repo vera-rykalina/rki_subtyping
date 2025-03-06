@@ -16,6 +16,6 @@ inputs/iqtree1
 inputs/iqtree2
 inputs/iqtree3
 inputs/Paper
-.gitignore
+rki_subtyping/.gitignore
 Validation/HIV_FL_LANL*.fasta
 
