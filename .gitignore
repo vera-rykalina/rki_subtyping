@@ -3,9 +3,9 @@ Documentation/mock_fasta_list.txt
 
 rki_subtyping/*Results*/
 rki_subtyping/work/
-rki_subtyping/.nextflow/
-rki_subtyping/.nextflow.log*
-Pipeline/Test/*
+.nextflow/
+.nextflow.log*
+work/
 inputs/InputFasta/*.fasta
 inputs/AllSeqsCO20/*.xlsx
 inputs/Rega/*.csv
@@ -16,6 +16,6 @@ inputs/iqtree1
 inputs/iqtree2
 inputs/iqtree3
 inputs/Paper
-rki_subtyping/.gitignore
+.gitignore
 Validation/HIV_FL_LANL*.fasta
 
