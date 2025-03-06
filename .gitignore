@@ -1,15 +1,15 @@
 
 Documentation/mock_fasta_list.txt
 
-Pipeline/*Results*/
-Pipeline/work/
-Pipeline/.nextflow/
-Pipeline/.nextflow.log*
+rki_subtyping/*Results*/
+rki_subtyping/work/
+rki_subtyping/.nextflow/
+rki_subtyping/.nextflow.log*
 Pipeline/Test/*
-Pipeline/InputFasta/*.fasta
-Pipeline/AllSeqsCO20/*.xlsx
-Pipeline/Rega/*.csv
-Pipeline/Geno2Pheno/*.csv
+inputs/InputFasta/*.fasta
+inputs/AllSeqsCO20/*.xlsx
+inputs/Rega/*.csv
+inputs/Geno2Pheno/*.csv
 snippets.*
 
 inputs/iqtree1
