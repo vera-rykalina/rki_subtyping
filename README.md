@@ -3,7 +3,7 @@
 The aim of a pipeline is to automate a routine HIV-1 subtyping analysis, using Stanford (SierraPy), Comet (Rest API), Rega (manually generated .csv files via click or drop) and Geno2Pheno (manually generated .csv files via click or drop) tools. The pipeline is built using Nextflow and contains both established software and custom Python scripts. 
 
 ## Pipeline workflow
-![Plot](Documentation/images/subtyping_pipeline.png)
+![Plot](docs/images/subtyping_pipeline.png)
 
 
 ## Input structure
