@@ -44,7 +44,7 @@ An initial pipeline design was meant to process all three fragments (PRRT, INT, 
 
 ## Istallation
 
-Clone a repo with **HiVtype** pipeline
+Clone a repo with **HIVtype** pipeline
 
 ```sh
 git clone https://github.com/vera-rykalina/rki_subtyping.git
