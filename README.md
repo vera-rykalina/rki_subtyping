@@ -1,4 +1,4 @@
-# HiVtype: A Semi-Automated Workflow for HIV-1 Subtyping
+# HIVtype: A Semi-Automated Workflow for HIV-1 Subtyping
 
 The aim of a pipeline is to automate a routine HIV-1 subtyping analysis, using Stanford (SierraPy), Comet (Rest API), Rega (manually generated .csv files via click or drop) and Geno2Pheno (manually generated .csv files via click or drop) tools. The pipeline is built using Nextflow and contains both established software and custom Python scripts. 
 
@@ -53,7 +53,7 @@ git clone https://github.com/vera-rykalina/rki_subtyping.git
 Create a hivtype environment, using **hivtype.yml** file:
 
 ```sh
-conda env create -n hivtype -f Documentation/hivtype.yml
+conda env create -n hivtype -f docs/hivtype.yml
 ```
 
 Activate the *hivtype* environment:
@@ -63,18 +63,15 @@ conda activate hivtype
 
 ## Usage
 
-Change directory to the **Pipeline**: 
-```sh
-cd Pipeline/
-```
+Add required inputs files within **inputs** folter: 
 
-Populate **InputFasta** with FASTA files for PRRT, INT, and ENV.
+- populate **InputFasta** with FASTA files for PRRT, INT, and ENV.
 
-Populate **Rega** and **Geno2Pheno** folders with respective csv files.
+- populate **Rega** and **Geno2Pheno** folders with respective csv files.
 
 
 Run the pipeline: 
 
 ```sh
-nextflow Scripts/hivtype.nf -c Scripts/rki_profile.config -profile rki_slurm --full --iqtree --report --outdir 2024 -resume
+nextflow hivtype.nf -c hivtype.config -profile rki_slurm --full --iqtree --report --outdir 2024 -resume
 ```
