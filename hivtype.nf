@@ -1,5 +1,50 @@
 nextflow.enable.dsl = 2
 
+// help message
+params.help = false
+
+if (params.help) { exit 0, helpMSG() }
+
+def helpMSG() {
+    c_green = "\033[0;32m";
+    c_reset = "\033[0m";
+    c_yellow = "\033[0;33m";
+    c_blue = "\033[0;34m";
+    c_red = "\u001B[31m";
+    c_dim = "\033[2m";
+    log.info """
+  
+
+    ${c_blue}HIVtype${c_blue}
+    =================================================================================================================
+    Author: Vera Rykalina
+    ${c_blue}Affiliation: Robert Koch Institute${c_blue}
+    =================================================================================================================
+  
+
+    ${c_yellow}Usage example:${c_reset}
+    nextflow hivtype.nf -c hivtype.config --full --iqtree --report -profile profile --oudir output
+   
+    
+    ${c_green}Options:${c_reset}  
+
+    --noenv             Add this option if there are no ENV fragment (PRRT and INT only)
+
+    --full              Add this option to run the pipeline up to MSA the via MAFFT (otherwise the first 5 processes)
+ 
+    --iqtree            Add this option to start building trees 
+
+    --report            Add this option to generate a report (column names are in English)
+
+    --rkireport         Add this option to generate a report (column names are in German)
+
+    --withxlsx          Add this option if there are AllSeqCO20 xlsx files (produced by the HIVpipe pipeline) 
+    
+    --outdir            Name for an output directory e.g. output [string]
+
+    """
+}
+
 
 params.noenv = false
 params.full = false
@@ -7,7 +52,6 @@ params.iqtree = false
 params.withxlsx = false
 params.report = false
 params.rkireport = false
-
 
 params.outdir = null
 if (!params.outdir) {
@@ -34,52 +78,6 @@ report                : ${params.report}
 rkireport             : ${params.rkireport}
 
 """
-
-// help message
-params.help = false
-
-if (params.help) { exit 0, helpMSG() }
-
-def helpMSG() {
-    c_green = "\033[0;32m";
-    c_reset = "\033[0m";
-    c_yellow = "\033[0;33m";
-    c_blue = "\033[0;34m";
-    c_red = "\u001B[31m";
-    c_dim = "\033[2m";
-    log.info """
-  
-
-    ${c_blue}HIVtype${c_blue}
-    ====================================================
-    Author: Vera Rykalina
-    ${c_blue}Affiliation: Robert Koch Institute${c_blue}
-    ====================================================
-  
-
-    ${c_yellow}Usage example:${c_reset}
-    nextflow hivtype.nf -c hivtype.config --full --iqtree --report -profile profile --oudir output
-   
-    
-    ${c_green}Options:${c_reset}  
-
-    --noenv             Add this option if there are no ENV fragment (PRRT and INT only)
-
-    --full              Add this option to run the pipeline up to MSA the via MAFFT (otherwise the first 5 processes)
- 
-    --iqtree            Add this option to start building trees 
-
-    --report            Add this option to generate a report (column names are in English)
-
-    --rkireport         Add this option to generate a report (column names are in German)
-
-    --withxlsx          Add this option if there are AllSeqCO20 xlsx files (produced by HIVpipe pipeline) 
-    
-    --outdir            Name for an output directory e.g. output [string]
-
-    """
-}
-
 
 
 process mark_fasta {
