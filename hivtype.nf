@@ -65,8 +65,8 @@ def helpMSG() {
 
     --noenv             Add this option if there are no ENV fragment (PRRT and INT only)
 
-    --full              Add this option to run the pipeline up to MSA the via MAFFT
-
+    --full              Add this option to run the pipeline up to MSA the via MAFFT (otherwise the first 5 processes)
+ 
     --iqtree            Add this option to start building trees 
 
     --report            Add this option to generate a report (column names are in English)
