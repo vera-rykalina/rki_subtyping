@@ -15,6 +15,11 @@ if (!params.outdir) {
   error "Missing output directory!"
 }
 
+params.profile = null
+if (params.profile) {
+  exit 1, "--profile is WRONG use -profile"
+}
+
 
 log.info """
 VERA RYKALINA - HIV-1 SUBTYPING PIPELINE
@@ -45,15 +50,15 @@ def helpMSG() {
     log.info """
   
 
-    ${c_blue}HiVtime${c_blue}
+    ${c_blue}HIVtype${c_blue}
     ====================================================
     Author: Vera Rykalina
     ${c_blue}Affiliation: Robert Koch Institute${c_blue}
     ====================================================
   
 
-    ${c_yellow}Usage examples:${c_reset}
-    nextflow hivtype.nf -c hivtype.config --full --iqtree --report -profile profile --oudir outputdir 
+    ${c_yellow}Usage example:${c_reset}
+    nextflow hivtype.nf -c hivtype.config --full --iqtree --report -profile profile --oudir output
    
     
     ${c_green}Options:${c_reset}  
