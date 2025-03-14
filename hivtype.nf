@@ -34,8 +34,6 @@ def helpMSG() {
  
     --iqtree            Add this option to start building trees 
 
-    --report            Add this option to generate a report (column names are in English)
-
     --rkireport         Add this option to generate a report (column names are in German)
 
     --withxlsx          Add this option if there are AllSeqCO20 xlsx files (produced by the HIVpipe pipeline) 
@@ -50,7 +48,6 @@ params.noenv = false
 params.full = false
 params.iqtree = false
 params.withxlsx = false
-params.report = false
 params.rkireport = false
 
 params.outdir = null
@@ -74,7 +71,6 @@ withxlsx              : ${params.withxlsx}
 full                  : ${params.full}
 iqtree                : ${params.iqtree}
 noenv                 : ${params.noenv}
-report                : ${params.report}
 rkireport             : ${params.rkireport}
 
 """
@@ -545,7 +541,7 @@ process report {
     path "*.xlsx"
   
   when:
-    params.full == true && params.report == true
+    params.full == true
 
   script:
    """
@@ -562,7 +558,7 @@ process report_noenv {
     path "*.xlsx"
   
   when:
-    params.full == true && params.report == true
+    params.full == true
 
   script:
    """
@@ -667,7 +663,7 @@ workflow {
         reportChannel = report_noenv_rki(fullFromPathChannel)
         // PLOT
         plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/15_report/*.xlsx"))
-    } else if (params.report == true) {
+    } else {
         //REPORT
         reportChannel = report_noenv(fullFromPathChannel)
         // PLOT
@@ -701,7 +697,7 @@ workflow {
         reportChannel = report_rki(fullFromPathChannel)
         // PLOT
         plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/15_report/*.xlsx"))
-    } else if (params.report == true) {
+    } else {
        //REPORT
        reportChannel = report(fullFromPathChannel)
        // PLOT
