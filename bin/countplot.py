@@ -5,6 +5,7 @@ import sys
 import pandas as pd 
 import matplotlib.pyplot as plt
 import seaborn as sns
+import matplotlib as mpl
 
 
 # Open .xlsx file
@@ -26,21 +27,35 @@ if "Subtype" not in df.columns:
 # Strip white space
 df = df.applymap(lambda x: x.strip() if isinstance(x, str) else x)
 
-sns.set_style("darkgrid")
+#sns.set_style("whitegrid")
 #sns.set_context("poster")
-#fig, ax = plt.subplots(figsize=(16, 8))
-fig, ax = plt.subplots(figsize=(22, 12))
+#fig, ax = plt.subplots(figsize=(22, 12))
+sns.set_style("darkgrid")
+fig, ax = plt.subplots(figsize=(16, 8))
+
+
 
 
 count_plot = sns.countplot(y="Subtype", data=df, 
                            #palette="twilight",
                            palette = "GnBu_d",
+                           #palette = "Blues_d",
                            #palette="viridis",
                            order = df["Subtype"].value_counts().index)
 
 
 # Create a legend with RUN_NUMBER (e.g. MS95)
 ax.legend(title=name2, fontsize=12, title_fontsize=20, loc="lower right")
+
+
+#ax.legend(title=name2, fontsize=24, title_fontsize=30, loc="lower right")
+#plt.xlabel("Count", fontsize=32)
+#plt.ylabel("Subtype", fontsize=32)
+#plt.title("HIV-1 Subtyping (Stanford, Comet, Rega, Geno2Pheno)", fontsize=36)
+#plt.tick_params(axis="both", which="major", labelsize=24)
+
+#for container in ax.containers:
+#    ax.bar_label(container, fontsize = 26) 
 
 # Add lebels
 ax.set(xlabel="Count", ylabel="Subtype", title = "HIV-1 Subtyping (Stanford, Comet, Rega, Geno2Pheno)")
