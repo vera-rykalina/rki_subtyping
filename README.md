@@ -73,5 +73,5 @@ Add required inputs files within **inputs** folter:
 Run the pipeline: 
 
 ```sh
-nextflow hivtype.nf -c hivtype.config -profile rki_slurm --full --iqtree --report --outdir 2024 -resume
+nextflow hivtype.nf -c hivtype.config -profile rki_slurm --full --iqtree --outdir 2024 -resume
 ```
