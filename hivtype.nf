@@ -539,13 +539,14 @@ process report {
     
   output:
     path "*.xlsx"
+    path "*.png"
   
   when:
     params.full == true
 
   script:
    """
-    report.py ${xlsx} *.xlsx
+    report.py -p *PRRT*.xlsx -i *INT*.xlsx -e *ENV*.xlsx
     """
 }
 
@@ -683,7 +684,7 @@ workflow {
     all_dfs = tag_csvChannel.concat(decision_csvChannel).collect()
     fullChannel = join_with_tags(all_dfs)
     fasta_mafftChannel = fasta_for_mafft(fullChannel.flatten())
-    fullFromPathChannel = channel.fromPath("${projectDir}/${params.outdir}/10_joint_with_tags/*.xlsx").collect()
+    fullFromPathChannel = channel.fromPath("${params.outdir}/10_joint_with_tags/*.xlsx").collect()
     envConcatChannel = env_concat_panel(fasta_mafftChannel.filter(~/.*_ENV_.*.fasta/), panelChannel.filter(~/.*_ENV_.*.fas/))
     intConcatChannel = int_concat_panel(fasta_mafftChannel.filter(~/.*_INT_.*.fasta/), panelChannel.filter(~/.*_INT_.*.fas/))
     prrtConcatChannel = prrt_concat_panel(fasta_mafftChannel.filter(~/.*_PRRT_.*.fasta/), panelChannel.filter(~/.*_PRRT_.*.fas/))
@@ -701,7 +702,7 @@ workflow {
        //REPORT
        reportChannel = report(fullFromPathChannel)
        // PLOT
-       plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/15_report/*.xlsx"))
+       //plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/15_report/*.xlsx"))
     }
   }
 }
