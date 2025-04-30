@@ -147,6 +147,7 @@ def plot(report, dataset_name):
     #sns.set_style("whitegrid")
     sns.set_style("darkgrid")
     fig, ax = plt.subplots(figsize=(18, 8))
+    plt.tight_layout()
     countplot = sns.countplot(y="Subtype", data=report, 
                               #palette = "Blues_d",
                               palette = "GnBu_d",
