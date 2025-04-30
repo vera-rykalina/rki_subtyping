@@ -60,6 +60,13 @@ df["Stanford_" + name2 + "_Subtype"] = df["Stanford_" + name2 + "_Subtype"].repl
 df["Stanford_" + name2 + "_Subtype"] = df["Stanford_" + name2 + "_Subtype"].replace("", "Unassigned")
 df["Stanford_" + name2 + "_Subtype"] = df["Stanford_" + name2 + "_Subtype"].replace(r"^(\w+)\s\+\s(\w+)\s\+\s(\w+)$", r"\1, \2, \3", regex=True)
 df["Stanford_" + name2 + "_Subtype"] = df["Stanford_" + name2 + "_Subtype"].replace(r"^(\w+)\s\+\s(\w+)$", r"\1, \2", regex=True)
+df["Stanford_" + name2 + "_Subtype"] = df["Stanford_" + name2 + "_Subtype"].replace(r"^F$", r"F1", regex=True)
+df["Standord_" + name2 + "_Subtype"] = df["Standord_" + name2 + "_Subtype"].replace(r"CRF28_BF$", r"CRF28_BF1", regex=True)
+df["Standord_" + name2 + "_Subtype"] = df["Standord_" + name2 + "_Subtype"].replace(r"CRF29_BF$", r"CRF29_BF1", regex=True)
+df["Standord_" + name2 + "_Subtype"] = df["Standord_" + name2 + "_Subtype"].replace(r"CRF38_BF$", r"CRF38_BF1", regex=True)
+df["Standord_" + name2 + "_Subtype"] = df["Standord_" + name2 + "_Subtype"].replace(r"CRF39_BF$", r"CRF39_BF1", regex=True)
+df["Standord_" + name2 + "_Subtype"] = df["Standord_" + name2 + "_Subtype"].replace(r"CRF40_BF$", r"CRF40_BF1", regex=True)
+
 
 # Remove original subtype column as formatted: A (5.08%), it works in place
 df.drop("Subtype%", axis=1, inplace = True)
