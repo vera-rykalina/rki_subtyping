@@ -557,13 +557,15 @@ process report_noenv {
     
   output:
     path "*.xlsx"
+    path "*.png"
+  
   
   when:
     params.full == true
 
   script:
    """
-    report_noenv.py ${xlsx} *.xlsx
+    report_noenv.py -p *PRRT*.xlsx -i *INT*.xlsx
     """
 }
 
@@ -668,7 +670,7 @@ workflow {
         //REPORT
         reportChannel = report_noenv(fullFromPathChannel)
         // PLOT
-        plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/15_report/*.xlsx"))
+        //plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/15_report/*.xlsx"))
     }
   
     } else {
