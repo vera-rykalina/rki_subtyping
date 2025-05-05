@@ -583,7 +583,7 @@ process report_rki {
 
   script:
    """
-   report.py -p *PRRT*.xlsx -i *INT*.xlsx -e *ENV*.xlsx
+   report_rki.py -p *PRRT*.xlsx -i *INT*.xlsx -e *ENV*.xlsx
    """
 }
 
@@ -642,7 +642,7 @@ workflow {
 
     if (params.noenv) {
       if (params.withxlsx == true) {
-         inputtagxlsx = channel.fromPath("${projectDir}/AllSeqsCO20/*.xlsx")
+         inputtagxlsx = channel.fromPath("${projectDir}/inputs/AllSeqsCO20/*.xlsx")
          tag_csvChannel = get_tags(inputtagxlsx)
     } else {
          inputtagxlsx = xlsx2fragments(inputfasta.filter(~/.*_PRRT_20.fasta/), inputfasta.filter(~/.*_INT_20.fasta/))
@@ -676,7 +676,7 @@ workflow {
   
     } else {
         if (params.withxlsx == true) {
-          inputtagxlsx = channel.fromPath("${projectDir}/AllSeqsCO20/*.xlsx")
+          inputtagxlsx = channel.fromPath("${projectDir}/inputs/AllSeqsCO20/*.xlsx")
           tag_csvChannel = get_tags(inputtagxlsx)
     } else {
           inputtagxlsx = xlsx3fragments(inputfasta.filter(~/.*_PRRT_20.fasta/), inputfasta.filter(~/.*_INT_20.fasta/), inputfasta.filter(~/.*_ENV_20.fasta/))
