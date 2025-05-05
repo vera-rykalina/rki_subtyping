@@ -95,6 +95,7 @@ df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"
 
 # Replace according to LANL
 df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"CRF03_AB", r"CRF03_A6B", regex=True)
+df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"CRF12_BF", r"CRF12_BF1", regex=True)
 df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"CRF16_AD", r"CRF16_A2D", regex=True)
 df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"CRF29_BF$", r"CRF29_BF1", regex=True)
 df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"CRF35_AD", r"CRF35_A1D", regex=True)
@@ -102,11 +103,16 @@ df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"
 df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"CRF39_BF$", r"CRF39_BF1", regex=True)
 df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"CRF40_BF$", r"CRF40_BF1", regex=True)
 df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"CRF44_BF$", r"CRF44_BF1", regex=True)
+df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"CRF47_BF$", r"CRF47_BF1", regex=True)
 df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"CRF50_AD", r"CRF50_A1D", regex=True)
 df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"CRF70_BF$", r"CRF70_BF1", regex=True)
 df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"CRF71_BF$", r"CRF71_BF1", regex=True)
 df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"CRF72_BF$", r"CRF72_BF1", regex=True)
 df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"CRF89_BF$", r"CRF89_BF1", regex=True)
+df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"CRF90_BF$", r"CRF90_BF1", regex=True)
+df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"CRF99_BF$", r"CRF99_BF1", regex=True)
+df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"CRF122_BF$", r"CRF122_BF1", regex=True)
+df["Comet_" + name2 + "_Subtype"] = df["Comet_" + name2 + "_Subtype"].replace(r"CRF141_BF$", r"CRF141_BF1", regex=True)
 
 # Replace "unassigned_" group with "Unassigned"
 df.loc[df["Comet_" + name2 + "_Subtype"].str.contains("unassigned"), "Comet_" + name2 + "_Subtype"] = "Unassigned"
