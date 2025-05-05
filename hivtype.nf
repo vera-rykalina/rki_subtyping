@@ -564,7 +564,7 @@ process report_noenv {
     params.full == true
 
   script:
-   """
+    """
     report_noenv.py -p *PRRT*.xlsx -i *INT*.xlsx
     """
 }
@@ -576,14 +576,15 @@ process report_rki {
     
   output:
     path "*.xlsx"
+    path "*.png"
   
   when:
     params.full == true && params.rkireport == true
 
   script:
    """
-    report_rki.py ${xlsx} *.xlsx
-    """
+   report.py -p *PRRT*.xlsx -i *INT*.xlsx -e *ENV*.xlsx
+   """
 }
 
 
@@ -699,7 +700,7 @@ workflow {
         //REPORT
         reportChannel = report_rki(fullFromPathChannel)
         // PLOT
-        plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/15_report/*.xlsx"))
+        //plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/15_report/*.xlsx"))
     } else {
        //REPORT
        reportChannel = report(fullFromPathChannel)
