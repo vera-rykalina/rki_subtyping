@@ -595,32 +595,17 @@ process report_noenv_rki {
     
   output:
     path "*.xlsx"
+    path "*.png"
   
   when:
     params.full == true && params.rkireport == true
 
   script:
-   """
-    report_noenv_rki.py ${xlsx} *.xlsx
+    """
+    report_noenv_rki.py -p *PRRT*.xlsx -i *INT*.xlsx
     """
 }
 
-process countplot {
-  publishDir "${params.outdir}/15_report", mode: "copy", overwrite: true
-  input:
-    path xlsx
-    
-  output:
-    path "*.png"
-  
-  when:
-    params.full == true
-
-  script:
-    """
-    countplot.py ${xlsx} *.png
-    """
-}
 
 // Inputs
 inputfasta = channel.fromPath("${projectDir}/inputs/InputFasta/*.fasta")
@@ -665,13 +650,9 @@ workflow {
       if (params.rkireport == true) {
         //REPORT
         reportChannel = report_noenv_rki(fullFromPathChannel)
-        // PLOT
-        plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/15_report/*.xlsx"))
     } else {
         //REPORT
         reportChannel = report_noenv(fullFromPathChannel)
-        // PLOT
-        //plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/15_report/*.xlsx"))
     }
   
     } else {
@@ -699,15 +680,35 @@ workflow {
       if (params.rkireport == true) {
         //REPORT
         reportChannel = report_rki(fullFromPathChannel)
-        // PLOT
-        //plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/15_report/*.xlsx"))
     } else {
        //REPORT
        reportChannel = report(fullFromPathChannel)
-       // PLOT
-       //plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/15_report/*.xlsx"))
     }
   }
 }
 
-// check token
+
+
+// Not needed after update
+/*
+
+// PLOT
+//plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/15_report/*.xlsx"))
+
+process countplot {
+  publishDir "${params.outdir}/15_report", mode: "copy", overwrite: true
+  input:
+    path xlsx
+    
+  output:
+    path "*.png"
+  
+  when:
+    params.full == true
+
+  script:
+    """
+    countplot.py ${xlsx} *.png
+    """
+}
+*/
