@@ -77,7 +77,7 @@ rkireport             : ${params.rkireport}
 
 
 process mark_fasta {
-  publishDir "${params.outdir}/1_marked_fasta", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/01_marked_fasta", mode: "copy", overwrite: true
   input:
  
     path fasta
@@ -94,7 +94,7 @@ process mark_fasta {
 }
 
 process get_tags {
-  publishDir "${params.outdir}/2_tags", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/02_tags", mode: "copy", overwrite: true
   input:
     path xlsx
     
@@ -107,7 +107,7 @@ process get_tags {
    """
 }
 process comet {
-   publishDir "${params.outdir}/3_comet", mode: "copy", overwrite: true
+   publishDir "${params.outdir}/03_comet", mode: "copy", overwrite: true
   input:
     
     path fasta
@@ -125,7 +125,7 @@ process comet {
 
 
 process stanford {
-  publishDir "${params.outdir}/4_json_files", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/04_json_files", mode: "copy", overwrite: true
   
   input:
     path fasta_gql
@@ -144,7 +144,7 @@ process stanford {
 }
 
 process json_to_csv {
-  publishDir "${params.outdir}/5_stanford", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/05_stanford", mode: "copy", overwrite: true
   input:
  
     path json
@@ -161,7 +161,7 @@ process json_to_csv {
 
 
 process g2p {
-  publishDir "${params.outdir}/6_g2p", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/06_g2p", mode: "copy", overwrite: true
   input:
 
     path csv
@@ -180,7 +180,7 @@ process g2p {
 }
 
 process clean_rega {
-  publishDir "${params.outdir}/7_rega", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/07_rega", mode: "copy", overwrite: true
   input:
 
     path csv
@@ -199,7 +199,7 @@ process clean_rega {
 
 
 process join_prrt {
-  publishDir "${params.outdir}/8_joint_fragmentwise", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/08_joint_fragmentwise", mode: "copy", overwrite: true
   input:
  
     path stanford
@@ -229,7 +229,7 @@ process join_prrt {
 }
 
 process join_env {
-  publishDir "${params.outdir}/8_joint_fragmentwise", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/08_joint_fragmentwise", mode: "copy", overwrite: true
   input:
  
     path comet
@@ -256,7 +256,7 @@ process join_env {
 }
 
 process join_int {
-  publishDir "${params.outdir}/8_joint_fragmentwise", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/08_joint_fragmentwise", mode: "copy", overwrite: true
   input:
  
     path stanford
@@ -287,7 +287,7 @@ process join_int {
 
 
 process make_decision {
-  publishDir "${params.outdir}/9_with_decision", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/09_with_decision", mode: "copy", overwrite: true
   input:
 
     path csv_prrt
@@ -311,7 +311,7 @@ process make_decision {
 }
 
 process make_decision_no_env {
-  publishDir "${params.outdir}/9_with_decision", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/09_with_decision", mode: "copy", overwrite: true
   input:
 
     path csv_prrt
@@ -334,7 +334,7 @@ process make_decision_no_env {
 
 
 process xlsx2fragments {
-  publishDir "${params.outdir}/0_xlsx", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/00_xlsx", mode: "copy", overwrite: true
   
   input:
     path fasta_prrt
@@ -356,7 +356,7 @@ process xlsx2fragments {
 }
 
 process xlsx3fragments {
-  publishDir "${params.outdir}/0_xlsx", mode: "copy", overwrite: true
+  publishDir "${params.outdir}/00_xlsx", mode: "copy", overwrite: true
   
   input:
     path fasta_prrt
