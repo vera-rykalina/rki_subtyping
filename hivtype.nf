@@ -539,7 +539,6 @@ process report {
     
   output:
     path "*.xlsx"
-    path "*.png"
   
   when:
     params.full == true
@@ -607,6 +606,24 @@ process report_noenv_rki {
 }
 
 
+process countplot {
+  publishDir "${params.outdir}/15_report", mode: "copy", overwrite: true
+  input:
+    path xlsx
+    
+  output:
+    path "*.png"
+  
+  when:
+    params.full == true
+
+  script:
+    """
+    countplot.py -r ${xlsx}
+    """
+}
+
+
 // Inputs
 inputfasta = channel.fromPath("${projectDir}/inputs/InputFasta/*.fasta")
 panelChannel = channel.fromPath("${projectDir}/inputs/References/*.fas")
@@ -650,9 +667,13 @@ workflow {
       if (params.rkireport == true) {
         //REPORT
         reportChannel = report_noenv_rki(fullFromPathChannel)
+        // PLOT
+        plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/15_report/*.xlsx"))
     } else {
         //REPORT
         reportChannel = report_noenv(fullFromPathChannel)
+        // PLOT
+        plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/15_report/*.xlsx"))
     }
   
     } else {
@@ -680,35 +701,14 @@ workflow {
       if (params.rkireport == true) {
         //REPORT
         reportChannel = report_rki(fullFromPathChannel)
+        // PLOT
+        plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/15_report/*.xlsx"))
     } else {
        //REPORT
        reportChannel = report(fullFromPathChannel)
+       // PLOT
+       plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/15_report/*.xlsx"))
     }
   }
 }
 
-
-
-// Not needed after update
-/*
-
-// PLOT
-//plotChannel = countplot(channel.fromPath("${projectDir}/${params.outdir}/15_report/*.xlsx"))
-
-process countplot {
-  publishDir "${params.outdir}/15_report", mode: "copy", overwrite: true
-  input:
-    path xlsx
-    
-  output:
-    path "*.png"
-  
-  when:
-    params.full == true
-
-  script:
-    """
-    countplot.py ${xlsx} *.png
-    """
-}
-*/
