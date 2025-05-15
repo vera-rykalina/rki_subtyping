@@ -136,49 +136,11 @@ def hivtype_report(merged_dfs):
     report.sort_values(by=["Sample_ID"], inplace=True)
     return report
 
-def plot(report, dataset_name):
-    if "Subtype" not in report.columns:
-        report.rename(columns = {"Subtyp_Summe":"Subtype"}, inplace = True)
-    # Strip white space
-    report = report.applymap(lambda x: x.strip() if isinstance(x, str) else x)
-    
-    # Graph
-    #sns.set_context("poster")
-    #sns.set_style("whitegrid")
-    sns.set_style("darkgrid")
-    fig, ax = plt.subplots(figsize=(18, 8))
-    plt.tight_layout()
-    countplot = sns.countplot(y="Subtype", data=report, 
-                              #palette = "Blues_d",
-                              palette = "GnBu_d",
-                              order = report["Subtype"].value_counts().index)
 
-
-    # Create a legend with RUN_NUMBER (e.g. MS95)
-    ax.legend(title=dataset_name, fontsize=12, title_fontsize=20, loc="lower right")
-    
-    # Add lebels
-    ax.set(xlabel="Count", ylabel="Subtype", 
-           title = "HIV-1 Subtyping (Stanford, Comet, Rega, Geno2Pheno)")
-
-    # Add values to bars
-    for container in ax.containers:
-        ax.bar_label(container) 
-    
-    # Ticks
-    plt.tick_params(axis="both", which="major", labelsize=6)
-    
-    # Save a figure
-    countplot_fig = countplot.get_figure()
-    return countplot_fig
-
-
-
-def save_hivtype_outputs(report, countplot_fig, dataset_name):
+def save_hivtype_outputs(report, dataset_name):
     ''' Write output. '''
     report.to_excel(dataset_name +"_report.xlsx", index=False, encoding="utf-8")
-    countplot_fig.savefig(dataset_name + "_countplot.png", dpi = 300, bbox_inches="tight")
-    print("HIVtype report is saved as {} with .xlxs or .png extensions.".format(dataset_name))
+    print("HIVtype report is saved as {} with .xlxs extensions.".format(dataset_name))
 
 
 def main():
@@ -189,8 +151,7 @@ def main():
     env = load_env(_args.env)
     merged_dfs = merge_dfs(prrt, int, env)
     report = hivtype_report(merged_dfs)
-    countplot_fig = plot(report, dataset_name)
-    save_hivtype_outputs(report, countplot_fig, dataset_name)
+    save_hivtype_outputs(report, dataset_name)
 
 if __name__ == '__main__':
     initialise()
