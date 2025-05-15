@@ -1,69 +1,92 @@
 #!/usr/bin/env python3
 
 # Import libraries
-import sys
-import pandas as pd 
+import argparse
+import pandas as pd
+import numpy as np
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import seaborn as sns
-import matplotlib as mpl
+import re
 
 
-# Open .xlsx file
-infilename = sys.argv[1]
-outfilename = sys.argv[2]
+# Global variables 
+_args = None
 
-# Read .xlsx file
-f = open(infilename, "rb")
-df=pd.read_excel(f)
-f.close()
+def initialise():
+    '''
+    Parse command-line arguments.
+    '''
+    global _args
+    parser = argparse.ArgumentParser( description="A script to generate a plot from final report file" )
+    parser.add_argument( "-r", "--report", required=True, help="Report .xlsx file." )
+    _args = parser.parse_args()
+    return
 
-name1 = infilename.rsplit("/")[-1]
-name2 = name1.split("_")[0]
-name3 = name1.split(".")[-2]
-
-if "Subtype" not in df.columns:
-    df.rename(columns = {"Subtyp_Summe":"Subtype"}, inplace = True)
-
-# Strip white space
-df = df.applymap(lambda x: x.strip() if isinstance(x, str) else x)
-
-#sns.set_style("whitegrid")
-#sns.set_context("poster")
-#fig, ax = plt.subplots(figsize=(22, 12))
-sns.set_style("darkgrid")
-fig, ax = plt.subplots(figsize=(16, 8))
+def extract_dataset_name(fpath):
+    ''' Extract dataset name from report excel file. '''
+    dataset_name = fpath.rsplit("/")[-1].split("_")[0]
+    print("Dataset name is {}".format(dataset_name))
+    return dataset_name
 
 
+def load_report(fpath):
+    ''' Load and read excel report file that contains final subtyping assignments. '''
+    report = pd.read_excel(fpath)
+    print("Loaded report file, shape={}".format(report.shape))
+    return report
+
+def plot(report, dataset_name):
+    if "Subtype" not in report.columns:
+        report.rename(columns = {"Subtyp_Summe":"Subtype"}, inplace = True)
+    # Strip white space
+    report = report.applymap(lambda x: x.strip() if isinstance(x, str) else x)
+    
+    # Graph
+    #sns.set_context("poster")
+    #sns.set_style("whitegrid")
+    sns.set_style("darkgrid")
+    fig, ax = plt.subplots(figsize=(18, 8))
+    plt.tight_layout()
+    countplot = sns.countplot(y="Subtype", data=report, 
+                              #palette = "Blues_d",
+                              palette = "GnBu_d",
+                              order = report["Subtype"].value_counts().index)
 
 
-count_plot = sns.countplot(y="Subtype", data=df, 
-                           #palette="twilight",
-                           palette = "GnBu_d",
-                           #palette = "Blues_d",
-                           #palette="viridis",
-                           order = df["Subtype"].value_counts().index)
+    # Create a legend with RUN_NUMBER (e.g. MS95)
+    ax.legend(title=dataset_name, fontsize=12, title_fontsize=20, loc="lower right")
+    
+    # Add lebels
+    ax.set(xlabel="Count", ylabel="Subtype", 
+           title = "HIV-1 Subtyping (Stanford, Comet, Rega, Geno2Pheno)")
+
+    # Add values to bars
+    for container in ax.containers:
+        ax.bar_label(container) 
+    
+    # Ticks
+    plt.tick_params(axis="both", which="major", labelsize=6)
+    
+    # Save a figure
+    countplot_fig = countplot.get_figure()
+    return countplot_fig
 
 
-# Create a legend with RUN_NUMBER (e.g. MS95)
-ax.legend(title=name2, fontsize=12, title_fontsize=20, loc="lower right")
+
+def save_hivtype_outputs(countplot_fig, dataset_name):
+    ''' Write output. '''
+    countplot_fig.savefig(dataset_name + "_countplot.png", dpi = 300, bbox_inches="tight")
+    print("HIVtype plot is saved as {} with .png extensions.".format(dataset_name))
 
 
-#ax.legend(title=name2, fontsize=24, title_fontsize=30, loc="lower right")
-#plt.xlabel("Count", fontsize=32)
-#plt.ylabel("Subtype", fontsize=32)
-#plt.title("HIV-1 Subtyping (Stanford, Comet, Rega, Geno2Pheno)", fontsize=36)
-#plt.tick_params(axis="both", which="major", labelsize=24)
+def main():
+    ''' Generate a final plot. '''
+    dataset_name = extract_dataset_name(_args.report)
+    report = load_report(_args.report)
+    countplot_fig = plot(report, dataset_name)
+    save_hivtype_outputs(countplot_fig, dataset_name)
 
-#for container in ax.containers:
-#    ax.bar_label(container, fontsize = 26) 
-
-# Add lebels
-ax.set(xlabel="Count", ylabel="Subtype", title = "HIV-1 Subtyping (Stanford, Comet, Rega, Geno2Pheno)")
-
-# Add values to bars
-for container in ax.containers:
-    ax.bar_label(container) 
-
-# Save figure
-plt.savefig(name2 + "_subtype_counts.png", dpi = 300, bbox_inches="tight") 
-# plt.show()
+if __name__ == '__main__':
+    initialise()
+    main()
