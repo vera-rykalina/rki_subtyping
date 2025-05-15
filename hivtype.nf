@@ -555,9 +555,7 @@ process report_noenv {
     path xlsx
     
   output:
-    path "*.xlsx"
-    path "*.png"
-  
+    path "*.xlsx" 
   
   when:
     params.full == true
@@ -575,7 +573,6 @@ process report_rki {
     
   output:
     path "*.xlsx"
-    path "*.png"
   
   when:
     params.full == true && params.rkireport == true
@@ -594,7 +591,6 @@ process report_noenv_rki {
     
   output:
     path "*.xlsx"
-    path "*.png"
   
   when:
     params.full == true && params.rkireport == true
