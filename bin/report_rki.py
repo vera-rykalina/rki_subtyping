@@ -131,7 +131,7 @@ def hivtype_report(merged_dfs):
 
 def save_hivtype_outputs(report, dataset_name):
     ''' Write output. '''
-    report.to_excel(dataset_name +"_report.xlsx", index=False, encoding="utf-8")
+    report.to_excel(dataset_name +"_subtype_uploads.xlsx", index=False, encoding="utf-8")
     print("HIVtype report is saved as {} with .xlxs extensions.".format(dataset_name))
 
 
