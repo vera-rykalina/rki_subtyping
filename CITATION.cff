@@ -1,0 +1,14 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: HIVtype
+message: 'HIVtype: A Semi-Automated Workflow for HIV-1 Subtyping '
+type: software
+authors:
+  - given-names: Vera
+    family-names: Rykalina
+repository-code: 'https://github.com/vera-rykalina/rki_subtyping'
+keywords:
+  - 'HIV-1, Subtyping'
+license: GPL-3.0
